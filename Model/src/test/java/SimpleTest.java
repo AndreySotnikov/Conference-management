@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import project.service.TestEntityService;
 
 /**
  * Created by andrey on 10.07.15.
@@ -17,11 +18,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SimpleTest {
 
     @Autowired
-    TestEntityRepository testEntityRepository;
+    TestEntityService testEntityRepository;
 
     @Test
     public void Test1(){
-        testEntityRepository.save(new TestEntity("test"));
-        Assert.assertNotNull(testEntityRepository.findOne(1));
+        testEntityRepository.add(new TestEntity("test"));
+        Assert.assertNotNull(testEntityRepository.find(1));
     }
 }
