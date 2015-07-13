@@ -1,92 +1,51 @@
 package project.Util;
 
+import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
  * Created by andrey on 13.07.15.
  */
-public class CrudImplementation<T,PK> implements CrudRepository<T,PK> {
-    private Class<T> inst = (Class<T>)(((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PERSISTENCE");
+
+@Stateless
+@Local(CrudRepository.class)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
+public class CrudImplementation implements CrudRepository {
+
+    @PersistenceContext(unitName = "PERSISTENCE")
+    EntityManager em;
 
     @Override
-    public T findOne(PK id) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            return em.find(inst, id);
-        }finally {
-            if (em!=null)
-                em.close();
-        }
+    public <T> T findOne(Class<T> type, Object id) {
+        return em.find(type,id);
     }
 
     @Override
-    public List<T> findAll() {
-        EntityManager em = null;
-        try{
-            em = emf.createEntityManager();
-            String className = inst.getName();
-            String tableName = className.substring(className.lastIndexOf('.') + 1, className.length());
-            List<T> resultList = em.createQuery(String.format("select e from %s e", tableName)).getResultList();
-            return resultList;
-        }finally {
-            if (em!=null)
-                em.close();
-        }
+    public <T> List<T> findAll(Class<T> type) {
+        String className = type.getName();
+        String tableName = className.substring(className.lastIndexOf('.') + 1, className.length());
+        List<T> resultList = em.createQuery(String.format("select e from %s e", tableName)).getResultList();
+        return resultList;
     }
 
     @Override
-    public void save(T t) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(t);
-            em.getTransaction().commit();
-        }catch (Exception ex){
-            em.getTransaction().rollback();
-        }finally {
-            if (em!=null)
-                em.close();
-        }
+    public <T> void save(T t) {
+        em.persist(t);
     }
 
     @Override
-    public T update(PK id, T t) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            T entity = em.merge(t);
-            em.getTransaction().commit();
-            return entity;
-        }catch (Exception ex){
-            em.getTransaction().rollback();
-            return null;
-        }finally {
-            if (em!=null)
-                em.close();
-        }
+    public <T> T update(Class<T> type,Object id, T t) {
+        T obj = findOne(type,id);
+        return em.merge(obj);
     }
 
     @Override
-    public void remove(PK id) {
-        EntityManager em = null;
-        try{
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.remove(findOne(id));
-            em.getTransaction().commit();
-        }catch (Exception ex){
-            em.getTransaction().rollback();
-        }finally {
-            if (em!=null)
-                em.close();
-        }
+    public <T> void remove(Class<T> type,Object id) {
+        em.remove(findOne(type,id));
     }
 }
