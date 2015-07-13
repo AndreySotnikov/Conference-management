@@ -7,10 +7,10 @@ import javax.persistence.*;
 @Entity
 public class Room {
     @Id
-    Integer number;
+    private Integer number;
 
-    Integer capacity;
-    Boolean isBusy;
+    private Integer capacity;
+    private Boolean isBusy;
 
     public Integer getNumber() {
         return number;

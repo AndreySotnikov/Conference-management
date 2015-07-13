@@ -7,10 +7,10 @@ import javax.persistence.*;
 @Entity
 public class Moderator {
     @Id
-    String login;
-    String name;
-    String email;
-    String phone;
+    private String login;
+    private String name;
+    private String email;
+    private String phone;
 
     public String getLogin() {
         return login;
