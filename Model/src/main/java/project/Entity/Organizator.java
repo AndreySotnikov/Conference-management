@@ -7,11 +7,11 @@ import javax.persistence.Id;
 public class Organizator {
 
     @Id
-    String login;
+    private String login;
 
-    String name;
-    String email;
-    String phone;
+    private String name;
+    private String email;
+    private String phone;
 
     public String getLogin() {
         return login;

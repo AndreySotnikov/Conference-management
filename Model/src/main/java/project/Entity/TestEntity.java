@@ -12,8 +12,8 @@ import javax.persistence.Id;
 public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public TestEntity() {
     }
