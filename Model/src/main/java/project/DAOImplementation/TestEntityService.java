@@ -28,6 +28,6 @@ public class TestEntityService extends CrudImplementation<TestEntity,Integer>{
 
     @Override
     public void remove(Integer id) {
-        return super.remove(id);
+        super.remove(id);
     }
 }
