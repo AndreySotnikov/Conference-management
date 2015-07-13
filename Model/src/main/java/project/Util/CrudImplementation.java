@@ -30,8 +30,18 @@ public class CrudImplementation<T,PK> implements CrudRepository<T,PK> {
     }
 
     @Override
-    public T save(T t) {
-        return null;
+    public void save(T t) {
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(t);
+            em.getTransaction().commit();
+        }catch (Exception ex){
+            em.getTransaction().rollback();
+        }finally {
+            em.close();
+        }
     }
 
     @Override
