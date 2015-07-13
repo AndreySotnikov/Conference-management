@@ -1,3 +1,4 @@
+package project.Entity;
 import javax.persistence.Id;
 
 /**

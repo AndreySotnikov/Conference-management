@@ -2,7 +2,7 @@
  * Created by nikitayakuntsev on 13.07.15.
  */
 
-
+package project.Entity;
 import javax.persistence.*;
 
 @Entity
