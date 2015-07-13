@@ -1,11 +1,10 @@
 package project.Util;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 /**
@@ -22,30 +21,53 @@ public class CrudImplementation implements CrudRepository {
 
     @Override
     public <T> T findOne(Class<T> type, Object id) {
-        return em.find(type,id);
+        try {
+            return em.find(type, id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public <T> List<T> findAll(Class<T> type) {
-        String className = type.getName();
-        String tableName = className.substring(className.lastIndexOf('.') + 1, className.length());
-        List<T> resultList = em.createQuery(String.format("select e from %s e", tableName)).getResultList();
-        return resultList;
+        try {
+            String className = type.getName();
+            String tableName = className.substring(className.lastIndexOf('.') + 1, className.length());
+            List<T> resultList = em.createQuery(String.format("select e from %s e", tableName)).getResultList();
+            return resultList;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public <T> void save(T t) {
-        em.persist(t);
+        try {
+            em.persist(t);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public <T> T update(Class<T> type,Object id, T t) {
-        T obj = findOne(type,id);
-        return em.merge(obj);
+        try {
+            T obj = findOne(type, id);
+            return em.merge(obj);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public <T> void remove(Class<T> type,Object id) {
-        em.remove(findOne(type,id));
+        try {
+            em.remove(findOne(type, id));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

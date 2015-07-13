@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Created by andrey on 13.07.15.
  */
-
 public interface CrudRepository {
     <T> T findOne(Class<T> type, Object id);
     <T> List<T> findAll(Class<T> type);
