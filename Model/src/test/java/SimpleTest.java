@@ -11,6 +11,8 @@ public class SimpleTest {
     @Test
     public void Test1(){
         testEntityService.save(new TestEntity("test"));
-        org.junit.Assert.assertNotNull(testEntityService.findOne(1));
+        testEntityService.save(new TestEntity("test1"));
+        System.out.println(testEntityService.findAll());
+        org.junit.Assert.assertNotNull(testEntityService.findAll());
     }
 }

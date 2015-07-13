@@ -10,6 +10,7 @@ public class Launcher {
     public static void main(String[] args) {
         TestEntityService testEntityService = new TestEntityService();
         testEntityService.save(new TestEntity("test"));
-        System.out.println(testEntityService.findOne(1));
+        testEntityService.save(new TestEntity("test2"));
+        System.out.println(testEntityService.findAll());
     }
 }
