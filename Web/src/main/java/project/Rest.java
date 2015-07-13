@@ -10,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
@@ -24,10 +25,15 @@ public class Rest {
 
     @GET
     @Path("test")
-    public String test(@QueryParam("q") String original){
+    public String test(@QueryParam("id") Integer id){
+        return crudRepository.findOne(TestEntity.class,id).toString();
+    }
 
-        crudRepository.save(new TestEntity(original));
-        return crudRepository.findOne(TestEntity.class,1).toString();
+    @POST
+    @Path("test")
+    public String testPost(@QueryParam("name") String name){
+        crudRepository.save(new TestEntity(name));
+        return "OK";
     }
 
     @GET

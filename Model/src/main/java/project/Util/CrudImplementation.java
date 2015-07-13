@@ -1,11 +1,11 @@
 package project.Util;
 
-import javax.ejb.*;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CrudImplementation implements CrudRepository {
 
-    @PersistenceContext(unitName = "PERSISTENCE")
+    @PersistenceContext
     EntityManager em;
 
     @Override
