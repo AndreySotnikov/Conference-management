@@ -6,11 +6,22 @@ import javax.persistence.*;
 
 @Entity
 public class Room {
+    public RoomOwner getRoomOwner() {
+        return roomOwner;
+    }
+
+    public void setRoomOwner(RoomOwner roomOwner) {
+        this.roomOwner = roomOwner;
+    }
+
     @Id
     private Integer number;
 
     private Integer capacity;
     private Boolean isBusy;
+
+    @ManyToOne
+    private RoomOwner roomOwner;
 
     public Integer getNumber() {
         return number;
