@@ -18,7 +18,7 @@ import java.util.List;
 public class CrudImplementation implements CrudRepository {
 
     @PersistenceContext
-    EntityManager em;
+    protected EntityManager em;
 
     @Override
     public <T> T findOne(Class<T> type, Object id) {
