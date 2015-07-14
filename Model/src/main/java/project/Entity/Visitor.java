@@ -1,9 +1,12 @@
 package project.Entity;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
  * Created by nikitayakuntsev on 13.07.15.
  */
+
+@Entity
 public class Visitor {
     @Id
     private String login;
