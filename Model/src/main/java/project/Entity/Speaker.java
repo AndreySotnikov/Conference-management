@@ -4,6 +4,7 @@
 
 package project.Entity;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Speaker {
@@ -13,6 +14,9 @@ public class Speaker {
     private String name;
     private String email;
     private String phone;
+
+    @OneToMany(mappedBy = "speaker")
+    private List<Speech> speeches;
 
     public String getLogin() {
         return login;
