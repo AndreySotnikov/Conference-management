@@ -8,7 +8,6 @@ import javax.ws.rs.Path;
  * Created by andrey on 14.07.15.
  */
 @Path("/reporter")
-@WebService
 public class ReporterController {
 
     @GET

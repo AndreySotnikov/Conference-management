@@ -16,7 +16,6 @@ import java.util.List;
  * Created by andrey on 13.07.15.
  */
 @Path("/")
-@WebService
 public class Rest {
     @EJB
     CrudRepository crudRepository;
