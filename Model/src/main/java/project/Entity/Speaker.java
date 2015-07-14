@@ -53,4 +53,38 @@ public class Speaker {
     public Speaker() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Speaker{" +
+                "login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", speeches=" + speeches +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Speaker speaker = (Speaker) o;
+
+        if (login != null ? !login.equals(speaker.login) : speaker.login != null) return false;
+        if (name != null ? !name.equals(speaker.name) : speaker.name != null) return false;
+        if (email != null ? !email.equals(speaker.email) : speaker.email != null) return false;
+        return !(phone != null ? !phone.equals(speaker.phone) : speaker.phone != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = login != null ? login.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        return result;
+    }
 }

@@ -1,20 +1,16 @@
 package project;
 
 import project.Entity.TestEntity;
-import project.Util.CrudImplementation;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by andrey on 13.07.15.
@@ -32,9 +28,10 @@ public class Rest {
 
     @GET
     @Path("test")
-    public String test(@QueryParam("id") Integer id){
+    @Produces("application/json")
+    public TestEntity test(@QueryParam("id") Integer id){
         System.err.println("Id:" + id);
-        return crudRepository.findOne(TestEntity.class,id).toString();
+        return crudRepository.findOne(TestEntity.class, id);
     }
 
     @POST
@@ -44,6 +41,13 @@ public class Rest {
         System.err.println("Name:" + name);
         crudRepository.save(new TestEntity(name));
         return "OK";
+    }
+
+    @GET
+    @Path("all")
+    @Produces("application/json")
+    public List<TestEntity> getAll(){
+        return crudRepository.findAll(TestEntity.class);
     }
 
     @GET

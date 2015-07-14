@@ -62,4 +62,38 @@ public class RoomOwner {
 
     public RoomOwner() {
     }
+
+    @Override
+    public String toString() {
+        return "RoomOwner{" +
+                "login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", rooms=" + rooms +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoomOwner roomOwner = (RoomOwner) o;
+
+        if (login != null ? !login.equals(roomOwner.login) : roomOwner.login != null) return false;
+        if (name != null ? !name.equals(roomOwner.name) : roomOwner.name != null) return false;
+        if (email != null ? !email.equals(roomOwner.email) : roomOwner.email != null) return false;
+        return !(phone != null ? !phone.equals(roomOwner.phone) : roomOwner.phone != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = login != null ? login.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        return result;
+    }
 }

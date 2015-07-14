@@ -3,6 +3,7 @@
  */
 package project.Entity;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Room {
@@ -19,6 +20,9 @@ public class Room {
 
     private Integer capacity;
     private Boolean isBusy;
+
+    @OneToMany(mappedBy = "room")
+    private List<Speech> speeches;
 
     @ManyToOne
     private RoomOwner roomOwner;
@@ -47,7 +51,42 @@ public class Room {
         this.isBusy = isBusy;
     }
 
+    public List<Speech> getSpeeches() {
+        return speeches;
+    }
+
+    public void setSpeeches(List<Speech> speeches) {
+        this.speeches = speeches;
+    }
+
     public Room() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "number=" + number +
+                ", capacity=" + capacity +
+                ", isBusy=" + isBusy +
+                ", speeches=" + speeches +
+                ", roomOwner=" + roomOwner +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        return !(number != null ? !number.equals(room.number) : room.number != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return number != null ? number.hashCode() : 0;
     }
 }

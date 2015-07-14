@@ -1,18 +1,34 @@
+//import org.junit.Before;
 //import org.junit.Test;
-//import project.DAOImplementation.TestEntityService;
 //import project.Entity.TestEntity;
+//import project.Util.CrudImplementation;
+//import project.Util.CrudRepository;
+//
+//import javax.persistence.EntityManager;
+//
+//import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertSame;
+//import static org.mockito.Mockito.mock;
 //
 ///**
 // * Created by andrey on 10.07.15.
 // */
 //
 //public class SimpleTest {
-//    TestEntityService testEntityService = new TestEntityService();
+//    CrudImplementation crudImplementation;
+//    EntityManager entityManager;
+//
+//    @Before
+//    public void setUp() {
+//        crudImplementation = new CrudImplementation();
+//
+//        entityManager = mock(EntityManager.class);
+//        crudImplementation.setEm(entityManager);
+//    }
+//
 //    @Test
-//    public void Test1(){
-//        testEntityService.save(new TestEntity("test"));
-//        testEntityService.save(new TestEntity("test1"));
-//        System.out.println(testEntityService.findAll());
-//        org.junit.Assert.assertNotNull(testEntityService.findAll());
+//    public void testFindAll() {
+//        crudImplementation.save(new TestEntity("12345"));
+//        assertNotNull(crudImplementation.findOne(TestEntity.class,1));
 //    }
 //}

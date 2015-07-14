@@ -2,6 +2,7 @@ package project.Entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 14.07.15.
@@ -19,6 +20,9 @@ public class Conference {
 
     @ManyToOne
     private Organizator organizator;
+
+    @OneToMany(mappedBy = "conference")
+    private List<Speech> speeches;
 
     public Integer getId() {
         return id;
@@ -68,7 +72,44 @@ public class Conference {
         this.organizator = organizator;
     }
 
+    public List<Speech> getSpeeches() {
+        return speeches;
+    }
+
+    public void setSpeeches(List<Speech> speeches) {
+        this.speeches = speeches;
+    }
+
     public Conference() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Conference{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", organizator=" + organizator +
+                ", speeches=" + speeches +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Conference that = (Conference) o;
+
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
