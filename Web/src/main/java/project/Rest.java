@@ -25,7 +25,7 @@ public class Rest {
     private HttpServletRequest request;
     @Context
     private HttpServletResponse response;
-
+    
     @GET
     @Path("test")
     @Produces("application/json")

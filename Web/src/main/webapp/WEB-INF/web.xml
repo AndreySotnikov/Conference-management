@@ -34,13 +34,79 @@
         <servlet-name>resteasy-servlet</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
+
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Admin Resource</web-resource-name>
-            <url-pattern>/rest/*</url-pattern>
+            <web-resource-name>Organizator Resource</web-resource-name>
+            <url-pattern>/rest/organizator/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>admin</role-name>
+            <role-name>organizator</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Moderator Resource</web-resource-name>
+            <url-pattern>/rest/moderator/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>moderator</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Reporter Resource</web-resource-name>
+            <url-pattern>/rest/reporter/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>reporter</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Speaker Resource</web-resource-name>
+            <url-pattern>/rest/speaker/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>speaker</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Room Owner Resource</web-resource-name>
+            <url-pattern>/rest/roomOwner/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>roomOwner</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Visitor Resource</web-resource-name>
+            <url-pattern>/rest/visitor/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>visitor</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -53,6 +119,21 @@
     </login-config>
 
     <security-role>
-        <role-name>admin</role-name>
+        <role-name>organizator</role-name>
+    </security-role>
+    <security-role>
+        <role-name>moderator</role-name>
+    </security-role>
+    <security-role>
+        <role-name>reporter</role-name>
+    </security-role>
+    <security-role>
+        <role-name>speaker</role-name>
+    </security-role>
+    <security-role>
+        <role-name>roomOwner</role-name>
+    </security-role>
+    <security-role>
+        <role-name>visitor</role-name>
     </security-role>
 </web-app>
