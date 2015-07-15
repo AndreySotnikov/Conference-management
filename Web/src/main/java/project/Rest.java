@@ -4,6 +4,7 @@ import project.Entity.TestEntity;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by andrey on 13.07.15.
  */
 @Path("/")
-@WebService
+@Stateful
 public class Rest {
     @EJB
     CrudRepository crudRepository;
@@ -25,7 +26,7 @@ public class Rest {
     private HttpServletRequest request;
     @Context
     private HttpServletResponse response;
-    
+
     @GET
     @Path("test")
     @Produces("application/json")
@@ -55,4 +56,5 @@ public class Rest {
     public String echo(@QueryParam("q") String original) {
         return original;
     }
+
 }
