@@ -113,9 +113,17 @@
         </user-data-constraint>
     </security-constraint>
 
+    <!--<login-config>-->
+        <!--<auth-method>BASIC</auth-method>-->
+        <!--<realm-name>secureDomain</realm-name>-->
+    <!--</login-config>-->
     <login-config>
-        <auth-method>BASIC</auth-method>
+        <auth-method>FORM</auth-method>
         <realm-name>secureDomain</realm-name>
+        <form-login-config>
+            <form-login-page>/login.html</form-login-page>
+            <form-error-page>/loginfail.html</form-error-page>
+        </form-login-config>
     </login-config>
 
     <security-role>
