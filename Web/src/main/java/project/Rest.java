@@ -1,6 +1,7 @@
 package project;
 
 import project.Entity.TestEntity;
+import project.Service.TestEntityService;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
@@ -20,7 +21,7 @@ import java.util.List;
 @Stateful
 public class Rest {
     @EJB
-    CrudRepository crudRepository;
+    TestEntityService testEntityService;
 
     @Context
     private HttpServletRequest request;
@@ -32,7 +33,7 @@ public class Rest {
     @Produces("application/json")
     public TestEntity test(@QueryParam("id") Integer id){
         System.err.println("Id:" + id);
-        return crudRepository.findOne(TestEntity.class, id);
+        return testEntityService.findOne(id);
     }
 
     @POST
@@ -40,7 +41,7 @@ public class Rest {
     public String testPost(){
         String name = request.getParameter("name");
         System.err.println("Name:" + name);
-        crudRepository.save(new TestEntity(name));
+        testEntityService.save(new TestEntity(name));
         return "OK";
     }
 
@@ -48,7 +49,7 @@ public class Rest {
     @Path("all")
     @Produces("application/json")
     public List<TestEntity> getAll(){
-        return crudRepository.findAll(TestEntity.class);
+        return testEntityService.findAll();
     }
 
     @GET
