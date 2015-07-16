@@ -1,0 +1,51 @@
+<!--<!doctype html>-->
+<!--<html ng-app="app2">-->
+<!--<head>-->
+    <!--<script src="http://code.angularjs.org/1.1.4/angular.min.js"></script>-->
+    <!--<script src="TestController.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--{{globalText}}-->
+<!--<div ng-controller="MyCtrl">-->
+    <!--{{localText}}-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!doctype html>
+<html ng-app="app2">
+<head>
+    <title>Hello AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="TestController.js"></script>
+</head>
+
+<body>
+<div ng-controller="MyCtrl">
+    {{greetings}}
+    {{entities}}
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+        </tr>
+        <tr ng-repeat="entity in entities">
+            <td>{{entity.id}}</td>
+            <td>{{entity.name}}</td>
+        </tr>
+    </table>
+</div>
+<div ng-controller="Controller">
+    <form novalidate class="simple-form">
+        Name: <input type="text" ng-model="user.name" /><br />
+        E-mail: <input type="email" ng-model="user.email" /><br />
+        Gender: <input type="radio" ng-model="user.gender" value="male" />male
+        <input type="radio" ng-model="user.gender" value="female" />female<br />
+        <button ng-click="reset()">RESET</button>
+        <button ng-click="update(user)">SAVE</button>
+    </form>
+    <pre>form = {{user | json}}</pre>
+    <pre>master = {{master | json}}</pre>
+</div>
+</body>
+</html>
