@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 
 /**
@@ -38,9 +39,14 @@ public class Rest {
 
     @POST
     @Path("test")
-    public String testPost(){
-        String name = request.getParameter("name");
-        System.err.println("Name:" + name);
+    public String testPost(MultivaluedMap<String, String> form){
+        System.err.println(request.toString());
+        //String name = request.getParameter("name");`
+        //System.err.println("Name: " + name);
+        //System.err.println("Form: " + form.toString());
+
+        String name = form.getFirst("name");
+        System.err.println("From form: " + name);
         crudRepository.save(new TestEntity(name));
         return "OK";
     }
