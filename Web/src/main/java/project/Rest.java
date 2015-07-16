@@ -40,6 +40,7 @@ public class Rest {
     @POST
     @Path("test")
     public String testPost(MultivaluedMap<String, String> form){
+        System.err.println(request.toString());
         //String name = request.getParameter("name");`
         //System.err.println("Name: " + name);
         //System.err.println("Form: " + form.toString());
@@ -54,6 +55,7 @@ public class Rest {
     @Path("all")
     @Produces("application/json")
     public List<TestEntity> getAll(){
+        response.addHeader("Access-Control-Allow-Origin", "*");
         return crudRepository.findAll(TestEntity.class);
     }
 
