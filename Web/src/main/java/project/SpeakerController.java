@@ -1,7 +1,11 @@
 package project;
 
+import javax.ejb.EJBContext;
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jws.WebService;
+import javax.security.auth.login.LoginContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +17,12 @@ import javax.ws.rs.core.Context;
  * Created by andrey on 14.07.15.
  */
 @Path("/speaker")
-@Stateful
+@Stateless
 public class SpeakerController {
 
     @Context
     private HttpServletRequest request;
+
 
     @Context
     private HttpServletResponse response;
@@ -30,11 +35,11 @@ public class SpeakerController {
 
     @GET
     @Path("logout")
-    public void logout() throws ServletException {
+    public String logout() throws ServletException {
         boolean printJaasInfo = true;
         if(printJaasInfo){
             try{
-                System.err.println("LogoutServlet>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));//ybxiang
+                System.err.println("Logout>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));//ybxiang
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -48,13 +53,15 @@ public class SpeakerController {
         if(request.getSession()!=null){
             request.getSession().invalidate();
         }
+        request.getSession();
         request.logout();
         if(printJaasInfo){
             try{
-                System.err.println("LogoutServlet>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));
+                System.err.println("Logout>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
+        return "OK";
     }
 }

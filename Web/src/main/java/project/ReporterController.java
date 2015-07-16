@@ -1,6 +1,7 @@
 package project;
 
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Context;
  * Created by andrey on 14.07.15.
  */
 @Path("/reporter")
-@Stateful
+@Stateless
 public class ReporterController {
 
     @Context

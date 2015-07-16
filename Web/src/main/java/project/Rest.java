@@ -5,6 +5,7 @@ import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by andrey on 13.07.15.
  */
 @Path("/")
-@Stateful
+@Stateless
 public class Rest {
     @EJB
     CrudRepository crudRepository;
@@ -25,7 +26,7 @@ public class Rest {
     @Context
     private HttpServletRequest request;
     @Context
-    private HttpServletResponse response;
+    org.jboss.resteasy.spi.HttpResponse response;
 
     @GET
     @Path("test")
@@ -48,6 +49,9 @@ public class Rest {
     @Path("all")
     @Produces("application/json")
     public List<TestEntity> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return crudRepository.findAll(TestEntity.class);
     }
 
