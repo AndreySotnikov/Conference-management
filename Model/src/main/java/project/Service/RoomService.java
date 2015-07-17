@@ -41,7 +41,15 @@ public class RoomService extends CrudImplementation {
     }
 
     public List<Room> findEmptyRooms() {
+        try {
+            String tableName = "Room";
+            return em.createQuery("SELECT e FROM :table e WHERE not e.isBusy")
+                    .setParameter("table").getResultList();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
