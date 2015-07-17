@@ -40,7 +40,7 @@ public class RoomService extends CrudImplementation {
     }
 
     public List<Room> findEmptyRooms() {
-        
+
     }
 
 }
