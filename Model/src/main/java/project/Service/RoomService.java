@@ -1,14 +1,59 @@
 package project.Service;
 
+import project.Entity.Conference;
 import project.Entity.Room;
-import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 17.07.15.
  */
-public class RoomService extends CrudImplementation {
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
+public class RoomService {
+
+    @PersistenceContext
+    protected EntityManager em;
+
+    public Room findOne(Integer id) {
+        try {
+            return em.find(Room.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Room> findAll() {
+        try {
+            List<Room> resultList = em.createQuery("select e from Room e").getResultList();
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void save(Room t) {
+        try {
+            em.persist(t);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void remove(Integer id) {
+        try {
+            em.remove(findOne(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public Room update(Integer id, Room room) {
         try {
@@ -23,11 +68,7 @@ public class RoomService extends CrudImplementation {
             return null;
         }
     }
-
-
-    public List<Room> findAll() {
-        return super.findAll(Room.class);
-    }
+}
 /*
     public Room findOne(Integer id) {
         return super.findOne(Room.class, id);
@@ -55,4 +96,3 @@ public class RoomService extends CrudImplementation {
         }
     }
 */
-}
