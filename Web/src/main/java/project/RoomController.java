@@ -1,7 +1,13 @@
+/*
+
 package project;
 
 import project.Entity.Room;
+
+
+import project.Entity.TestEntity;
 import project.Service.RoomService;
+import project.Service.TestEntityService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -16,11 +22,12 @@ import java.util.List;
  * Created by nikitayakuntsev on 17.07.15.
  */
 
+/*
 @Stateless
 @Path("/room")
 public class RoomController {
     @EJB
-    private RoomService service;
+    private TestEntityService service;
 
     @Context
     private HttpServletRequest request;
@@ -31,10 +38,11 @@ public class RoomController {
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<Room> getAll(){
+    public List<TestEntity> getAll(){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 }
+*/
