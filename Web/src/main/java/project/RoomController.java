@@ -1,7 +1,6 @@
 package project;
 
 import project.Entity.Room;
-import project.Entity.TestEntity;
 import project.Service.RoomService;
 
 import javax.ejb.EJB;
@@ -21,7 +20,7 @@ import java.util.List;
 @Path("/room")
 public class RoomController {
     @EJB
-    RoomService roomService;
+    private RoomService service;
 
     @Context
     private HttpServletRequest request;
@@ -35,7 +34,7 @@ public class RoomController {
     public List<Room> getAll(){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        return roomService.findAll();
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.findAll();
     }
 }

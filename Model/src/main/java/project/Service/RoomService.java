@@ -1,7 +1,6 @@
 package project.Service;
 
 import project.Entity.Room;
-import project.Entity.RoomOwner;
 import project.Util.CrudImplementation;
 
 import java.util.List;
@@ -10,7 +9,8 @@ import java.util.List;
  * Created by nikitayakuntsev on 17.07.15.
  */
 public class RoomService extends CrudImplementation {
-    public Room update(int id, Room room) {
+
+    public Room update(Integer id, Room room) {
         try {
             Room oldRoom = em.find(Room.class, id);
             oldRoom.setCapacity(room.getCapacity());
@@ -18,20 +18,25 @@ public class RoomService extends CrudImplementation {
             oldRoom.setRoomOwner(room.getRoomOwner());
             oldRoom.setSpeeches(room.getSpeeches());
             return em.merge(oldRoom);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-}
-    public List<Room> findAll() { return super.findAll(Room.class); }
+
+    public List<Room> findAll() {
+        return super.findAll(Room.class);
+    }
+/*
+    public Room findOne(Integer id) {
+        return super.findOne(Room.class, id);
+    }
 
     public List<Room> findAllByOwner(RoomOwner owner) {
         try {
             String tableName = "Room";
-            return em.createQuery("SELECT e FROM :table e WHERE e.roomOwner.login=:login")
-                    .setParameter("table", tableName)
+            return em.createQuery("SELECT e FROM Room e WHERE e.roomOwner.login=:login")
                     .setParameter("login", owner.getLogin()).getResultList();
 
         } catch (Exception e) {
@@ -43,13 +48,11 @@ public class RoomService extends CrudImplementation {
     public List<Room> findEmptyRooms() {
         try {
             String tableName = "Room";
-            return em.createQuery("SELECT e FROM :table e WHERE not e.isBusy")
-                    .setParameter("table").getResultList();
-
+            return em.createQuery("SELECT e FROM Room e WHERE not e.isBusy").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
+*/
 }
