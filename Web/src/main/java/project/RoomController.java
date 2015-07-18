@@ -1,7 +1,6 @@
-/*
-
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Room;
 
 
@@ -22,27 +21,26 @@ import java.util.List;
  * Created by nikitayakuntsev on 17.07.15.
  */
 
-/*
+
 @Stateless
 @Path("/room")
 public class RoomController {
     @EJB
-    private TestEntityService service;
+    private RoomService service;
 
     @Context
     private HttpServletRequest request;
     @Context
-    org.jboss.resteasy.spi.HttpResponse response;
+    HttpResponse response;
 
 
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<TestEntity> getAll(){
+    public List<Room> getAll(){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 }
-*/

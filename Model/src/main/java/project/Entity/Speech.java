@@ -2,6 +2,7 @@ package project.Entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 14.07.15.
@@ -28,6 +29,9 @@ public class Speech {
 
     @ManyToOne
     private Reporter reporter;
+
+    @OneToMany(mappedBy = "speech")
+    private List<Question> questions;
 
     @Override
     public String toString() {

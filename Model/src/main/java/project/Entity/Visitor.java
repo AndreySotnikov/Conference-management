@@ -1,6 +1,8 @@
 package project.Entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 13.07.15.
@@ -14,6 +16,9 @@ public class Visitor {
     private String name;
     private String email;
     private String phone;
+
+    @ManyToMany
+    private List<Question> questions;
 
     public String getLogin() {
         return login;
@@ -45,6 +50,14 @@ public class Visitor {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     public Visitor() {

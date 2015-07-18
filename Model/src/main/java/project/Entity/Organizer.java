@@ -1,7 +1,6 @@
 package project.Entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
  * Created by nikitayakuntsev on 13.07.15.
  */
 @Entity
-public class Organizator {
+public class Organizer {
 
     @Id
     private String login;
@@ -26,7 +25,7 @@ public class Organizator {
         this.conferences = conferences;
     }
 
-    @OneToMany(mappedBy = "organizator")
+    @OneToMany(mappedBy = "organizer")
     private List<Conference> conferences;
 
     public String getLogin() {
@@ -61,13 +60,13 @@ public class Organizator {
         this.phone = phone;
     }
 
-    public Organizator() {
+    public Organizer() {
 
     }
 
     @Override
     public String toString() {
-        return "Organizator{" +
+        return "Organizer{" +
                 "login='" + login + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
@@ -81,7 +80,7 @@ public class Organizator {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Organizator that = (Organizator) o;
+        Organizer that = (Organizer) o;
 
         if (login != null ? !login.equals(that.login) : that.login != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;

@@ -19,7 +19,7 @@ public class Conference {
     private Date endDate;
 
     @ManyToOne
-    private Organizator organizator;
+    private Organizer organizer;
 
     @OneToMany(mappedBy = "conference")
     private List<Speech> speeches;
@@ -64,12 +64,12 @@ public class Conference {
         this.endDate = endDate;
     }
 
-    public Organizator getOrganizator() {
-        return organizator;
+    public Organizer getOrganizer() {
+        return organizer;
     }
 
-    public void setOrganizator(Organizator organizator) {
-        this.organizator = organizator;
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
     }
 
     public List<Speech> getSpeeches() {
@@ -92,7 +92,7 @@ public class Conference {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", organizator=" + organizator +
+                ", organizator=" + organizer +
                 ", speeches=" + speeches +
                 '}';
     }
