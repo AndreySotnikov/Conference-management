@@ -3,11 +3,16 @@ package project.Service;
 import project.Entity.TestEntity;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by Green-L on 14.07.2015.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TestEntityService extends CrudImplementation{
 
     public TestEntity update(int id, TestEntity testEntity) {

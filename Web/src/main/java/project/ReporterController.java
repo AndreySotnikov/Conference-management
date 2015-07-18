@@ -1,21 +1,27 @@
 package project;
 
-import javax.ejb.Stateful;
+import project.Entity.Reporter;
+import project.Service.ReporterService;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import java.util.List;
 
 /**
  * Created by andrey on 14.07.15.
  */
-@Path("/reporter")
+@Path("/reporters")
 @Stateless
 public class ReporterController {
+
+    @EJB
+    private ReporterService service;
 
     @Context
     private HttpServletRequest request;
@@ -28,6 +34,41 @@ public class ReporterController {
     public String reporterTest(){
         return  "I am reporter";
     }
+
+    @GET
+    @Path("get")
+    @Produces("application/json")
+    public Reporter get(@QueryParam("id") String id){
+        return service.findOne(id);
+    }
+
+    @GET
+    @Path("all")
+    @Produces("application/json")
+    public List<Reporter> getAll(){
+        return service.findAll();
+    }
+
+    @POST
+    @Path("insert")
+    public String insert(MultivaluedMap<String, String> form){
+        String login = form.getFirst("login");
+        String name = form.getFirst("name");
+        String email = form.getFirst("email");
+        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
+        service.save(new Reporter(login, name, email, busy));
+        return "OK";
+    }
+
+    @POST
+    @Path("delete")
+    public String delete(MultivaluedMap<String, String> form){
+        String login = form.getFirst("login");
+        service.remove(login);
+        return "OK";
+    }
+
+
 
     @GET
     @Path("logout")

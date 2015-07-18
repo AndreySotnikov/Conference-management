@@ -1,17 +1,14 @@
 package project;
 
 import project.Entity.TestEntity;
+import project.Service.ReporterService;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 
@@ -23,6 +20,9 @@ import java.util.List;
 public class Rest {
     @EJB
     CrudRepository crudRepository;
+
+    @EJB
+    ReporterService service;
 
     @Context
     private HttpServletRequest request;
@@ -57,7 +57,7 @@ public class Rest {
     public List<TestEntity> getAll(){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return crudRepository.findAll(TestEntity.class);
     }
 

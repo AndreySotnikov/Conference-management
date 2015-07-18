@@ -3,11 +3,16 @@ package project.Service;
 import project.Entity.Room;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 17.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RoomService extends CrudImplementation {
 
     public Room update(Integer id, Room room) {
