@@ -2,6 +2,7 @@ package project;
 
 import project.Entity.Reporter;
 import project.Service.ReporterService;
+import project.Service.TranslationService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

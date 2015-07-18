@@ -16,7 +16,7 @@ public class RoomOwner {
     private String phone;
 
     @OneToMany(mappedBy = "roomOwner")
-    private List<Room> rooms;
+    private transient List<Room> rooms;
 
     public RoomOwner(String login, String name, String email, String phone) {
         this.login = login;
