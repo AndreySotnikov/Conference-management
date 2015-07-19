@@ -35,8 +35,8 @@ public class VisitorService extends CrudImplementation {
 
     public void remove(String id) { super.remove(Visitor.class, id);}
 
-    public Boolean registerToSpeech(String visitor, Integer speechId) {
-        Visitor me = findOne(visitor);
+    public Boolean registerToSpeech(String visitorId, Integer speechId) {
+        Visitor me = findOne(visitorId);
         Speech sp = findOne(Speech.class, speechId);
 
         List<Speech> speeches = me.getSpeeches();
@@ -54,8 +54,8 @@ public class VisitorService extends CrudImplementation {
         }
     }
 
-    public Boolean registerToConference(String visitor, Integer conferenceId) {
-        Visitor me = findOne(visitor);
+    public Boolean registerToConference(String visitorId, Integer conferenceId) {
+        Visitor me = findOne(visitorId);
         Conference conf = findOne(Conference.class, conferenceId);
         List<Conference> conferences = me.getConferences();
         if (conferences.contains(conf))
