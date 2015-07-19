@@ -1,11 +1,6 @@
 package project;
 
-import javax.ejb.EJBContext;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.jws.WebService;
-import javax.security.auth.login.LoginContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

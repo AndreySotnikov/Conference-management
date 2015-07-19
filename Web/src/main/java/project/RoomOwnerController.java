@@ -1,8 +1,7 @@
 package project;
 
-import project.Entity.Reporter;
-import project.Service.ReporterService;
-import project.Service.TranslationService;
+import project.Entity.RoomOwner;
+import project.Service.RoomOwnerService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,14 +14,14 @@ import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 
 /**
- * Created by andrey on 14.07.15.
+ * Created by Green-L on 18.07.2015.
  */
-@Path("/reporters")
+@Path("/rowner")
 @Stateless
-public class ReporterController {
+public class RoomOwnerController {
 
     @EJB
-    private ReporterService service;
+    private RoomOwnerService service;
 
     @Context
     private HttpServletRequest request;
@@ -32,21 +31,21 @@ public class ReporterController {
 
     @GET
     @Path("test")
-    public String reporterTest(){
-        return  "I am reporter";
+    public String roomownerTest(){
+        return  "I am room-owner";
     }
 
     @GET
-    @Path("get/{id}")
+    @Path("get")
     @Produces("application/json")
-    public Reporter get(@PathParam("id") String id){
+    public RoomOwner get(@QueryParam("id") String id){
         return service.findOne(id);
     }
 
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<Reporter> getAll(){
+    public List<RoomOwner> getAll(){
         return service.findAll();
     }
 
@@ -56,8 +55,8 @@ public class ReporterController {
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
-        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.save(new Reporter(login, name, email, busy));
+        String phone = form.getFirst("phone");
+        service.save(new RoomOwner(login, name, email, phone));
         return "OK";
     }
 
@@ -68,11 +67,10 @@ public class ReporterController {
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
-        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.update(id, new Reporter(login, name, email, busy));
+        String phone = form.getFirst("phone");
+        service.update(id, new RoomOwner(login, name, email, phone));
         return "OK";
     }
-
 
     @POST
     @Path("delete")
@@ -81,7 +79,6 @@ public class ReporterController {
         service.remove(login);
         return "OK";
     }
-
 
 
     @GET
@@ -104,7 +101,11 @@ public class ReporterController {
         if(request.getSession()!=null){
             request.getSession().invalidate();//remove session.
         }
-        request.logout();//JAAS log out (from servlet specification)! It is a MUST!
+        try {
+            request.logout();//JAAS log out (from servlet specification)! It is a MUST!
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         if(printJaasInfo){
             try{
                 System.err.println("LogoutServlet>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));//ybxiang

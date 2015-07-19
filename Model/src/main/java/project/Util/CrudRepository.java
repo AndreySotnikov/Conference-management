@@ -1,7 +1,5 @@
 package project.Util;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
 import java.util.List;
 
 /**

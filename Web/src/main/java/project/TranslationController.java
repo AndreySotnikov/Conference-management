@@ -1,8 +1,9 @@
 package project;
 
-import project.Entity.Reporter;
-import project.Service.ReporterService;
+import project.Entity.Speech;
+import project.Entity.Translation;
 import project.Service.TranslationService;
+import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,14 +16,17 @@ import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 
 /**
- * Created by andrey on 14.07.15.
+ * Created by Green-L on 18.07.2015.
  */
-@Path("/reporters")
+@Path("/trans")
 @Stateless
-public class ReporterController {
+public class TranslationController {
 
     @EJB
-    private ReporterService service;
+    private TranslationService service;
+
+    @EJB
+    private CrudRepository crudRepository;
 
     @Context
     private HttpServletRequest request;
@@ -32,57 +36,49 @@ public class ReporterController {
 
     @GET
     @Path("test")
-    public String reporterTest(){
-        return  "I am reporter";
+    public String translationTest(){
+        return  "translation controller";
     }
 
     @GET
-    @Path("get/{id}")
+    @Path("get")
     @Produces("application/json")
-    public Reporter get(@PathParam("id") String id){
+    public Translation get(@QueryParam("id") Integer id){
         return service.findOne(id);
     }
 
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<Reporter> getAll(){
+    public List<Translation> getAll(){
         return service.findAll();
     }
 
     @POST
     @Path("insert")
     public String insert(MultivaluedMap<String, String> form){
-        String login = form.getFirst("login");
-        String name = form.getFirst("name");
-        String email = form.getFirst("email");
-        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.save(new Reporter(login, name, email, busy));
+        String text = form.getFirst("text");
+        long time = Long.valueOf(form.getFirst("time"));
+        Integer speechId = Integer.parseInt(form.getFirst("speechId"));
+        service.save(new Translation(text, time, crudRepository.findOne(Speech.class, speechId)));
         return "OK";
     }
 
-    @POST
-    @Path("update")
-    public String update(MultivaluedMap<String, String> form){
-        String id = form.getFirst("id");
-        String login = form.getFirst("login");
-        String name = form.getFirst("name");
-        String email = form.getFirst("email");
-        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.update(id, new Reporter(login, name, email, busy));
-        return "OK";
+    @GET
+    @Path("updates")
+    @Produces("application/json")
+    public List<Translation> get(@QueryParam("speechId") Integer speechId,
+                           @QueryParam("lastId") Integer lastId){
+        return service.findUpdates(speechId, lastId);
     }
-
 
     @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form){
-        String login = form.getFirst("login");
-        service.remove(login);
+        Integer id = Integer.parseInt(form.getFirst("id"));
+        service.remove(id);
         return "OK";
     }
-
-
 
     @GET
     @Path("logout")
@@ -104,7 +100,11 @@ public class ReporterController {
         if(request.getSession()!=null){
             request.getSession().invalidate();//remove session.
         }
-        request.logout();//JAAS log out (from servlet specification)! It is a MUST!
+        try {
+            request.logout();//JAAS log out (from servlet specification)! It is a MUST!
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         if(printJaasInfo){
             try{
                 System.err.println("LogoutServlet>userPrincipalName:"+(request.getUserPrincipal()==null?"null":request.getUserPrincipal().getName()));//ybxiang

@@ -1,12 +1,10 @@
 package project.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by nikitayakuntsev on 14.07.15.
+ * Created by Green-L on 18.07.2015.
  */
 @Entity
 public class RoomOwner {
@@ -17,6 +15,16 @@ public class RoomOwner {
     private String email;
     private String phone;
 
+    @OneToMany(mappedBy = "roomOwner")
+    private transient List<Room> rooms;
+
+    public RoomOwner(String login, String name, String email, String phone) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public List<Room> getRooms() {
         return rooms;
     }
@@ -24,9 +32,6 @@ public class RoomOwner {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
-    @OneToMany(mappedBy = "roomOwner")
-    private List<Room> rooms;
 
     public String getLogin() {
         return login;
