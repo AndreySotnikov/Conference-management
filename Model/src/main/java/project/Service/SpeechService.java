@@ -49,7 +49,7 @@ public class SpeechService extends CrudImplementation {
         try {
             Speech oldSpeech  = findOne(Speech.class, id);
             oldSpeech.setApproved(approved);
-            em.merge(oldSpeech);
+            return em.merge(oldSpeech);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
