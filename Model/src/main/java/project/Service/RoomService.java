@@ -1,13 +1,19 @@
 package project.Service;
 
 import project.Entity.Room;
+import project.Entity.RoomOwner;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by nikitayakuntsev on 17.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RoomService extends CrudImplementation {
 
     public Room update(Integer id, Room room) {
@@ -28,7 +34,7 @@ public class RoomService extends CrudImplementation {
     public List<Room> findAll() {
         return super.findAll(Room.class);
     }
-/*
+
     public Room findOne(Integer id) {
         return super.findOne(Room.class, id);
     }
@@ -54,5 +60,9 @@ public class RoomService extends CrudImplementation {
             return null;
         }
     }
-*/
+
+    public void remove(Integer id) {
+        super.remove(Room.class, id);
+    }
+
 }
