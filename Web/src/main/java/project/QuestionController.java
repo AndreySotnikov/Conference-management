@@ -9,12 +9,10 @@ import project.Service.QuestionService;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 
 /**
@@ -43,6 +41,16 @@ public class QuestionController {
         return  questionService.findAllBySpeech(speechId);
     }
 
+    @Path("show/{id}")
+    @GET
+    @Produces("application/json")
+    public Question findOne(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return questionService.findOne(id);
+    }
+
     @Path("moderated")
     @GET
     @Produces("application/json")
@@ -53,7 +61,7 @@ public class QuestionController {
         return  questionService.findAllFiltered(speechId, true);
     }
 
-    @Path("moderated")
+    @Path("unmoderated")
     @GET
     @Produces("application/json")
     public List<Question> findAllUnModerated(@QueryParam("id") int speechId){
@@ -61,6 +69,51 @@ public class QuestionController {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return  questionService.findAllFiltered(speechId,false);
+    }
+
+    @Path("add")
+    @POST
+    public String addQuestion(MultivaluedMap<String, String> form){
+        try {
+            questionService.addQuestion(form.getFirst("text"), request.getUserPrincipal().getName());
+            return "OK";
+        }catch (Exception e){
+            return "fail";
+        }
+    }
+
+    @Path("moderate/{id}")
+    @GET
+    public String moderateQuestion(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        questionService.moderate(id);
+        return "OK";
+    }
+
+    @Path("upvote/{id}")
+    @GET
+    public String upvoteQuestion(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        try {
+            return questionService.upvote(id, request.getUserPrincipal().getName())?"OK":"fail";
+        }catch (Exception e){
+            return "fail";
+        }
+    }
+
+    @Path("delete")
+    @POST
+    public String deleteQuestion(MultivaluedMap<String, String> form){
+        try {
+            questionService.remove(Integer.parseInt(form.getFirst("id")));
+            return "OK";
+        }catch (Exception e){
+            return "fail";
+        }
     }
 
 }

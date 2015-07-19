@@ -57,4 +57,8 @@ public class ConferenceService extends CrudImplementation {
             return null;
         }
     }
+
+    public void remove(int id){
+        remove(id);
+    }
 }

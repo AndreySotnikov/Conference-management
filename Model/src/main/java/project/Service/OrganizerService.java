@@ -9,7 +9,7 @@ import java.util.List;
  * Created by andrey on 18.07.15.
  */
 public class OrganizerService extends CrudImplementation {
-    public Organizer update(Integer id, Organizer entity) {
+    public Organizer update(String id, Organizer entity) {
         try {
             Organizer oldOrganizer = em.find(Organizer.class, id);
             oldOrganizer.setName(entity.getName());
@@ -22,12 +22,25 @@ public class OrganizerService extends CrudImplementation {
         }
     }
 
+    public Organizer update(String id, String name,String email,String phone) {
+        try {
+            Organizer oldOrganizer = em.find(Organizer.class, id);
+            oldOrganizer.setName(name);
+            oldOrganizer.setEmail(email);
+            oldOrganizer.setPhone(phone);
+            return em.merge(oldOrganizer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Organizer> findAll(){
         return findAll(Organizer.class);
     }
 
-    public Organizer findOne(Integer id){
-        return findOne(Organizer.class, id);
+    public Organizer findOne(String login){
+        return findOne(Organizer.class, login);
     }
 
     public Organizer findByLogin(String login){
@@ -38,5 +51,9 @@ public class OrganizerService extends CrudImplementation {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void remove(String login){
+        remove(Organizer.class,login);
     }
 }

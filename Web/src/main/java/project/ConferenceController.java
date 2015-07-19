@@ -43,7 +43,7 @@ public class ConferenceController {
         return conferenceService.findAll();
     }
 
-    @Path("{id}")
+    @Path("show/{id}")
     @GET
     @Produces("application/json")
     public Conference findOne(@PathParam("id") Integer id) {
@@ -62,7 +62,7 @@ public class ConferenceController {
             conference.setDescription(form.getFirst("description"));
             conference.setStartDate(Date.valueOf(form.getFirst("start")));
             conference.setEndDate(Date.valueOf(form.getFirst("end")));
-            conference.setOrganizer(organizerService.findByLogin(request.getUserPrincipal().getName()));
+            conference.setOrganizer(organizerService.findOne(request.getUserPrincipal().getName()));
             conferenceService.save(conference);
             return "OK";
         } catch (Exception e) {
@@ -91,6 +91,17 @@ public class ConferenceController {
                     form.getFirst("description"));
             return "OK";
         } catch (Exception e) {
+            return "fail";
+        }
+    }
+
+    @Path("delete")
+    @POST
+    public String delete(MultivaluedMap<String, String> form){
+        try {
+            conferenceService.remove(Integer.parseInt(form.getFirst("id")));
+            return "OK";
+        }catch (Exception e){
             return "fail";
         }
     }

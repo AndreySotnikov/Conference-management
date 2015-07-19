@@ -4,9 +4,6 @@ package project.Entity;
  * Created by andrey on 18.07.15.
  */
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class Question {
     @ManyToOne
     private Speech speech;
     @ManyToMany(mappedBy = "questions")
-    private List<Visitor> visitor;
+    private List<Visitor> visitorsUpVoteQuestion;
 
     public Question() {
     }
@@ -84,12 +81,12 @@ public class Question {
         this.speech = speech;
     }
 
-    public List<Visitor> getVisitor() {
-        return visitor;
+    public List<Visitor> getVisitorsUpVoteQuestion() {
+        return visitorsUpVoteQuestion;
     }
 
-    public void setVisitor(List<Visitor> visitor) {
-        this.visitor = visitor;
+    public void setVisitorsUpVoteQuestion(List<Visitor> visitor) {
+        this.visitorsUpVoteQuestion = visitor;
     }
 
     @Override
@@ -118,7 +115,7 @@ public class Question {
                 ", answer='" + answer + '\'' +
                 ", answered=" + answered +
                 ", speech=" + speech +
-                ", visitor=" + visitor +
+                ", visitor=" + visitorsUpVoteQuestion +
                 '}';
     }
 }
