@@ -89,8 +89,8 @@ public class ReporterSpeechController {
     @Path("rros")
     public String registerReporterOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("reporterId") String reporterId){
-        service.registerReporterOnSpeech(reporterId, speechId);
-        return "ok";
+        String res = (service.registerReporterOnSpeech(reporterId, speechId)?"OK":"NOT OK");
+        return res;
     }
 
     @GET
