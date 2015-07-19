@@ -3,11 +3,16 @@ package project.Service;
 import project.Entity.Visitor;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by nikita on 18.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class VisitorService extends CrudImplementation {
     public Visitor update(String id, Visitor visitor){
         try {

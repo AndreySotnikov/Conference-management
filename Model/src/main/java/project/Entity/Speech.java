@@ -15,6 +15,10 @@ public class Speech {
     private Date startDate;
     private String topic;
 
+    private String text;
+
+    private Boolean approved;
+
     @ManyToOne
     private Speaker speaker;
 
@@ -67,6 +71,22 @@ public class Speech {
         this.id = id;
     }
 
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
     public Date getStartDate() {
         return startDate;
     }
