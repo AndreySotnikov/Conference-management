@@ -53,7 +53,7 @@ public class RoomController {
         Integer capacity = Integer.getInteger(form.getFirst("capacity"));
         RoomOwner r = null;//TODO = roomOwnerService.findOne(form.getFirst("roomownerid");
         try {
-            service.save(new Room(number, capacity, r));
+            service.save(number, new Room(number, capacity, r));
             System.err.println("Room added: " + number);
             return "OK";
         } catch (Exception e) {
@@ -91,5 +91,6 @@ public class RoomController {
             return "NOT OK";
         }
     }
+    
 
 }

@@ -61,6 +61,11 @@ public class RoomService extends CrudImplementation {
         }
     }
 
+    public void save(Integer id, Room room) {
+        room.setNumber(id);
+        super.save(room);
+    }
+
     public void remove(Integer id) {
         super.remove(Room.class, id);
     }

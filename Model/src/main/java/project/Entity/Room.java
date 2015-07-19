@@ -32,6 +32,7 @@ public class Room {
 
 
     @Id
+    @Column(unique = true)
     private Integer number;
 
     private Integer capacity;
