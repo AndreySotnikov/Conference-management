@@ -64,6 +64,14 @@ public class TranslationController {
         return "OK";
     }
 
+    @GET
+    @Path("updates")
+    @Produces("application/json")
+    public List<Translation> get(@QueryParam("speechId") Integer speechId,
+                           @QueryParam("lastId") Integer lastId){
+        return service.findUpdates(speechId, lastId);
+    }
+
     @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form){

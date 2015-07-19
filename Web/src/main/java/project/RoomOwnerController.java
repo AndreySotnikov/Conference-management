@@ -61,6 +61,18 @@ public class RoomOwnerController {
     }
 
     @POST
+    @Path("update")
+    public String update(MultivaluedMap<String, String> form){
+        String id = form.getFirst("id");
+        String login = form.getFirst("login");
+        String name = form.getFirst("name");
+        String email = form.getFirst("email");
+        String phone = form.getFirst("phone");
+        service.update(id, new RoomOwner(login, name, email, phone));
+        return "OK";
+    }
+
+    @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form){
         String login = form.getFirst("login");

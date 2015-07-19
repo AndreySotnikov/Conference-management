@@ -6,10 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
 
-/**
- * Created by nikitayakuntsev on 13.07.15.
- */
-
 @Entity
 public class Reporter {
     @Id

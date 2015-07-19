@@ -37,9 +37,9 @@ public class ReporterController {
     }
 
     @GET
-    @Path("get")
+    @Path("get/{id}")
     @Produces("application/json")
-    public Reporter get(@QueryParam("id") String id){
+    public Reporter get(@PathParam("id") String id){
         return service.findOne(id);
     }
 
@@ -60,6 +60,19 @@ public class ReporterController {
         service.save(new Reporter(login, name, email, busy));
         return "OK";
     }
+
+    @POST
+    @Path("update")
+    public String update(MultivaluedMap<String, String> form){
+        String id = form.getFirst("id");
+        String login = form.getFirst("login");
+        String name = form.getFirst("name");
+        String email = form.getFirst("email");
+        boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
+        service.update(id, new Reporter(login, name, email, busy));
+        return "OK";
+    }
+
 
     @POST
     @Path("delete")

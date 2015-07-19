@@ -28,6 +28,19 @@ public class TranslationService extends CrudImplementation {
         }
     }
 
+    public List<Translation> findUpdates(Integer speechId, Integer lastId){
+        try {
+            return em.createQuery("SELECT e FROM Translation e WHERE "+
+                    "e.speech.id=:speechId AND e.id>:lastId")
+                    .setParameter("speechId", speechId)
+                    .setParameter("lastId", lastId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Translation> findAll(){
         return super.findAll(Translation.class);
     }
