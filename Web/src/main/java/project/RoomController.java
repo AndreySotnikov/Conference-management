@@ -27,6 +27,9 @@ public class RoomController {
     @EJB
     private RoomService service;
 
+//TODO    //@EJB
+    //private RoomOwnerService roomOwnerService;
+
     @Context
     private HttpServletRequest request;
     @Context
@@ -88,6 +91,7 @@ public class RoomController {
             System.err.println("Room updated: " + number);
             return "OK";
         } catch (Exception e) {
+            e.printStackTrace();
             return "NOT OK";
         }
     }
