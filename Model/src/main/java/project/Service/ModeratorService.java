@@ -17,7 +17,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ModeratorService extends CrudImplementation {
-    public Moderator update(Integer id, Moderator moderator) {
+    public Moderator update(String id, Moderator moderator) {
         try {
             Moderator old = em.find(Moderator.class, id);
             old.setName(moderator.getName());
@@ -34,11 +34,11 @@ public class ModeratorService extends CrudImplementation {
         return super.findAll(Moderator.class);
     }
 
-    public Moderator findOne(Integer id) {
+    public Moderator findOne(String id) {
         return super.findOne(Moderator.class, id);
     }
 
-    public void remove(Integer id) {
+    public void remove(String id) {
         super.remove(Moderator.class, id);
     }
 }

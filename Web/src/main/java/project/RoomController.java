@@ -8,10 +8,7 @@ import project.Service.RoomService;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
@@ -46,6 +43,16 @@ public class RoomController {
         return service.findAll();
     }
 
+    @GET
+    @Path("{id}")
+    @Produces("application/json")
+    public Room getRoom(@PathParam("id") Integer id) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.findOne(id);
+    }
+
 
     @POST
     @Path("add")
@@ -55,6 +62,7 @@ public class RoomController {
         Integer number = Integer.getInteger(form.getFirst("number"));
         Integer capacity = Integer.getInteger(form.getFirst("capacity"));
         RoomOwner r = null;//TODO = roomOwnerService.findOne(form.getFirst("roomownerid");
+        //TODO probably GENERATOR
         try {
             service.save(number, new Room(number, capacity, r));
             System.err.println("Room added: " + number);

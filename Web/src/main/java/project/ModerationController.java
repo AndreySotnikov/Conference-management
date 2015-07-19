@@ -5,6 +5,7 @@ import project.Entity.Room;
 import project.Service.ModeratorService;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by nikitayakuntsev on 19.07.15.
  */
 @Path("/moderator")
+@Stateless
 public class ModerationController {
     @EJB
     private ModeratorService service;
