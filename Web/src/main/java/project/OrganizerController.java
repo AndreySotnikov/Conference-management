@@ -1,6 +1,7 @@
 package project;
 
 import org.jboss.resteasy.spi.HttpResponse;
+import project.Entity.Conference;
 import project.Entity.Organizer;
 import project.Service.OrganizerService;
 
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.ArrayList;
 
 /**
  * Created by andrey on 19.07.15.
@@ -35,6 +37,7 @@ public class OrganizerController {
         organizer.setName(form.getFirst("name"));
         organizer.setEmail(form.getFirst("email"));
         organizer.setPhone(form.getFirst("phone"));
+        organizer.setConferences(new ArrayList<Conference>());
         organizerService.save(organizer);
         return "OK";
     }

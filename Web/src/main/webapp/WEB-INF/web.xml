@@ -51,7 +51,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Organizator Resource</web-resource-name>
-            <url-pattern>/rest/organizator/*</url-pattern>
+            <url-pattern>/rest/organizer/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>organizator</role-name>

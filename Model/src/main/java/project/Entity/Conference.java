@@ -21,7 +21,7 @@ public class Conference {
     @ManyToOne
     private Organizer organizer;
 
-    @OneToMany(mappedBy = "conference")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "conference")
     private List<Speech> speeches;
 
     public Integer getId() {

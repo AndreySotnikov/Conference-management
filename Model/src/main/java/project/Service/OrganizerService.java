@@ -3,11 +3,16 @@ package project.Service;
 import project.Entity.Organizer;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by andrey on 18.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class OrganizerService extends CrudImplementation {
     public Organizer update(String id, Organizer entity) {
         try {

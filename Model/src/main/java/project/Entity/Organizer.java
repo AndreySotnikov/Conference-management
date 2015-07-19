@@ -1,7 +1,10 @@
 package project.Entity;
+import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +20,9 @@ public class Organizer {
     private String email;
     private String phone;
 
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "organizer")
+    private transient List<Conference> conferences;
+
     public List<Conference> getConferences() {
         return conferences;
     }
@@ -24,9 +30,6 @@ public class Organizer {
     public void setConferences(List<Conference> conferences) {
         this.conferences = conferences;
     }
-
-    @OneToMany(mappedBy = "organizer")
-    private List<Conference> conferences;
 
     public String getLogin() {
         return login;
@@ -71,7 +74,6 @@ public class Organizer {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", conferences=" + conferences +
                 '}';
     }
 

@@ -92,6 +92,17 @@ public class QuestionController {
         return "OK";
     }
 
+    @Path("answer")
+    @POST
+    public String addAnswer(MultivaluedMap<String, String> form){
+        try {
+            questionService.addAnswer(Integer.parseInt(form.getFirst("id")),form.getFirst("answer"));
+            return "OK";
+        }catch (Exception e){
+            return "fail";
+        }
+    }
+
     @Path("upvote/{id}")
     @GET
     public String upvoteQuestion(@PathParam("id") Integer id){

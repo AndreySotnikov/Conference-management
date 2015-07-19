@@ -3,12 +3,17 @@ package project.Service;
 import project.Entity.Conference;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.sql.Date;
 import java.util.List;
 
 /**
  * Created by andrey on 18.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ConferenceService extends CrudImplementation {
     public Conference update(Integer id, Conference entity) {
         try {
@@ -59,6 +64,6 @@ public class ConferenceService extends CrudImplementation {
     }
 
     public void remove(int id){
-        remove(id);
+        remove(Conference.class,id);
     }
 }

@@ -2,6 +2,7 @@ package project;
 
 import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Conference;
+import project.Entity.Speech;
 import project.Service.ConferenceService;
 import project.Service.OrganizerService;
 
@@ -12,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,13 +58,18 @@ public class ConferenceController {
     @Path("add")
     @POST
     public String add(MultivaluedMap<String, String> form) {
+        System.err.println(form);
         try {
             Conference conference = new Conference();
             conference.setName(form.getFirst("name"));
             conference.setDescription(form.getFirst("description"));
+            System.err.println("Date: " + Date.valueOf(form.getFirst("start")));
             conference.setStartDate(Date.valueOf(form.getFirst("start")));
             conference.setEndDate(Date.valueOf(form.getFirst("end")));
+            System.err.println("Principal" + request.getUserPrincipal().getName());
+            System.err.println("Organizer" + organizerService.findOne(request.getUserPrincipal().getName()));
             conference.setOrganizer(organizerService.findOne(request.getUserPrincipal().getName()));
+            conference.setSpeeches(new ArrayList<Speech>());
             conferenceService.save(conference);
             return "OK";
         } catch (Exception e) {

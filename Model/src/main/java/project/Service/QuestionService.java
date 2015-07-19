@@ -3,15 +3,23 @@ package project.Service;
 import project.Entity.Question;
 import project.Entity.Visitor;
 import project.Util.CrudImplementation;
+import project.Util.CrudRepository;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by andrey on 18.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class QuestionService extends CrudImplementation{
-    private VisitorService visitorService;
+//    @EJB(beanInterface = VisitorService.class)
+//    private VisitorService visitorService;
 
     public List<Question> findAllBySpeech(Integer speechId){
         return em.createQuery("select e from Question e where e.speech.id=:id")
@@ -42,7 +50,7 @@ public class QuestionService extends CrudImplementation{
         Question question = new Question();
         question.setText(text);
         List<Visitor> visitors = new ArrayList<>();
-        Visitor visitor = visitorService.findOne(visitorLogin);
+        Visitor visitor = findOne(Visitor.class,visitorLogin);
         visitors.add(visitor);
         question.setVisitorsUpVoteQuestion(visitors);
         question.setRating(1);
@@ -52,6 +60,12 @@ public class QuestionService extends CrudImplementation{
     public void moderate(Integer id){
         Question question = findOne(id);
         question.setModerated(true);
+        em.merge(question);
+    }
+
+    public void addAnswer(Integer id, String text){
+        Question question = findOne(id);
+        question.setAnswer(text);
         em.merge(question);
     }
 
@@ -71,7 +85,7 @@ public class QuestionService extends CrudImplementation{
 
     public boolean upvote(Integer id, String visitorLogin){
         Question question = findOne(id);
-        Visitor visitor = visitorService.findOne(visitorLogin);
+        Visitor visitor = findOne(Visitor.class, visitorLogin);
         if (question.getVisitorsUpVoteQuestion().contains(visitor))
             return false;
         else{
