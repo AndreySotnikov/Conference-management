@@ -22,8 +22,8 @@ public class Speech {
     @ManyToOne
     private Speaker speaker;
 
-    @ManyToOne
-    private Room room;
+    @OneToOne
+    private RoomOrder roomOrder;
 
     @ManyToOne
     private Conference conference;
@@ -40,7 +40,7 @@ public class Speech {
                 ", startDate=" + startDate +
                 ", topic='" + topic + '\'' +
                 ", speaker=" + speaker +
-                ", room=" + room +
+                ", room=" + roomOrder.getRoom() +
                 ", conference=" + conference +
                 ", completed=" + completed +
                 ", reporter=" + reporter +
@@ -112,11 +112,15 @@ public class Speech {
     }
 
     public Room getRoom() {
-        return room;
+        return roomOrder.getRoom();
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public RoomOrder getRoomOrder() {
+        return roomOrder;
+    }
+
+    public void setRoomOrder(RoomOrder roomOrder) {
+        this.roomOrder = roomOrder;
     }
 
     public Conference getConference() {

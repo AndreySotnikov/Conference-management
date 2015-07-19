@@ -22,7 +22,7 @@ public class Room {
     private Boolean isBusy;
 
     @OneToMany(mappedBy = "room")
-    private List<Speech> speeches;
+    private List<RoomOrder> orders;
 
     @ManyToOne
     private RoomOwner roomOwner;
@@ -51,12 +51,13 @@ public class Room {
         this.isBusy = isBusy;
     }
 
-    public List<Speech> getSpeeches() {
-        return speeches;
+    public void setOrders(List<RoomOrder> orders) {
+        this.orders = orders;
     }
 
-    public void setSpeeches(List<Speech> speeches) {
-        this.speeches = speeches;
+    public List<RoomOrder> getOrders() {
+
+        return orders;
     }
 
     public Room() {
@@ -69,7 +70,7 @@ public class Room {
                 "number=" + number +
                 ", capacity=" + capacity +
                 ", isBusy=" + isBusy +
-                ", speeches=" + speeches +
+                ", speeches=" + orders +
                 ", roomOwner=" + roomOwner +
                 '}';
     }

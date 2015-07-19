@@ -21,7 +21,7 @@ public class SpeechService extends CrudImplementation {
             oldSpeech.setCompleted(speech.getCompleted());
             oldSpeech.setConference(speech.getConference());
             oldSpeech.setReporter(speech.getReporter());
-            oldSpeech.setRoom(speech.getRoom());
+            oldSpeech.setRoomOrder(speech.getRoomOrder());
             oldSpeech.setSpeaker(speech.getSpeaker());
             oldSpeech.setStartDate(speech.getStartDate());
             oldSpeech.setTopic(speech.getTopic());
@@ -34,10 +34,10 @@ public class SpeechService extends CrudImplementation {
         }
     }
 
-    public List<Speech> findByConference(Conference conference) {
+    public List<Speech> findByConference(String conferenceId) {
         try {
             return em.createQuery("select e from Speech e where e.conference.id = :id")
-                    .setParameter("id",conference.getId())
+                    .setParameter("id",conferenceId)
                     .getResultList();
         } catch (Exception e){
             e.printStackTrace();
