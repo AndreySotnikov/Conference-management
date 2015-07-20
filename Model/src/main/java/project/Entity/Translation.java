@@ -1,6 +1,7 @@
 package project.Entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 /**
  * Created by Green-L on 18.07.2015.
@@ -13,7 +14,7 @@ public class Translation {
     private Integer id;
 
     private String text;
-    private long time;
+    private Date time;
 
     @ManyToOne
     private Speech speech;
@@ -21,7 +22,7 @@ public class Translation {
     public Translation() {
     }
 
-    public Translation(String text, long time, Speech speech) {
+    public Translation(String text, Date time, Speech speech) {
         this.text = text;
         this.time = time;
         this.speech = speech;
@@ -43,11 +44,11 @@ public class Translation {
         this.text = text;
     }
 
-    public long getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

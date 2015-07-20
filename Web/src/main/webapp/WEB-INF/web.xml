@@ -54,7 +54,7 @@
             <url-pattern>/rest/organizer/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>organizator</role-name>
+            <role-name>organizer</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -140,7 +140,7 @@
     </login-config>
 
     <security-role>
-        <role-name>organizator</role-name>
+        <role-name>organizer</role-name>
     </security-role>
     <security-role>
         <role-name>moderator</role-name>

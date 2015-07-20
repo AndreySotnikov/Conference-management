@@ -71,6 +71,7 @@ public class SpeakerController {
             int cnt = speechService.findBySpeaker(form.getFirst("login")).size();
             if (cnt != 0) return "Error: you have speeches, you can't delete";
             service.remove(form.getFirst("login"));
+            return "OK";
         } catch (Exception e){
             e.printStackTrace();
             return "fail";
