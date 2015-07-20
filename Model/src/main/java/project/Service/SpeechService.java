@@ -42,6 +42,17 @@ public class SpeechService extends CrudImplementation {
         }
     }
 
+    public List<Speech> findBySpeaker(String speakerId){
+        try {
+            return em.createQuery("select e from Speech e where e.speaker.id = :id")
+                    .setParameter("id",speakerId)
+                    .getResultList();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Speech setApproved(String id, boolean approved){
         try {
             Speech oldSpeech  = findOne(Speech.class, id);

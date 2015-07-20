@@ -63,11 +63,8 @@ public class ConferenceController {
             Conference conference = new Conference();
             conference.setName(form.getFirst("name"));
             conference.setDescription(form.getFirst("description"));
-            System.err.println("Date: " + Date.valueOf(form.getFirst("start")));
             conference.setStartDate(Date.valueOf(form.getFirst("start")));
             conference.setEndDate(Date.valueOf(form.getFirst("end")));
-            System.err.println("Principal" + request.getUserPrincipal().getName());
-            System.err.println("Organizer" + organizerService.findOne(request.getUserPrincipal().getName()));
             conference.setOrganizer(organizerService.findOne(request.getUserPrincipal().getName()));
             conference.setSpeeches(new ArrayList<Speech>());
             conferenceService.save(conference);
