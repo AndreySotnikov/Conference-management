@@ -1,6 +1,7 @@
 package project.Service;
 
 import project.Entity.Question;
+import project.Entity.Speech;
 import project.Entity.Visitor;
 import project.Util.CrudImplementation;
 import project.Util.CrudRepository;
@@ -44,9 +45,10 @@ public class QuestionService extends CrudImplementation{
         save(question);
     }
 
-    public void addQuestion(String text, String visitorLogin) throws Exception{
+    public void addQuestion(String text, String visitorLogin, Integer speechId) throws Exception{
         Question question = new Question();
         question.setText(text);
+        question.setSpeech(findOne(Speech.class,speechId));
         List<Visitor> visitors = new ArrayList<>();
         Visitor visitor = findOne(Visitor.class,visitorLogin);
         visitors.add(visitor);

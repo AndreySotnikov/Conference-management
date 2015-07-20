@@ -21,8 +21,6 @@ public class Room {
     @ManyToOne
     private RoomOwner roomOwner;
 
-
-
     public RoomOwner getRoomOwner() {
         return roomOwner;
     }

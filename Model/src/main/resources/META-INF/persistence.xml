@@ -14,7 +14,7 @@
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost/conferencesystem"/>
             <property name="hibernate.connection.username" value="dev"/>
             <property name="hibernate.connection.password" value="123456789"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -28,6 +28,7 @@ public class VisitorSubscriptionController {
     private org.jboss.resteasy.spi.HttpResponse response;
 
 
+    //TODO METHODS
     @POST
     @Path("{confId}/")
     public String subscribeToSpeech(@PathParam("confId") Integer conferenceId, MultivaluedMap<String, String> form) {

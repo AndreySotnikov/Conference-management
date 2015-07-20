@@ -14,7 +14,7 @@ import javax.ws.rs.core.MultivaluedMap;
 /**
  * Created by nikita on 20.07.15.
  */
-@Path("Visitor")
+@Path("/visitor")
 public class VisitorController {
     @Context
     private HttpServletRequest request;

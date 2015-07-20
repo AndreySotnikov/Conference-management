@@ -75,7 +75,9 @@ public class QuestionController {
     @POST
     public String addQuestion(MultivaluedMap<String, String> form){
         try {
-            questionService.addQuestion(form.getFirst("text"), request.getUserPrincipal().getName());
+            questionService.addQuestion(form.getFirst("text"),
+                    request.getUserPrincipal().getName(),
+                    Integer.valueOf(form.getFirst("speechId")));
             return "OK";
         }catch (Exception e){
             return "fail";
