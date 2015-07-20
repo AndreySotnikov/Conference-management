@@ -1,7 +1,6 @@
 package project;
 
 import org.jboss.resteasy.spi.HttpResponse;
-import project.Entity.Conference;
 import project.Entity.Speech;
 import project.Service.ConferenceService;
 import project.Service.SpeakerService;
@@ -54,8 +53,11 @@ public class SpeechController {
     @GET
     @Path("info")
     @Produces("application/json")
-    public Speech getInfo(@QueryParam("id") String id){
+    public Speech getInfo(@QueryParam("id") Integer id){
         try {
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
             return speechService.findOne(id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,5 +65,62 @@ public class SpeechController {
         }
     }
 
+    @POST
+    @Path("info")
+    public String updateSpeech(MultivaluedMap<String, String> form){
+        try {
+            Speech speech  = speechService.findOne(Integer.valueOf(form.getFirst("id")));
+            speech.setConference(conferenceService.findOne(Integer.valueOf(form.getFirst("conference"))));
+            speech.setTopic(form.getFirst("topic"));
+            speech.setSpeaker(speakerService.findOne(form.getFirst("speaker")));
+            speech.setStartDate(Date.valueOf(form.getFirst("start")));
+            speechService.update(form.getFirst("id"), speech);
+            return "OK";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
 
+    @POST
+    @Path("delete")
+    public String deleteSpeech(MultivaluedMap<String, String> form){
+        try {
+            speechService.remove(Integer.valueOf(form.getFirst("id")));
+            return "OK";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Error";
+        }
+    }
+
+    @GET
+    @Path("completed")
+    public String setCompleted(@QueryParam("id") Integer id, @QueryParam("completed") Boolean completed){
+        try {
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+            speechService.setCompleted(id, completed);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error";
+        }
+    }
+
+    @GET
+    @Path("approve")
+    public String setApproved(@QueryParam("id") Integer id, @QueryParam("completed") Boolean approved){
+        try {
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+            speechService.setApproved(id, approved);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error";
+        }
+    }
 }
