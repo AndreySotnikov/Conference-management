@@ -31,8 +31,8 @@ public class Speech {
 
     private boolean completed;
 
-    @ManyToOne
-    private Reporter reporter;
+    @OneToMany(mappedBy="speech")
+    private transient List<ReporterRequestsSpeech> reporterRequests;
 
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
@@ -52,7 +52,6 @@ public class Speech {
                 ", speaker=" + speaker +
                 ", room=" + roomOrder.getRoom() +
                 ", conference=" + conference +
-                ", reporter=" + reporter +
                 '}';
     }
 
@@ -177,14 +176,6 @@ public class Speech {
         this.conference = conference;
     }
 
-
-    public Reporter getReporter() {
-        return reporter;
-    }
-
-    public void setReporter(Reporter reporter) {
-        this.reporter = reporter;
-    }
 
     public Speech() {
     }

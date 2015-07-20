@@ -1,9 +1,6 @@
 package project.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,6 +12,8 @@ public class Reporter {
     private String email;
     private String phone;
     private boolean busy;
+    @OneToMany(mappedBy="reporter")
+    private transient List<ReporterRequestsSpeech> speechReporter;
 
     public Reporter(String login, String name, String email, String phone) {
         this.login = login;

@@ -41,11 +41,11 @@ public class SpeakerController {
     @GET
     @Path("info")
     @Produces("application/json")
-    public String speakerInfo(@QueryParam("login") String id) {
+    public Speaker speakerInfo(@QueryParam("login") String id) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        return service.findOne(id).toString();
+        return service.findOne(id);
     }
 
     @POST

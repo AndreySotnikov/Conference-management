@@ -63,6 +63,7 @@ public class RoomController {
         Integer number = Integer.valueOf(form.getFirst("number"));
         Integer capacity = Integer.valueOf(form.getFirst("capacity"));
         RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid")); //TODO set principal
+
         try {
             service.save(number, new Room(number, capacity, r));
             System.err.println("Room added: " + number);

@@ -20,7 +20,7 @@ public class Conference {
     private Organizer organizer;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Visitor> visitors;
 
     public List<Visitor> getVisitors() {
