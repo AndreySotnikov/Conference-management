@@ -32,36 +32,8 @@ public class Speech {
 
     @OneToMany(mappedBy = "speech")
     private List<Question> questions;
-
-    @Override
-    public String toString() {
-        return "Speech{" +
-                "id=" + id +
-                ", startDate=" + startDate +
-                ", topic='" + topic + '\'' +
-                ", speaker=" + speaker +
-                ", room=" + room +
-                ", conference=" + conference +
-                ", completed=" + completed +
-                ", reporter=" + reporter +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Speech speech = (Speech) o;
-
-        return !(id != null ? !id.equals(speech.id) : speech.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+    @ManyToMany
+    private List<Visitor> visitors;
 
     public Integer getId() {
         return id;

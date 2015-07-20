@@ -19,6 +19,27 @@ public class Visitor {
 
     @ManyToMany
     private List<Question> questions;
+    @ManyToMany(mappedBy = "visitors")
+    private List<Conference> conferences;
+
+    @ManyToMany(mappedBy = "visitors")
+    private List<Speech> speeches;
+
+    public List<Conference> getConferences() {
+        return conferences;
+    }
+
+    public void setConferences(List<Conference> conferences) {
+        this.conferences = conferences;
+    }
+
+    public List<Speech> getSpeeches() {
+        return speeches;
+    }
+
+    public void setSpeeches(List<Speech> speeches) {
+        this.speeches = speeches;
+    }
 
     public String getLogin() {
         return login;

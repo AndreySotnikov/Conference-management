@@ -44,6 +44,13 @@ public class Moderator {
         this.phone = phone;
     }
 
+    public Moderator(String login, String name, String email, String phone) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public Moderator() {
     }
 

@@ -21,6 +21,18 @@ public class Conference {
     @ManyToOne
     private Organizer organizer;
 
+
+    @ManyToMany
+    private List<Visitor> visitors;
+
+    public List<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<Visitor> visitors) {
+        this.visitors = visitors;
+    }
+
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "conference")
     private List<Speech> speeches;
 

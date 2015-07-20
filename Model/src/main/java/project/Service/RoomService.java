@@ -1,6 +1,7 @@
 package project.Service;
 
 import project.Entity.Room;
+import project.Entity.RoomOwner;
 import project.Util.CrudImplementation;
 
 import javax.ejb.Stateless;
@@ -33,7 +34,7 @@ public class RoomService extends CrudImplementation {
     public List<Room> findAll() {
         return super.findAll(Room.class);
     }
-/*
+
     public Room findOne(Integer id) {
         return super.findOne(Room.class, id);
     }
@@ -59,5 +60,14 @@ public class RoomService extends CrudImplementation {
             return null;
         }
     }
-*/
+
+    public void save(Integer id, Room room) {
+        room.setNumber(id);
+        super.save(room);
+    }
+
+    public void remove(Integer id) {
+        super.remove(Room.class, id);
+    }
+
 }
