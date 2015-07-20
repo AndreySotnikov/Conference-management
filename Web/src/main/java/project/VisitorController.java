@@ -26,11 +26,11 @@ public class VisitorController {
     @GET
     @Path("info")
     @Produces("application/json")
-    public String visitorInfo(@QueryParam("login") String id){
+    public Visitor visitorInfo(@QueryParam("login") String id){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        return visitorService.findOne(id).toString();
+        return visitorService.findOne(id);
     }
 
     @POST

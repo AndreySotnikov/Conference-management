@@ -17,7 +17,6 @@ public class SpeechService extends CrudImplementation {
             Speech oldSpeech = findOne(Speech.class, id);
             oldSpeech.setCompleted(speech.isCompleted());
             oldSpeech.setConference(speech.getConference());
-            oldSpeech.setReporter(speech.getReporter());
             oldSpeech.setRoomOrder(speech.getRoomOrder());
             oldSpeech.setSpeaker(speech.getSpeaker());
             oldSpeech.setStartDate(speech.getStartDate());
