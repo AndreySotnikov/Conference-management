@@ -20,6 +20,7 @@ public class ReporterService extends CrudImplementation{
             Reporter oldReporter = findOne(Reporter.class, id);
             oldReporter.setName(reporter.getName());
             oldReporter.setEmail(reporter.getEmail());
+            oldReporter.setPhone(reporter.getPhone());
             oldReporter.setBusy(reporter.isBusy());
             return em.merge(oldReporter);
         }catch (Exception e){

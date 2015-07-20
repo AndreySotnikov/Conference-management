@@ -23,6 +23,13 @@ public class Organizer {
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "organizer")
     private transient List<Conference> conferences;
 
+    public Organizer(String login, String name, String email, String phone) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public List<Conference> getConferences() {
         return conferences;
     }

@@ -13,7 +13,15 @@ public class Reporter {
 
     private String name;
     private String email;
+    private String phone;
     private boolean busy;
+
+    public Reporter(String login, String name, String email, String phone) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public Reporter(String login, String name, String email, boolean busy) {
         this.login = login;
@@ -24,6 +32,14 @@ public class Reporter {
 
     public String getLogin() {
         return login;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setLogin(String login) {

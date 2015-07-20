@@ -1,12 +1,16 @@
 package project;
 
-import project.Entity.TestEntity;
+import project.Entity.*;
 import project.Service.ReporterService;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.jboss.resteasy.spi.HttpResponse;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -21,50 +25,67 @@ public class Rest {
     @EJB
     CrudRepository crudRepository;
 
-    @EJB
-    ReporterService service;
-
     @Context
     private HttpServletRequest request;
+
     @Context
-    org.jboss.resteasy.spi.HttpResponse response;
+    private HttpResponse response;
 
-    @GET
-    @Path("test")
-    @Produces("application/json")
-    public TestEntity test(@QueryParam("id") Integer id){
-        System.err.println("Id:" + id);
-        return crudRepository.findOne(TestEntity.class, id);
-    }
-
+    @Path("register")
     @POST
-    @Path("test")
-    public String testPost(MultivaluedMap<String, String> form){
-        System.err.println(request.toString());
-        //String name = request.getParameter("name");`
-        //System.err.println("Name: " + name);
-        //System.err.println("Form: " + form.toString());
-
-        String name = form.getFirst("name");
-        System.err.println("From form: " + name);
-        crudRepository.save(new TestEntity(name));
-        return "OK";
+    public String register(MultivaluedMap<String, String> form){
+        try {
+            String login = form.getFirst("login");
+            String password = form.getFirst("password");
+            String role = form.getFirst("role");
+            String name = form.getFirst("name");
+            String email = form.getFirst("email");
+            String phone = form.getFirst("phone");
+            Users user = new Users(login, password);
+            UserRoles userRoles = new UserRoles(login, role);
+            crudRepository.save(user);
+            crudRepository.save(userRoles);
+            switch (role) {
+                case "organizer":
+                    crudRepository.save(new Organizer(login, name, email, phone));
+                    break;
+                case "moderator":
+                    crudRepository.save(new Moderator(login, name, email, phone));
+                    break;
+                case "reporter":
+                    crudRepository.save(new Reporter(login, name, email, phone));
+                    break;
+                case "roomOwner":
+                    crudRepository.save(new RoomOwner(login, name, email, phone));
+                    break;
+                case "speaker":
+                    crudRepository.save(new Speaker(login, name, email, phone));
+                    break;
+                case "visitor":
+                    crudRepository.save(new Visitor(login, name, email, phone));
+                    break;
+                default:
+                    return "fail";
+            }
+            return "OK";
+        }catch (Exception e){
+            return "fail";
+        }
     }
 
     @GET
-    @Path("all")
-    @Produces("application/json")
-    public List<TestEntity> getAll(){
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        return crudRepository.findAll(TestEntity.class);
-    }
-
-    @GET
-    @Path("echo")
-    public String echo(@QueryParam("q") String original) {
-        return original;
+    @Path("logout")
+    public void logout() throws ServletException {
+        response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");
+        response.getOutputHeaders().putSingle("Pragma", "no-cache");
+        response.getOutputHeaders().putSingle("Expires", new java.util.Date().toString());
+        if(request.getSession(false)!=null){
+            request.getSession(false).invalidate();
+        }
+        if(request.getSession()!=null){
+            request.getSession().invalidate();
+        }
+        request.logout();
     }
 
 }

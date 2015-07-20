@@ -25,6 +25,15 @@ public class Visitor {
     @ManyToMany(mappedBy = "visitors")
     private List<Speech> speeches;
 
+    public Visitor(String login, String name, String email, String phone) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
+
+
     public List<Conference> getConferences() {
         return conferences;
     }
