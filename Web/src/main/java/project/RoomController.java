@@ -60,10 +60,9 @@ public class RoomController {
     public String add(MultivaluedMap<String, String> form) {
         System.err.println(request.toString());
 
-        Integer number = Integer.getInteger(form.getFirst("number"));
-        Integer capacity = Integer.getInteger(form.getFirst("capacity"));
-        RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid"));
-        //TODO probably GENERATOR
+        Integer number = Integer.valueOf(form.getFirst("number"));
+        Integer capacity = Integer.valueOf(form.getFirst("capacity"));
+        RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid")); //TODO set principal
         try {
             service.save(number, new Room(number, capacity, r));
             System.err.println("Room added: " + number);
@@ -76,7 +75,7 @@ public class RoomController {
     @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form) {
-        Integer number = Integer.getInteger(form.getFirst("number"));
+        Integer number = Integer.valueOf(form.getFirst("number"));
         try {
             service.remove(number);
             return "OK";
@@ -91,9 +90,9 @@ public class RoomController {
     public String update(MultivaluedMap<String, String> form) {
         System.err.println(request.toString());
 
-        Integer number = Integer.getInteger(form.getFirst("number"));
-        Integer capacity = Integer.getInteger(form.getFirst("capacity"));
-        Boolean isBusy = Boolean.getBoolean(form.getFirst("isBusy"));
+        Integer number = Integer.valueOf(form.getFirst("number"));
+        Integer capacity = Integer.valueOf(form.getFirst("capacity"));
+        Boolean isBusy = Boolean.valueOf(form.getFirst("isBusy"));
         RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid"));
         try {
             service.update(number, new Room(number, capacity, r, isBusy));

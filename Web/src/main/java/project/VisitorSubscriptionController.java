@@ -25,13 +25,13 @@ public class VisitorSubscriptionController {
     @Context
     private HttpServletRequest request;
     @Context
-    org.jboss.resteasy.spi.HttpResponse response;
+    private org.jboss.resteasy.spi.HttpResponse response;
 
 
     @POST
     @Path("{confId}/")
     public String subscribeToSpeech(@PathParam("confId") Integer conferenceId, MultivaluedMap<String, String> form) {
-        Integer speechId = Integer.getInteger(form.getFirst("speechId"));
+        Integer speechId = Integer.valueOf(form.getFirst("speechId"));
         //TODO Check if conference confId contains speech
         String visitorLogin = request.getUserPrincipal().getName();
         try {
@@ -45,7 +45,7 @@ public class VisitorSubscriptionController {
     @POST
     @Path("{confId}/")
     public String subscribeToConference(@PathParam("confId") Integer conferenceId, MultivaluedMap<String, String> form) {
-        Integer confId = Integer.getInteger(form.getFirst("confId"));
+        Integer confId = Integer.valueOf(form.getFirst("confId"));
         if (!confId.equals(conferenceId)) {
             return "Wrong parameters!";
         } else {
