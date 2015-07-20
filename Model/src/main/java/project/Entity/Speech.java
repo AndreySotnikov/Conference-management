@@ -31,7 +31,7 @@ public class Speech {
 
     private boolean completed;
 
-    @OneToMany(mappedBy="speech")
+    @OneToMany(mappedBy="speech", cascade = CascadeType.REMOVE)
     private transient List<ReporterRequestsSpeech> reporterRequests;
 
 

@@ -15,14 +15,10 @@ public class SpeechService extends CrudImplementation {
     public Speech update (String id, Speech speech){
         try {
             Speech oldSpeech = findOne(Speech.class, id);
-            oldSpeech.setCompleted(speech.isCompleted());
             oldSpeech.setConference(speech.getConference());
-            oldSpeech.setRoomOrder(speech.getRoomOrder());
             oldSpeech.setSpeaker(speech.getSpeaker());
             oldSpeech.setStartDate(speech.getStartDate());
             oldSpeech.setTopic(speech.getTopic());
-            oldSpeech.setText(speech.getText());
-            oldSpeech.setApproved(speech.getApproved());
             return em.merge(oldSpeech);
         } catch (Exception e){
             e.printStackTrace();
@@ -30,7 +26,7 @@ public class SpeechService extends CrudImplementation {
         }
     }
 
-    public List<Speech> findByConference(String conferenceId) {
+    public List<Speech> findByConference(Integer conferenceId) {
         try {
             return em.createQuery("select e from Speech e where e.conference.id = :id")
                     .setParameter("id",conferenceId)
@@ -52,31 +48,39 @@ public class SpeechService extends CrudImplementation {
         }
     }
 
-    public Speech setApproved(String id, boolean approved){
+    public void setApproved(Integer id, boolean approved){
         try {
             Speech oldSpeech  = findOne(Speech.class, id);
             oldSpeech.setApproved(approved);
-            return em.merge(oldSpeech);
+            em.merge(oldSpeech);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public Speech setText(String id, String text){
+    public void setCompleted(Integer id, boolean completed){
+        try {
+            Speech speech = findOne(Speech.class, id);
+            speech.setCompleted(completed);
+            em.merge(speech);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setText(Integer id, String text){
         try {
             Speech oldSpeech = findOne(Speech.class, id);
             oldSpeech.setText(text);
-            return em.merge(oldSpeech);
+            em.merge(oldSpeech);
         } catch (Exception e){
             e.printStackTrace();
-            return null;
         }
     }
 
-    public Speech findOne(String id){
+    public Speech findOne(Integer id){
         return super.findOne(Speech.class, id);
     }
 
-    public void remove(String id) { super.remove(Speech.class, id);}
+    public void remove(Integer id) { super.remove(Speech.class, id);}
 }
