@@ -9,8 +9,7 @@ import project.Service.SpeechService;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
@@ -21,16 +20,16 @@ import java.sql.Date;
 @Path("/speech")
 public class SpeechController {
     @Context
-    public HttpServletRequest request;
+    private HttpServletRequest request;
     @Context
-    public HttpResponse response;
+    private HttpResponse response;
 
     @EJB
-    public SpeechService speechService;
+    private SpeechService speechService;
     @EJB
-    public SpeakerService speakerService;
+    private SpeakerService speakerService;
     @EJB
-    public ConferenceService conferenceService;
+    private ConferenceService conferenceService;
 
     @POST
     @Path("add")
@@ -51,4 +50,18 @@ public class SpeechController {
             return "Error";
         }
     }
+
+    @GET
+    @Path("info")
+    @Produces("application/json")
+    public Speech getInfo(@QueryParam("id") String id){
+        try {
+            return speechService.findOne(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

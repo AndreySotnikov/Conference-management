@@ -17,11 +17,11 @@ import javax.ws.rs.core.MultivaluedMap;
 @Path("Visitor")
 public class VisitorController {
     @Context
-    public HttpServletRequest request;
+    private HttpServletRequest request;
     @Context
-    public HttpResponse response;
+    private HttpResponse response;
     @EJB
-    public VisitorService visitorService;
+    private VisitorService visitorService;
 
     @GET
     @Path("info")
