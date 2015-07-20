@@ -71,10 +71,18 @@ public class ReporterSpeechService extends CrudImplementation {
         return findReporters(speechId, false);
     }
 
-    public void registerReporterOnSpeech(String reporterId, Integer speechId){
+    public boolean registerReporterOnSpeech(String reporterId, Integer speechId){
+        Query query = em.createQuery("SELECT e FROM ReporterRequestsSpeech e WHERE "+
+                "e.speech.id=:speechId AND e.reporter.login=:reporterId");
+        query.setParameter("speechId", speechId);
+        query.setParameter("reporterId", reporterId);
+        ReporterRequestsSpeech reporterRequestsSpeech = (ReporterRequestsSpeech) query.getSingleResult();
+        if (reporterRequestsSpeech!=null)
+            return false;
         Reporter reporter = findOne(Reporter.class, reporterId);
         Speech speech = findOne(Speech.class, speechId);
         super.save(new ReporterRequestsSpeech(reporter, speech, false));
+        return true;
     }
 
     public boolean approveReporterOnSpeech(String reporterId, Integer speechId){

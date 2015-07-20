@@ -84,8 +84,8 @@ public class ModeratorSpeechController {
     @Path("rmos")
     public String registerModeratorOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("moderatorId") String moderatorId){
-        service.registerModeratorOnSpeech(moderatorId, speechId);
-        return "ok";
+        String res = (service.registerModeratorOnSpeech(moderatorId, speechId)?"OK":"NOT OK");
+        return res;
     }
 
     @GET
