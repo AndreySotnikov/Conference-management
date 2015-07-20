@@ -15,7 +15,24 @@ public class Room {
         this.roomOwner = roomOwner;
     }
 
+    public Room(Integer number, Integer capacity, RoomOwner roomOwner) {
+        this.number = number;
+        this.capacity = capacity;
+        this.roomOwner = roomOwner;
+        this.isBusy = false;
+    }
+
+
+    public Room(Integer number, Integer capacity, RoomOwner roomOwner, Boolean isBusy) {
+        this.number = number;
+        this.capacity = capacity;
+        this.roomOwner = roomOwner;
+        this.isBusy = isBusy;
+    }
+
+
     @Id
+    @Column(unique = true)
     private Integer number;
 
     private Integer capacity;

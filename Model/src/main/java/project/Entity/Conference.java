@@ -21,6 +21,17 @@ public class Conference {
     @ManyToOne
     private Organizator organizator;
 
+    @ManyToMany
+    private List<Visitor> visitors;
+
+    public List<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<Visitor> visitors) {
+        this.visitors = visitors;
+    }
+
     @OneToMany(mappedBy = "conference")
     private List<Speech> speeches;
 
