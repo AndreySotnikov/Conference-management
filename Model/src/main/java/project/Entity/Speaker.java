@@ -15,8 +15,8 @@ public class Speaker {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "speaker")
-    private List<Speech> speeches;
+    @OneToMany(mappedBy = "speaker",  cascade = CascadeType.REMOVE)
+    private transient List<Speech> speeches;
 
     public Speaker(String login, String name, String email, String phone) {
         this.login = login;

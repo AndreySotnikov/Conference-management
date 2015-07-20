@@ -3,6 +3,7 @@ package project;
 import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Room;
 import project.Entity.RoomOwner;
+import project.Service.RoomOwnerService;
 import project.Service.RoomService;
 
 import javax.ejb.EJB;
@@ -24,8 +25,8 @@ public class RoomController {
     @EJB
     private RoomService service;
 
-//TODO    //@EJB
-    //private RoomOwnerService roomOwnerService;
+    @EJB
+    private RoomOwnerService roomOwnerService;
 
     @Context
     private HttpServletRequest request;
@@ -61,7 +62,7 @@ public class RoomController {
 
         Integer number = Integer.getInteger(form.getFirst("number"));
         Integer capacity = Integer.getInteger(form.getFirst("capacity"));
-        RoomOwner r = null;//TODO = roomOwnerService.findOne(form.getFirst("roomownerid");
+        RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid"));
         //TODO probably GENERATOR
         try {
             service.save(number, new Room(number, capacity, r));
@@ -93,7 +94,7 @@ public class RoomController {
         Integer number = Integer.getInteger(form.getFirst("number"));
         Integer capacity = Integer.getInteger(form.getFirst("capacity"));
         Boolean isBusy = Boolean.getBoolean(form.getFirst("isBusy"));
-        RoomOwner r = null;//TODO = roomOwnerService.findOne(form.getFirst("roomownerid");
+        RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid"));
         try {
             service.update(number, new Room(number, capacity, r, isBusy));
             System.err.println("Room updated: " + number);

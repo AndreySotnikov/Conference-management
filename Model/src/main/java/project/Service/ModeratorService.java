@@ -9,10 +9,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
-/**
- * Created by nikitayakuntsev on 19.07.15.
- */
-
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)

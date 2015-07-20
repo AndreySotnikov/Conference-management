@@ -3,6 +3,7 @@ package project;
 import project.Entity.Moderator;
 import project.Entity.Room;
 import project.Service.ModeratorService;
+import project.Service.QuestionService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,8 +25,8 @@ public class ModerationController {
     @EJB
     private ModeratorService service;
 
-    //TODO @EJB
-    //private QuestionService questionService;
+    @EJB
+    private QuestionService questionService;
 
     @Context
     private HttpServletRequest request;
@@ -51,7 +52,7 @@ public class ModerationController {
         Integer questionId = Integer.getInteger(form.getFirst("question"));
         System.err.println("questionid = " + questionId);
         try {
-            //TODO questionService.moderate(questionId);
+            questionService.moderate(questionId);
             return "OK";
         }
         catch (Exception e) {

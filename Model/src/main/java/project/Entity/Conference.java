@@ -4,9 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
-/**
- * Created by nikitayakuntsev on 14.07.15.
- */
+
 @Entity
 public class Conference {
     @Id
@@ -33,8 +31,8 @@ public class Conference {
         this.visitors = visitors;
     }
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "conference")
-    private List<Speech> speeches;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "conference", cascade = CascadeType.REMOVE)
+    private transient List<Speech> speeches;
 
     public Integer getId() {
         return id;

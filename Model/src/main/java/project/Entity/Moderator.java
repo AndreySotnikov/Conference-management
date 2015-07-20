@@ -12,6 +12,9 @@ public class Moderator {
     private String email;
     private String phone;
 
+    @OneToMany(mappedBy = "moderator",  cascade = CascadeType.REMOVE)
+    private transient ModeratorRequestsSpeech moderatorRequestsSpeech;
+
     public String getLogin() {
         return login;
     }
@@ -42,6 +45,14 @@ public class Moderator {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public ModeratorRequestsSpeech getModeratorRequestsSpeech() {
+        return moderatorRequestsSpeech;
+    }
+
+    public void setModeratorRequestsSpeech(ModeratorRequestsSpeech moderatorRequestsSpeech) {
+        this.moderatorRequestsSpeech = moderatorRequestsSpeech;
     }
 
     public Moderator(String login, String name, String email, String phone) {

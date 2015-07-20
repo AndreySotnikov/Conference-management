@@ -1,4 +1,5 @@
 package project.Entity;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -19,11 +20,11 @@ public class Visitor {
 
     @ManyToMany
     private List<Question> questions;
-    @ManyToMany(mappedBy = "visitors")
-    private List<Conference> conferences;
+    @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)
+    private transient List<Conference> conferences;
 
-    @ManyToMany(mappedBy = "visitors")
-    private List<Speech> speeches;
+    @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)
+    private transient List<Speech> speeches;
 
     public Visitor(String login, String name, String email, String phone) {
         this.login = login;

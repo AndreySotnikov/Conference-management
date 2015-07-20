@@ -1,9 +1,5 @@
 package project;
 
-
-import project.Util.CrudImplementation;
-
-
 /**
  * Created by andrey on 13.07.15.
  */

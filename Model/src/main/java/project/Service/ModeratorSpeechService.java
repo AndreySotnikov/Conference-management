@@ -9,9 +9,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import java.util.List;
 
-/**
- * Created by Green-L on 18.07.2015.
- */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ModeratorSpeechService extends CrudImplementation {

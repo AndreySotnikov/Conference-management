@@ -7,6 +7,21 @@ import java.util.List;
 
 @Entity
 public class Room {
+
+    @Id
+    private Integer number;
+
+    private Integer capacity;
+    private boolean isBusy;
+
+    @OneToMany(mappedBy = "room",  cascade = CascadeType.REMOVE)
+    private transient List<RoomOrder> orders;
+
+    @ManyToOne
+    private RoomOwner roomOwner;
+
+
+
     public RoomOwner getRoomOwner() {
         return roomOwner;
     }
@@ -22,8 +37,7 @@ public class Room {
         this.isBusy = false;
     }
 
-
-    public Room(Integer number, Integer capacity, RoomOwner roomOwner, Boolean isBusy) {
+    public Room(Integer number, Integer capacity, RoomOwner roomOwner, boolean isBusy) {
         this.number = number;
         this.capacity = capacity;
         this.roomOwner = roomOwner;
@@ -31,18 +45,6 @@ public class Room {
     }
 
 
-    @Id
-    @Column(unique = true)
-    private Integer number;
-
-    private Integer capacity;
-    private Boolean isBusy;
-
-    @OneToMany(mappedBy = "room")
-    private List<RoomOrder> orders;
-
-    @ManyToOne
-    private RoomOwner roomOwner;
 
     public Integer getNumber() {
         return number;
@@ -60,11 +62,11 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public Boolean getIsBusy() {
+    public boolean getIsBusy() {
         return isBusy;
     }
 
-    public void setIsBusy(Boolean isBusy) {
+    public void setIsBusy(boolean isBusy) {
         this.isBusy = isBusy;
     }
 

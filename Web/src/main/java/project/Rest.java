@@ -10,18 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.jboss.resteasy.spi.HttpResponse;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.List;
 
-/**
- * Created by andrey on 13.07.15.
- */
+
 @Path("/")
 @Stateless
 public class Rest {
+
     @EJB
     CrudRepository crudRepository;
 
