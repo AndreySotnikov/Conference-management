@@ -8,9 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
-/**
- * Created by nikita on 19.07.15.
- */
+
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SpeakerService extends CrudImplementation {

@@ -10,9 +10,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.Date;
 
-/**
- * Created by nikita on 19.07.15.
- */
+
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RoomOrderService extends CrudImplementation {

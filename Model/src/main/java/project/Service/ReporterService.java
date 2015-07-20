@@ -8,9 +8,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
-/**
- * Created by Green-L on 18.07.2015.
- */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ReporterService extends CrudImplementation{

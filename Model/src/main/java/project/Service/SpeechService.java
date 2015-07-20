@@ -1,6 +1,5 @@
 package project.Service;
 
-import project.Entity.Conference;
 import project.Entity.Speech;
 import project.Util.CrudImplementation;
 
@@ -9,16 +8,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
-/**
- * Created by nikita on 19.07.15.
- */
+
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SpeechService extends CrudImplementation {
     public Speech update (String id, Speech speech){
         try {
             Speech oldSpeech = findOne(Speech.class, id);
-            oldSpeech.setCompleted(speech.getCompleted());
+            oldSpeech.setCompleted(speech.isCompleted());
             oldSpeech.setConference(speech.getConference());
             oldSpeech.setReporter(speech.getReporter());
             oldSpeech.setRoomOrder(speech.getRoomOrder());

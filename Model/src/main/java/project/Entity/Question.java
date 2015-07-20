@@ -19,8 +19,8 @@ public class Question {
     private Boolean answered;
     @ManyToOne
     private Speech speech;
-    @ManyToMany(mappedBy = "questions")
-    private List<Visitor> visitorsUpVoteQuestion;
+    @ManyToMany(mappedBy = "questions",  cascade = CascadeType.REMOVE)
+    private transient List<Visitor> visitorsUpVoteQuestion;
 
     public Question() {
     }

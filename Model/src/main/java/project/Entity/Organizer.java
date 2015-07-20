@@ -1,9 +1,6 @@
 package project.Entity;
 import javax.annotation.PostConstruct;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class Organizer {
     private String email;
     private String phone;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "organizer")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "organizer",  cascade = CascadeType.REMOVE)
     private transient List<Conference> conferences;
 
     public List<Conference> getConferences() {

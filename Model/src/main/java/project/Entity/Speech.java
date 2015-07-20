@@ -18,7 +18,7 @@ public class Speech {
 
     private String text;
 
-    private Boolean approved;
+    private boolean approved;
 
     @ManyToOne
     private Speaker speaker;
@@ -29,16 +29,19 @@ public class Speech {
     @ManyToOne
     private Conference conference;
 
-    private Boolean completed;
+    private boolean completed;
 
     @ManyToOne
     private Reporter reporter;
 
 
-    @OneToMany(mappedBy = "speech")
-    private List<Question> questions;
+    @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
+    private transient List<Question> questions;
     @ManyToMany
     private List<Visitor> visitors;
+
+    @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
+    private transient ModeratorRequestsSpeech moderatorRequestsSpeech;
 
     @Override
     public String toString() {
@@ -49,7 +52,6 @@ public class Speech {
                 ", speaker=" + speaker +
                 ", room=" + roomOrder.getRoom() +
                 ", conference=" + conference +
-                ", completed=" + completed +
                 ", reporter=" + reporter +
                 '}';
     }
@@ -80,6 +82,42 @@ public class Speech {
     }
 
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<Visitor> visitors) {
+        this.visitors = visitors;
+    }
+
+    public ModeratorRequestsSpeech getModeratorRequestsSpeech() {
+        return moderatorRequestsSpeech;
+    }
+
+    public void setModeratorRequestsSpeech(ModeratorRequestsSpeech moderatorRequestsSpeech) {
+        this.moderatorRequestsSpeech = moderatorRequestsSpeech;
+    }
+
     public String getText() {
         return text;
     }
@@ -88,11 +126,11 @@ public class Speech {
         this.text = text;
     }
 
-    public Boolean getApproved() {
+    public boolean getApproved() {
         return approved;
     }
 
-    public void setApproved(Boolean approved) {
+    public void setApproved(boolean approved) {
         this.approved = approved;
     }
     public Date getStartDate() {
@@ -139,13 +177,6 @@ public class Speech {
         this.conference = conference;
     }
 
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
 
     public Reporter getReporter() {
         return reporter;
