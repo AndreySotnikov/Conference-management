@@ -1,7 +1,6 @@
 package project;
 
 
-import project.Entity.TestEntity;
 import project.Util.CrudImplementation;
 
 
@@ -11,8 +10,6 @@ import project.Util.CrudImplementation;
 
 public class Launcher {
     public static void main(String[] args) {
-        CrudImplementation crudImplementation = new CrudImplementation();
-        crudImplementation.save(new TestEntity("test"));
 
     }
 }
