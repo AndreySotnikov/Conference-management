@@ -9,6 +9,7 @@ import java.util.List;
 public class Room {
 
     @Id
+    @Column(unique = true,nullable = false)
     private Integer number;
 
     private Integer capacity;

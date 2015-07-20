@@ -60,8 +60,8 @@ public class RoomController {
     public String add(MultivaluedMap<String, String> form) {
         System.err.println(request.toString());
 
-        Integer number = Integer.getInteger(form.getFirst("number"));
-        Integer capacity = Integer.getInteger(form.getFirst("capacity"));
+        Integer number = Integer.valueOf(form.getFirst("number"));
+        Integer capacity = Integer.valueOf(form.getFirst("capacity"));
         RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid"));
         //TODO probably GENERATOR
         try {
