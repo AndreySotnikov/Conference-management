@@ -3,11 +3,16 @@ package project.Service;
 import project.Entity.Speaker;
 import project.Util.CrudImplementation;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import java.util.List;
 
 /**
  * Created by nikita on 19.07.15.
  */
+@Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SpeakerService extends CrudImplementation {
     public Speaker update (String id, Speaker speaker){
         try {

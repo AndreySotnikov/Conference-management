@@ -22,7 +22,7 @@ public class RoomService extends CrudImplementation {
             oldRoom.setCapacity(room.getCapacity());
             oldRoom.setIsBusy(room.getIsBusy());
             oldRoom.setRoomOwner(room.getRoomOwner());
-            oldRoom.setSpeeches(room.getSpeeches());
+            oldRoom.setOrders(room.getOrders());
             return em.merge(oldRoom);
         } catch (Exception e) {
             e.printStackTrace();

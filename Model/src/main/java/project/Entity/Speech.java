@@ -16,11 +16,15 @@ public class Speech {
     private Date startDate;
     private String topic;
 
+    private String text;
+
+    private Boolean approved;
+
     @ManyToOne
     private Speaker speaker;
 
-    @ManyToOne
-    private Room room;
+    @OneToOne
+    private RoomOrder roomOrder;
 
     @ManyToOne
     private Conference conference;
@@ -30,10 +34,42 @@ public class Speech {
     @ManyToOne
     private Reporter reporter;
 
+
     @OneToMany(mappedBy = "speech")
     private List<Question> questions;
     @ManyToMany
     private List<Visitor> visitors;
+
+    @Override
+    public String toString() {
+        return "Speech{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", topic='" + topic + '\'' +
+                ", speaker=" + speaker +
+                ", room=" + roomOrder.getRoom() +
+                ", conference=" + conference +
+                ", completed=" + completed +
+                ", reporter=" + reporter +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Speech speech = (Speech) o;
+
+        return !(id != null ? !id.equals(speech.id) : speech.id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
 
     public Integer getId() {
         return id;
@@ -43,6 +79,22 @@ public class Speech {
         this.id = id;
     }
 
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
     public Date getStartDate() {
         return startDate;
     }
@@ -68,11 +120,15 @@ public class Speech {
     }
 
     public Room getRoom() {
-        return room;
+        return roomOrder.getRoom();
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public RoomOrder getRoomOrder() {
+        return roomOrder;
+    }
+
+    public void setRoomOrder(RoomOrder roomOrder) {
+        this.roomOrder = roomOrder;
     }
 
     public Conference getConference() {
