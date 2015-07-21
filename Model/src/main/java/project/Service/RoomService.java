@@ -18,7 +18,7 @@ public class RoomService extends CrudImplementation {
         try {
             Room oldRoom = em.find(Room.class, id);
             oldRoom.setCapacity(room.getCapacity());
-            oldRoom.setIsBusy(room.getIsBusy());
+            oldRoom.setBusy(room.isBusy());
             oldRoom.setRoomOwner(room.getRoomOwner());
             oldRoom.setOrders(room.getOrders());
             return em.merge(oldRoom);
@@ -51,8 +51,7 @@ public class RoomService extends CrudImplementation {
 
     public List<Room> findEmptyRooms() {
         try {
-            String tableName = "Room";
-            return em.createQuery("SELECT e FROM Room e WHERE not e.isBusy").getResultList();
+            return em.createQuery("SELECT e FROM Room e WHERE not e.busy").getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

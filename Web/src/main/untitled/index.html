@@ -15,11 +15,16 @@
     <title></title>
 </head>
 <body>
-
+    <div class="menuoverlay">
+        <div class="leftmenu">
+            <div id="close">Close</div>
+        </div>
+        <div class="shade"></div>
+    </div>
     <div class="container-fluid">
         <div class="row orange">
             <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
-                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" id="menu-button"></span><!--Left Menu -->
+                <span id="menu-button" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span><!--Left Menu -->
             </div>
             <div class="col-xs-11 nomargin nopadding logocontainer">
 
@@ -32,7 +37,6 @@
             </div>
         </div>
     </div>
-    <div class="container"></div>
     <script>
         function setEqualHeight(columns)
         {
@@ -52,6 +56,21 @@
         $(document).ready(function() {
             setEqualHeight($(".mainspace > .column"));
         });
+        $(document).on('click','#menu-button',function(){
+            $(".menuoverlay").show();
+            $(".leftmenu").animate({width: 'toggle'});
+            $(".shade").show();
+        });
+        var closeFunc = function() {
+            $(".leftmenu").animate({width: 'toggle'}, 500, "swing", function () {
+                $(".shade").hide();
+                $(".menuoverlay").hide();
+            });
+        }
+        $(document).on('click','.shade', closeFunc);
+        $(document).on('click','#close',closeFunc);
+
+
     </script>
 </body>
 </html>

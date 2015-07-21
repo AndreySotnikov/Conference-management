@@ -140,6 +140,10 @@ html {
     z-index: 2;
 }
 
+/*.form-login {*/
+    /*z-index: 5;*/
+/*}*/
+
 .form-signup {
     -webkit-transform: rotateY(180deg);
 }

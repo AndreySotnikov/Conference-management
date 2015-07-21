@@ -13,7 +13,7 @@ public class Room {
     private Integer number;
 
     private Integer capacity;
-    private boolean isBusy;
+    private boolean busy;
 
     @OneToMany(mappedBy = "room",  cascade = CascadeType.REMOVE)
     private transient List<RoomOrder> orders;
@@ -33,14 +33,14 @@ public class Room {
         this.number = number;
         this.capacity = capacity;
         this.roomOwner = roomOwner;
-        this.isBusy = false;
+        this.busy = false;
     }
 
-    public Room(Integer number, Integer capacity, RoomOwner roomOwner, boolean isBusy) {
+    public Room(Integer number, Integer capacity, RoomOwner roomOwner, boolean busy) {
         this.number = number;
         this.capacity = capacity;
         this.roomOwner = roomOwner;
-        this.isBusy = isBusy;
+        this.busy = busy;
     }
 
 
@@ -61,12 +61,12 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public boolean getIsBusy() {
-        return isBusy;
+    public boolean isBusy() {
+        return busy;
     }
 
-    public void setIsBusy(boolean isBusy) {
-        this.isBusy = isBusy;
+    public void setBusy(boolean busy) {
+        this.busy = busy;
     }
 
     public void setOrders(List<RoomOrder> orders) {
@@ -87,7 +87,7 @@ public class Room {
         return "Room{" +
                 "number=" + number +
                 ", capacity=" + capacity +
-                ", isBusy=" + isBusy +
+                ", isBusy=" + busy +
                 ", speeches=" + orders +
                 ", roomOwner=" + roomOwner +
                 '}';
