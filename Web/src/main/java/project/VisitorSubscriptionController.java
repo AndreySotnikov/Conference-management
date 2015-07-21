@@ -28,18 +28,20 @@ public class VisitorSubscriptionController {
     private org.jboss.resteasy.spi.HttpResponse response;
 
 
-    //TODO METHODS
     @POST
-    @Path("{confId}/")
-    public String subscribeToSpeech(@PathParam("confId") Integer conferenceId, MultivaluedMap<String, String> form) {
+    @Path("{confId}/{speechId}")
+    public String subscribeToSpeech(@PathParam("confId") Integer conferenceId, @PathParam("speechId") Integer spId, MultivaluedMap<String, String> form) {
         Integer speechId = Integer.valueOf(form.getFirst("speechId"));
-        //TODO Check if conference confId contains speech
-        String visitorLogin = request.getUserPrincipal().getName();
-        try {
-            return service.registerToSpeech(visitorLogin, speechId) ? "OK" : "NOT OK";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "NOT OK";
+        if (!spId.equals(speechId))
+            return "Wrong parameters!";
+        else {
+            String visitorLogin = request.getUserPrincipal().getName();
+            try {
+                return service.registerToSpeech(visitorLogin, speechId) ? "OK" : "NOT OK";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "NOT OK";
+            }
         }
     }
 

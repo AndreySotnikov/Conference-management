@@ -36,8 +36,8 @@ public class SpeechController {
         try {
             Speech speech = new Speech();
             speech.setTopic(form.getFirst("topic"));
-            //TODO Principal
-            speech.setSpeaker(speakerService.findOne(form.getFirst("speaker")));
+
+            speech.setSpeaker(speakerService.findOne(request.getUserPrincipal().getName()));
             speech.setText("");
             speech.setApproved(false);
             speech.setCompleted(false);

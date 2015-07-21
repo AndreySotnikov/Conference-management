@@ -31,7 +31,7 @@ public class RoomController {
     @Context
     private HttpServletRequest request;
     @Context
-    HttpResponse response;
+    private HttpResponse response;
 
 
     @GET
@@ -62,7 +62,7 @@ public class RoomController {
 
         Integer number = Integer.valueOf(form.getFirst("number"));
         Integer capacity = Integer.valueOf(form.getFirst("capacity"));
-        RoomOwner r = roomOwnerService.findOne(form.getFirst("roomownerid")); //TODO set principal
+        RoomOwner r = roomOwnerService.findOne(request.getUserPrincipal().getName());
 
         try {
             service.save(number, new Room(number, capacity, r));
