@@ -84,10 +84,11 @@ public class ModeratorSpeechService extends CrudImplementation {
                 "e.speech.id=:speechId AND e.moderator.login=:moderatorId");
         query.setParameter("speechId", speechId);
         query.setParameter("moderatorId", moderatorId);
-        ModeratorRequestsSpeech moderatorRequestsSpeech = (ModeratorRequestsSpeech) query.getSingleResult();
-        if (moderatorRequestsSpeech==null)
+        List<ModeratorRequestsSpeech> queryList = query.getResultList();
+        if (queryList.size() != 1){
             return false;
-        update(moderatorRequestsSpeech.getId(), true);
+        }
+        update(queryList.get(0).getId(), true);
         return true;
     }
 

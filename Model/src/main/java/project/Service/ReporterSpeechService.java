@@ -87,10 +87,11 @@ public class ReporterSpeechService extends CrudImplementation {
                 "e.speech.id=:speechId AND e.reporter.login=:reporterId");
         query.setParameter("speechId", speechId);
         query.setParameter("reporterId", reporterId);
-        ReporterRequestsSpeech reporterRequestsSpeech = (ReporterRequestsSpeech) query.getSingleResult();
-        if (reporterRequestsSpeech==null)
+        List<ReporterRequestsSpeech> queryList = query.getResultList();
+        if (queryList.size() != 1){
             return false;
-        update(reporterRequestsSpeech.getId(), true);
+        }
+        update(queryList.get(0).getId(), true);
         return true;
     }
 
