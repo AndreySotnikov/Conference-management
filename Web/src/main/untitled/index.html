@@ -2,10 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="style.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title></title>
 </head>
 <body>
-    <div class="head"></div>
+
+    <div class="container-fluid">
+        <div class="row orange">
+            <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
+                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" id="menu-button"></span><!--Left Menu -->
+            </div>
+            <div class="col-xs-11 nomargin nopadding logocontainer">
+
+            </div>
+        </div>
+        <div class="row mainspace">
+                <div class="col-xs-2 back column"></div>
+                <div class="col-xs-8 nopadding column"><!--Main Content --></div>
+                <div class="col-xs-2 back column"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container"></div>
+    <script>
+        function setEqualHeight(columns)
+        {
+            var tallestcolumn = 0;
+            columns.each(
+                    function()
+                    {
+                        currentHeight = $(this).height();
+                        if(currentHeight > tallestcolumn)
+                        {
+                            tallestcolumn = currentHeight;
+                        }
+                    }
+            );
+            columns.height(tallestcolumn);
+        }
+        $(document).ready(function() {
+            setEqualHeight($(".mainspace > .column"));
+        });
+    </script>
 </body>
 </html>
