@@ -125,7 +125,9 @@ html {
 .flip {
     position: relative;
     -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
     -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
 }
 
 .form-login,
@@ -134,22 +136,28 @@ html {
     top: 0;
     left: 0;
     -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
 }
 
-.form-login {
+.form-signup {
     z-index: 2;
 }
 
-/*.form-login {*/
-    /*z-index: 5;*/
+/*.form-signup{*/
+    /*z-index: -2;*/
 /*}*/
+.form-login {
+    z-index: 1;
+}
 
 .form-signup {
     -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
 }
 
 .flip.flipped {
     -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
 }
 
 #login input.login-err,
@@ -183,6 +191,17 @@ html {
 }
 
 @-webkit-keyframes slideOut {
+    0% {
+        top: -30px;
+        opacity: 0;
+    }
+    100% {
+        top: 0px;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes slideOut {
     0% {
         top: -30px;
         opacity: 0;
