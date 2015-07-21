@@ -31,7 +31,7 @@ public class ModerationController {
     @Context
     private HttpServletRequest request;
     @Context
-    org.jboss.resteasy.spi.HttpResponse response;
+    private org.jboss.resteasy.spi.HttpResponse response;
 
     @GET
     @Path("moderators")
