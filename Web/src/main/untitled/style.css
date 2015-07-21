@@ -5,8 +5,7 @@ head, body {
 
 .orange {
     background-color: orange;
-    height:2.5ex; /* TODO: Adaptive width */
-
+    height:2.5em;
 }
 
 .orange div {
@@ -18,11 +17,11 @@ head, body {
 }
 
 .logocontainer {
-    height:2.5ex;
+    height:2.5em;
 }
 
 .menubuttoncontainer {
-    height:2.5ex;
+    height:2.5em;
 }
 
 .nopadding {
@@ -46,7 +45,9 @@ head, body {
     margin-top:5px;
     margin-bottom:10px;
 }
-
+.input-settings {
+    margin-top: 5px;
+}
 .menuoverlay {
     position:absolute;
     width:100%;
