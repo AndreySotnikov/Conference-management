@@ -37,7 +37,7 @@ public class VisitorSubscriptionController {
         else {
             String visitorLogin = request.getUserPrincipal().getName();
             try {
-                return service.registerToSpeech(visitorLogin, speechId) ? "OK" : "NOT OK";
+                return service.registerToSpeech(visitorLogin, speechId, conferenceId) ? "OK" : "NOT OK";
             } catch (Exception e) {
                 e.printStackTrace();
                 return "NOT OK";
