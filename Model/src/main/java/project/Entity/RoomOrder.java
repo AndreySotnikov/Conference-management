@@ -15,6 +15,9 @@ public class RoomOrder {
         this.dateTo = dateTo;
     }
 
+    public RoomOrder() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -38,6 +41,10 @@ public class RoomOrder {
         if (dateFrom != null ? !dateFrom.equals(roomOrder.dateFrom) : roomOrder.dateFrom != null) return false;
         return !(dateTo != null ? !dateTo.equals(roomOrder.dateTo) : roomOrder.dateTo != null);
 
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

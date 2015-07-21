@@ -21,8 +21,8 @@ public class RoomOrderService extends CrudImplementation {
             RoomOrder oldRoomOrder = findOne(RoomOrder.class, id);
             oldRoomOrder.setRoom(roomOrder.getRoom());
             oldRoomOrder.setSpeech(roomOrder.getSpeech());
-            oldRoomOrder.setDateFrom(oldRoomOrder.getDateFrom());
-            oldRoomOrder.setDateTo(oldRoomOrder.getDateTo());
+            oldRoomOrder.setDateFrom(roomOrder.getDateFrom());
+            oldRoomOrder.setDateTo(roomOrder.getDateTo());
             return em.merge(oldRoomOrder);
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class RoomOrderService extends CrudImplementation {
         super.remove(RoomOrder.class, id);
     }
 
-    public RoomOrder add(Integer speechId, Integer roomId, Date dateFrom, Date dateTo){
+    public boolean add(Integer speechId, Integer roomId, Date dateFrom, Date dateTo){
         try {
             List<RoomOrder> roomOrders = em.createQuery("select e from RoomOrder e where e.speech.id = :speechId and e.room.number = :roomId")
                     .setParameter("speechId",speechId)
@@ -50,16 +50,16 @@ public class RoomOrderService extends CrudImplementation {
                     .getResultList();
             for (RoomOrder elem: roomOrders){
                 if (dateTo.compareTo(elem.getDateFrom())>=0 && dateFrom.compareTo(elem.getDateTo())<=0 )
-                    return null;
+                    return false;
             }
             Speech speech = findOne(Speech.class, speechId);
             Room room = findOne(Room.class, roomId);
             RoomOrder roomOrder = new RoomOrder(room,speech,dateFrom,dateTo);
             em.persist(roomOrder);
-            return roomOrder;
+            return true;
         } catch (Exception e){
             e.printStackTrace();
-            return null;
+            return false;
         }
     }
 }

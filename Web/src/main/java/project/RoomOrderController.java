@@ -65,7 +65,7 @@ public class RoomOrderController {
         Integer roomId = Integer.valueOf(form.getFirst("roomId"));
         Date dateFrom = Date.valueOf(form.getFirst("dateFrom"));
         Date dateTo = Date.valueOf(form.getFirst("dateTo"));
-        String res = (service.add(speechId, roomId, dateFrom, dateTo)!=null?"OK":"NOT OK");
+        String res = (service.add(speechId, roomId, dateFrom, dateTo)?"OK":"NOT OK");
         return res;
     }
 

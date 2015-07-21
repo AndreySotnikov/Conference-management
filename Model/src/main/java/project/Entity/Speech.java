@@ -37,40 +37,14 @@ public class Speech {
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
     private transient List<Question> questions;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Visitor> visitors;
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
     private transient List<ModeratorRequestsSpeech> moderatorRequestsSpeech;
 
-    @Override
-    public String toString() {
-        return "Speech{" +
-                "id=" + id +
-                ", startDate=" + startDate +
-                ", topic='" + topic + '\'' +
-                ", speaker=" + speaker +
-                ", room=" + roomOrder.getRoom() +
-                ", conference=" + conference +
-                '}';
+    public Speech() {
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Speech speech = (Speech) o;
-
-        return !(id != null ? !id.equals(speech.id) : speech.id != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
 
     public Integer getId() {
         return id;
@@ -80,66 +54,6 @@ public class Speech {
         this.id = id;
     }
 
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
-    public List<Visitor> getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(List<Visitor> visitors) {
-        this.visitors = visitors;
-    }
-
-    public List<ReporterRequestsSpeech> getReporterRequests() {
-        return reporterRequests;
-    }
-
-    public void setReporterRequests(List<ReporterRequestsSpeech> reporterRequests) {
-        this.reporterRequests = reporterRequests;
-    }
-
-    public List<ModeratorRequestsSpeech> getModeratorRequestsSpeech() {
-        return moderatorRequestsSpeech;
-    }
-
-    public void setModeratorRequestsSpeech(List<ModeratorRequestsSpeech> moderatorRequestsSpeech) {
-        this.moderatorRequestsSpeech = moderatorRequestsSpeech;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean getApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
     public Date getStartDate() {
         return startDate;
     }
@@ -156,16 +70,28 @@ public class Speech {
         this.topic = topic;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
     public Speaker getSpeaker() {
         return speaker;
     }
 
     public void setSpeaker(Speaker speaker) {
         this.speaker = speaker;
-    }
-
-    public Room getRoom() {
-        return roomOrder.getRoom();
     }
 
     public RoomOrder getRoomOrder() {
@@ -184,7 +110,43 @@ public class Speech {
         this.conference = conference;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
 
-    public Speech() {
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public List<ReporterRequestsSpeech> getReporterRequests() {
+        return reporterRequests;
+    }
+
+    public void setReporterRequests(List<ReporterRequestsSpeech> reporterRequests) {
+        this.reporterRequests = reporterRequests;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<Visitor> visitors) {
+        this.visitors = visitors;
+    }
+
+    public List<ModeratorRequestsSpeech> getModeratorRequestsSpeech() {
+        return moderatorRequestsSpeech;
+    }
+
+    public void setModeratorRequestsSpeech(List<ModeratorRequestsSpeech> moderatorRequestsSpeech) {
+        this.moderatorRequestsSpeech = moderatorRequestsSpeech;
     }
 }
