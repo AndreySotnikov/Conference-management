@@ -39,20 +39,19 @@ public class VisitorService extends CrudImplementation {
     public void remove(String id) { super.remove(Visitor.class, id);}
 
     public Boolean registerToSpeech(String visitorId, Integer speechId, Integer conferenceId) {
-        Visitor me = findOne(visitorId);
-        Speech sp = findOne(Speech.class, speechId);
+        Visitor visitor = findOne(visitorId);
+        Speech speech = findOne(Speech.class, speechId);
 
-        if (!sp.getConference().getId().equals(conferenceId))
+        if (!speech.getConference().getId().equals(conferenceId))
             return false;
         else {
-
-            List<Speech> speeches = me.getSpeeches();
-            if (speeches.contains(sp))
+            List<Visitor> visitors = speech.getVisitors();
+            if (visitors.contains(visitor))
                 return false;
             else {
                 try {
-                    speeches.add(sp);
-                    em.merge(me);
+                    visitors.add(visitor);
+                    em.merge(speech);
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -61,17 +60,18 @@ public class VisitorService extends CrudImplementation {
             }
         }
     }
+    
 
     public Boolean registerToConference(String visitorId, Integer conferenceId) {
-        Visitor me = findOne(visitorId);
-        Conference conf = findOne(Conference.class, conferenceId);
-        List<Conference> conferences = me.getConferences();
-        if (conferences.contains(conf))
+        Visitor visitor = findOne(visitorId);
+        Conference conference = findOne(Conference.class, conferenceId);
+        List<Visitor> visitors = conference.getVisitors();
+        if (visitors.contains(visitor))
             return false;
         else {
             try {
-                conferences.add(conf);
-                em.merge(me);
+                visitors.add(visitor);
+                em.merge(conference);
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

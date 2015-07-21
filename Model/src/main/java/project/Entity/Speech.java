@@ -41,7 +41,7 @@ public class Speech {
     private List<Visitor> visitors;
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
-    private transient ModeratorRequestsSpeech moderatorRequestsSpeech;
+    private transient List<ModeratorRequestsSpeech> moderatorRequestsSpeech;
 
     @Override
     public String toString() {
@@ -109,11 +109,19 @@ public class Speech {
         this.visitors = visitors;
     }
 
-    public ModeratorRequestsSpeech getModeratorRequestsSpeech() {
+    public List<ReporterRequestsSpeech> getReporterRequests() {
+        return reporterRequests;
+    }
+
+    public void setReporterRequests(List<ReporterRequestsSpeech> reporterRequests) {
+        this.reporterRequests = reporterRequests;
+    }
+
+    public List<ModeratorRequestsSpeech> getModeratorRequestsSpeech() {
         return moderatorRequestsSpeech;
     }
 
-    public void setModeratorRequestsSpeech(ModeratorRequestsSpeech moderatorRequestsSpeech) {
+    public void setModeratorRequestsSpeech(List<ModeratorRequestsSpeech> moderatorRequestsSpeech) {
         this.moderatorRequestsSpeech = moderatorRequestsSpeech;
     }
 
