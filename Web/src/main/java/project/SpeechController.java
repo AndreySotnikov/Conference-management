@@ -66,6 +66,21 @@ public class SpeechController {
         }
     }
 
+    @GET
+    @Path("topic/{id}")
+    @Produces("application/json")
+    public String getTopic(@PathParam("id") Integer id){
+        try {
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            return speechService.findOne(id).getTopic();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @POST
     @Path("info")
     public String updateSpeech(MultivaluedMap<String, String> form){
