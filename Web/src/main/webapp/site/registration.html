@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="http://46.101.250.169/conference/registration.css" />
+
+</head>
+<body>
+<div id="login">
+    <div class="flip">
+        <div class="form-login">
+            <h1>Авторизация</h1>
+            <fieldset>
+                <form method=post action="j_security_check">
+                    <input name="j_username" class="form-control" type="email" placeholder="Логин" required />
+                    <input name="j_password" class="form-control" type="password" placeholder="Пароль" required />
+                    <input type="submit" value="Войти" />
+                </form>
+                <p><a href="#" class="flipper">Нет аккаунта? Регистрация.</a><br>
+            </fieldset>
+        </div>
+        <div class="form-signup">
+            <h1>Регистрация</h1>
+            <fieldset>
+                <p class="login-msg"></p>
+                <form action="http://127.0.0.1:8080/Web-1.0-SNAPSHOT/rest/register" method="post">
+                    <input class="form-control" name="username" type="text" placeholder="Логин" required />
+                    <input class="form-control" name="password" type="password" placeholder="Пароль" required />
+                    <input class="form-control" name="password_repeat" type="password" placeholder="Повторите пароль" required />
+                    <input class="form-control" name="email" type="email" placeholder="Email" required />
+                    <input class="form-control" name="name" type="text" placeholder="ФИО" required />
+                    <input class="form-control" name="phone" type="text" placeholder="Номер телефона" required />
+                    <div class="form-group">
+                        <label>Кто вы?</label>
+                        <select class="form-control">
+                            <option>Организатор</option>
+                            <option>Модератор</option>
+                            <option>Репортер</option>
+                            <option>Владелец помещений</option>
+                            <option>Спикер</option>
+                            <option>Посетитель</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" value="Зарегистрироваться" />
+                </form>
+                <a href="#" class="flipper">Уже зарегистрированы? Войти.</a>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="http://46.101.250.169/conference/registration.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+</body>
+</html>
