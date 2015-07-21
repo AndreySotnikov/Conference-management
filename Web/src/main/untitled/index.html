@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title></title>
+</head>
+<body>
+    <div class="menuoverlay">
+        <div class="leftmenu">
+            <div id="close">Close</div>
+        </div>
+        <div class="shade"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="row orange">
+            <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
+                <span id="menu-button" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span><!--Left Menu -->
+            </div>
+            <div class="col-xs-11 nomargin nopadding logocontainer">
+
+            </div>
+        </div>
+        <div class="row mainspace">
+                <div class="col-xs-2 back column"></div>
+                <div class="col-xs-8 nopadding back column"><!--Main Content --><div class="margin-settings main">awefhwealfmhclewhm<br>figweouf</div></div>
+                <div class="col-xs-2 back column"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function setEqualHeight(columns)
+        {
+            var tallestcolumn = 0;
+            columns.each(
+                    function()
+                    {
+                        currentHeight = $(this).height();
+                        if(currentHeight > tallestcolumn)
+                        {
+                            tallestcolumn = currentHeight;
+                        }
+                    }
+            );
+            columns.height(tallestcolumn);
+        }
+        $(document).ready(function() {
+            setEqualHeight($(".mainspace > .column"));
+        });
+        $(document).on('click','#menu-button',function(){
+            $(".menuoverlay").show();
+            $(".leftmenu").animate({width: 'toggle'});
+            $(".shade").show();
+        });
+        var closeFunc = function() {
+            $(".leftmenu").animate({width: 'toggle'}, 500, "swing", function () {
+                $(".shade").hide();
+                $(".menuoverlay").hide();
+            });
+        }
+        $(document).on('click','.shade', closeFunc);
+        $(document).on('click','#close',closeFunc);
+
+
+    </script>
+</body>
+</html>
