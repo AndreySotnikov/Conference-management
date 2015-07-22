@@ -2,6 +2,7 @@ package project.Entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class Speech {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private Date startDate;
+    private Timestamp startDate;
     private String topic;
 
     private String text;
@@ -54,11 +55,11 @@ public class Speech {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
