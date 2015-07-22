@@ -24,18 +24,6 @@ a:hover {
     text-decoration: none;
 }
 
-.astext {
-    color: #646464;
-}
-
-.re {
-    text-decoration: none !important;
-}
-
-.re:hover {
-    text-decoration: underline !important;
-}
-
 input,
 textarea,
 select {
