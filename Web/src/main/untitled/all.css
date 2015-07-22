@@ -60,6 +60,9 @@ form, fieldset {
     content: "";
     display: block;
 }
+.infobox {
+
+}
 
 #wrapper {
     width: 100%;
@@ -202,127 +205,12 @@ form, fieldset {
     text-decoration: underline;
 }
 
-.menu {
-    overflow: hidden;
-    width: 942px;
-    margin: 0 auto;;
-    padding: 0 0 38px 0;
-    list-style: none;
-}
-
-.menu li {
-    float: left;
-    padding: 0 22px 4px 30px;
-    font: 24px/26px MyriadProCondensed, Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
-}
-
-.menu li a {
-    color: #3c3c3c;
-    text-decoration: none;
-    border-bottom: 2px solid #dfdfdf;
-}
-
-.menu li.red a:hover,
-.menu li.red a.active {
-    border-color: #a52123;
-}
-
-.menu li.blue a:hover,
-.menu li.blue a.active {
-    border-color: #2e51a2;
-}
-
-.menu li.yellow a:hover,
-.menu li.yellow a.active {
-    border-color: #f1d123;
-}
-
 .nav-hold {
     width: 942px;
     height: 42px;
     margin: 0 auto;
     padding: 1px 1px 20px 20px;
     background: url(http://amm.vsu.ru/images/bg-nav-hold.gif) no-repeat;
-}
-
-#nav {
-    float: left;
-    margin: 0 -20px 0 0;
-    padding: 0;
-    list-style: none;
-}
-
-#nav li {
-    float: left;
-    width: 217px;
-    margin: 0 18px 0 0;
-    font-size: 18px;
-    line-height: 20px;
-    font-style: italic;
-    position: relative;
-}
-
-#nav li:first-child {
-    width: 237px;
-}
-
-#nav li a {
-    display: block;
-    height: 33px;
-    text-decoration: none;
-    padding: 9px 0 0 19px;
-    color: #3c3c3c;
-}
-
-#nav .drop {
-    position: absolute;
-    top: 42px;
-    left: 0;
-    width: 100%;
-    min-height: 45px;
-    background: url(http://amm.vsu.ru/images/bg-drop.png) no-repeat 100% 100%;
-}
-
-#nav .drop .holder {
-    overflow: hidden;
-    height: 1%;
-    padding: 0 24px 15px 20px;
-}
-
-#nav .drop .frame {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-#nav ul {
-    overflow: hidden;
-    width: 100%;
-    margin: 0;
-    padding: 0 0 15px;
-    list-style: none;
-}
-
-#nav ul li {
-    float: left;
-    width: 100%;
-    margin: 0;
-    padding: 10px 0 5px;
-    font-size: 16px;
-    line-height: 18px;
-}
-
-#nav ul li a {
-    display: inline;
-    height: auto;
-    padding: 0;
-    text-decoration: none;
-    color: #fff;
-}
-
-#nav ul li a:hover {
-    text-decoration: underline;
 }
 
 #main {
@@ -362,21 +250,7 @@ form, fieldset {
     color: #000;
 }
 
-.cite-box {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    margin: 5px 0 71px;
-}
 
-.cite-box .shape {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-}
 
 .cite-box .w1,
 .cite-box .w2 {
@@ -470,13 +344,12 @@ form, fieldset {
 }
 
 .nbox .title {
-    width: 100%;
+    /*width: 100%;*/
     overflow: hidden;
 }
 
 .nbox .title a {
     display: block;
-    width: 290px;
     overflow: hidden;
     padding: 8px 15px 14px;
     text-decoration: none;
@@ -546,19 +419,6 @@ form, fieldset {
 .nbox .bbox a:hover,
 .news-gall .bbox a:hover {
     text-decoration: underline;
-}
-
-.history-hold {
-    width: 100%;
-    overflow: hidden;
-    padding: 11px 0 28px;
-}
-
-.history-hold .tabset {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    padding: 0 0 30px;
 }
 
 .history-hold .w1,
@@ -884,67 +744,8 @@ form, fieldset {
     background: #dbcbba;
 }
 
-.books-list {
-    width: 1020px;
-    margin: 0 -57px 0 0;
-    padding: 0 0 10px;
-    list-style: none;
-}
-
-.books-list li {
-    display: inline-block;
-    vertical-align: top;
-    width: 198px;
-    margin: 0 54px 0 0;
-    padding: 0 0 32px;
-    font: 18px/22px MyriadProCondensed, Arial, Helvetica, sans-serif;
-}
-
 *+ html .books-list li {
     margin-right: 57px;
-}
-
-.books-list .book {
-    width: 145px;
-    height: 194px;
-    position: relative;
-    padding: 86px 15px 13px 38px;
-    background: url(http://amm.vsu.ru/images/bg-book.gif) no-repeat;
-}
-
-.books-list h4 {
-    margin: 0;
-    overflow: hidden;
-    height: 124px;
-    color: #282828;
-    font-weight: normal;
-}
-
-.books-list .book strong {
-    display: block;
-    font-size: 16px;
-    line-height: 18px;
-    font-weight: normal;
-    text-align: center;
-    min-height: 30px;
-}
-
-.books-list .book span {
-    display: block;
-    font-size: 16px;
-    line-height: 18px;
-    text-align: center;
-    color: #5e2526;
-}
-
-.books-list .btn-download {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    width: 44px;
-    height: 73px;
-    text-decoration: none;
-    background: url(http://amm.vsu.ru/images/btn-download.png) no-repeat;
 }
 
 .books-list .btn-download strong,
@@ -971,45 +772,6 @@ form, fieldset {
     background: url(http://amm.vsu.ru/images/bg-tooltip.png) no-repeat;
 }
 
-.books-list .btn-download:hover {
-    background-position: 0 -73px;
-}
-
-.books-list .btn-download:hover strong,
-.btn-print:hover strong,
-.btn-downl:hover strong {
-    display: block;
-}
-
-.books-list .btn-user,
-.books-list .btn-tags {
-    display: block;
-    overflow: hidden;
-    padding: 0 0 0 34px;
-    margin: 10px 0 0;
-    font-size: 16px;
-    line-height: 18px;
-    color: #7d7d7d;
-    text-align: left;
-    background: url(http://amm.vsu.ru/images/ico04.gif) no-repeat 11px 3px;
-}
-
-.books-list .btn-tags {
-    background: url(http://amm.vsu.ru/images/ico05.gif) no-repeat 11px 3px;
-}
-
-.books-list .btn-user a,
-.books-list .btn-tags a {
-    color: #7d7d7d;
-    text-decoration: none;
-}
-
-.books-list .btn-user a:hover,
-.books-list .btn-tags a:hover {
-    text-decoration: underline;
-    color: #3c3c3c;
-}
-
 .pager {
     width: 100%;
     overflow: hidden;
@@ -1023,73 +785,6 @@ form, fieldset {
 .gl-pager {
     padding: 0;
     margin: 0 0 -17px;
-}
-
-.pager .holder {
-    float: right;
-}
-
-.pager .btn-prev,
-.pager .btn-next {
-    float: left;
-    font-size: 16px;
-    line-height: 22px;
-    font-style: italic;
-    font-weight: bold;
-    text-decoration: none;
-    color: #646464;
-}
-
-.pager .btn-prev:hover,
-.pager .btn-next:hover {
-    color: #a52123;
-}
-
-.pager ul {
-    float: left;
-    margin: 0;
-    padding: 0 3px;
-    list-style: none;
-}
-
-.pager ul li {
-    float: left;
-    font-size: 16px;
-    line-height: 22px;
-    padding: 0 0 0 2px;
-    position: relative;
-}
-
-.pager ul li.active {
-    padding: 0 8px;
-    font-size: 20px;
-}
-
-.pager ul li a {
-    font-style: italic;
-    padding: 0 2px 0 0;
-    text-decoration: none;
-    color: #000;
-}
-
-.pager ul li a:hover {
-    text-decoration: underline;
-}
-
-.pager ul li.active a {
-    text-decoration: none;
-    color: #a52123;
-}
-
-.pager .btn-arch {
-    float: left;
-    text-decoration: none;
-    color: #646464;
-    font-style: italic;
-}
-
-.pager .btn-arch:hover {
-    text-decoration: underline;
 }
 
 .lib-columns {
@@ -1117,12 +812,6 @@ form, fieldset {
     padding: 0 0 143px;
 }
 
-.form-col .row {
-    width: 100%;
-    overflow: hidden;
-    padding: 0 0 14px;
-}
-
 .error {
     display: none;
     font-size: 17px;
@@ -1138,15 +827,6 @@ form, fieldset {
     display: block;
 }
 
-.file {
-    width: 452px;
-    position: relative;
-    overflow: hidden;
-    z-index: 10;
-    height: 26px;
-    margin: -3px -8px -3px 0;
-    padding: 3px 0;
-}
 
 .file-input-js-active input.file-input-area {
     font-size: 200px !important;
@@ -1160,50 +840,6 @@ form, fieldset {
     padding: 0;
     margin: 0;
     cursor: pointer;
-}
-
-.file .text {
-    position: absolute;
-    z-index: 2;
-    top: 3px;
-    left: 0;
-    width: 420px;
-}
-
-.file .button {
-    float: right;
-    background: url(http://amm.vsu.ru/images/btn-file.jpg) no-repeat;
-    width: 37px;
-    height: 32px;
-    overflow: hidden;
-    margin: -3px 0 0;
-    text-indent: -99999px;
-}
-
-.btn-send {
-    float: right;
-    padding: 0 4px 0 0;
-    margin: 5px 0 0;
-    font: 23px/26px MyriadProCondensed, Arial, Helvetica, sans-serif;
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
-    background: url(http://amm.vsu.ru/images/btn-send-r.gif) no-repeat 100% 0;
-}
-
-.btn-send span {
-    float: left;
-    height: 33px;
-    padding: 5px 8px 0 12px;
-    background: url(http://amm.vsu.ru/images/btn-send.gif) no-repeat;
-}
-
-.btn-send:hover {
-    background-position: 100% -38px;
-}
-
-.btn-send:hover span {
-    background-position: 0 -38px;
 }
 
 .text-box {
@@ -1599,85 +1235,6 @@ form, fieldset {
 
 .contact-hold .box p a:hover {
     text-decoration: underline;
-}
-
-.text-hold {
-    width: 100%;
-    overflow: hidden;
-    padding: 3px 0 0;
-}
-
-.text-hold h1,
-.text-hold h2,
-.text-hold h3,
-.text-hold h4 {
-    margin: 0 0 22px;
-    font-size: 26px;
-    line-height: 28px;
-    font-style: italic;
-    font-weight: normal;
-    color: #a52123;
-}
-
-.text-hold h2 {
-    font-size: 24px;
-    line-height: 26px;
-}
-
-.text-hold h3 {
-    padding: 7px 0 0;
-    font-size: 18px;
-    line-height: 20px;
-    font-style: normal;
-    color: #282828;
-}
-
-.text-hold h4 {
-    padding: 7px 0 0;
-    font-size: 17px;
-    line-height: 20px;
-    font-style: normal;
-    color: #282828;
-}
-
-.text-hold p {
-    margin: 0 0 20px;
-    font-style: italic;
-}
-
-.text-hold .norm p {
-    font-style: normal;
-}
-
-.text-hold .box {
-    width: 100%;
-    overflow: hidden;
-}
-
-.text-hold .image {
-    float: left;
-    border: 6px solid #3c3c3c;
-    margin: 3px 25px 0 0;
-}
-
-.text-hold .image img {
-    float: left;
-}
-
-.text-hold .twocol {
-    width: 100%;
-    overflow: hidden;
-}
-
-.text-hold .twocol .lcol {
-    float: left;
-    width: 460px;
-}
-
-.text-hold .twocol .rcol {
-    float: right;
-    width: 460px;
-    padding: 0 25px 0 0;
 }
 
 .text-list {
@@ -2598,42 +2155,6 @@ form, fieldset {
 
 .flogo a:hover span {
     display: block;
-}
-
-.soc-box {
-    float: right;
-    width: 200px;
-    padding: 21px 0 0 40px;
-}
-
-.soc-box .row {
-    width: 100%;
-    overflow: hidden;
-    padding: 0 0 18px;
-}
-
-.soc-box ul {
-    float: right;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.soc-box ul li {
-    float: left;
-    padding: 0 0 0 4px;
-}
-
-.soc-box ul li a,
-.soc-box ul li a img {
-    float: left;
-}
-
-.soc-box span {
-    display: block;
-    text-align: right;
-    font: 16px/18px MyriadProCondensed, Arial, Helvetica, sans-serif;
-    color: #fff;
 }
 
 #footer .address {
