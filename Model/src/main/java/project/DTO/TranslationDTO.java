@@ -1,6 +1,7 @@
 package project.DTO;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Green-L on 21.07.2015.
@@ -9,7 +10,7 @@ public class TranslationDTO {
 
     private int id;
     private String text;
-    private Date time;
+    private Timestamp timestamp;
 
     public TranslationDTO() {
     }
@@ -30,11 +31,11 @@ public class TranslationDTO {
         this.text = text;
     }
 
-    public Date getTime() {
-        return time;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

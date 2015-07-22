@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -62,9 +63,9 @@ public class TranslationController {
     @Path("insert")
     public String insert(MultivaluedMap<String, String> form){
         String text = form.getFirst("text");
-        Date time = Date.valueOf(form.getFirst("time"));
+        Timestamp timestamp = Timestamp.valueOf(form.getFirst("time"));
         Integer speechId = Integer.parseInt(form.getFirst("speechId"));
-        service.save(new Translation(text, time, crudRepository.findOne(Speech.class, speechId)));
+        service.save(new Translation(text, timestamp, crudRepository.findOne(Speech.class, speechId)));
         return "OK";
     }
 
