@@ -60,7 +60,7 @@ public class VisitorService extends CrudImplementation {
             }
         }
     }
-    
+
 
     public Boolean registerToConference(String visitorId, Integer conferenceId) {
         Visitor visitor = findOne(visitorId);
