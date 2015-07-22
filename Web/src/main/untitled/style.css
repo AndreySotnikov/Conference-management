@@ -74,8 +74,8 @@ html, body {
 
 .leftmenu {
     position:absolute;
+    padding-top:1em;
     float:left;
-    width:100px; /* TODO: Adaptive width */
     height:100%;
     background-color: black;
     z-index:3;
@@ -90,5 +90,16 @@ html, body {
 }
 
 #close {
+}
+
+.separator {
+    margin-left:12px;
+    margin-right:10px;
+    border: 1px dashed;
+}
+
+.menu-item {
     color: white;
+    margin-left:15px;
+    margin-right:10px;
 }
