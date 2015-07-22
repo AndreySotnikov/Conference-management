@@ -1,5 +1,7 @@
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
+import project.DTO.TranslationDTO;
 import project.Entity.Speech;
 import project.Entity.Translation;
 import project.Service.TranslationService;
@@ -7,9 +9,7 @@ import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -33,7 +33,7 @@ public class TranslationController {
     private HttpServletRequest request;
 
     @Context
-    private HttpServletResponse response;
+    private HttpResponse response;
 
     @GET
     @Path("test")
@@ -42,9 +42,9 @@ public class TranslationController {
     }
 
     @GET
-    @Path("get")
+    @Path("get/{id}")
     @Produces("application/json")
-    public Translation get(@QueryParam("id") Integer id){
+    public Translation get(@PathParam("id") Integer id){
         return service.findOne(id);
     }
 
@@ -52,6 +52,9 @@ public class TranslationController {
     @Path("all")
     @Produces("application/json")
     public List<Translation> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return service.findAll();
     }
 
@@ -66,10 +69,24 @@ public class TranslationController {
     }
 
     @GET
+    @Path("fbs/{id}")
+    @Produces("application/json")
+    public List<TranslationDTO> findBySpeech(@PathParam("id") Integer speechId) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return service.findBySpeech(speechId);
+    }
+
+
+    @GET
     @Path("updates")
     @Produces("application/json")
-    public List<Translation> get(@QueryParam("speechId") Integer speechId,
+    public List<TranslationDTO> find(@QueryParam("speechId") Integer speechId,
                            @QueryParam("lastId") Integer lastId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return service.findUpdates(speechId, lastId);
     }
 

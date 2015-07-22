@@ -1,5 +1,6 @@
 package project.Service;
 
+import project.DTO.TranslationDTO;
 import project.Entity.Translation;
 import project.Util.CrudImplementation;
 
@@ -26,9 +27,20 @@ public class TranslationService extends CrudImplementation {
         }
     }
 
-    public List<Translation> findUpdates(Integer speechId, Integer lastId){
+    public List<TranslationDTO> findBySpeech(Integer speechId){
         try {
-            return em.createQuery("SELECT e FROM Translation e WHERE "+
+            return em.createQuery("SELECT e.id, e.text, e.time  FROM Translation e WHERE e.speech.id=:speechId ")
+                    .setParameter("speechId", speechId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<TranslationDTO> findUpdates(Integer speechId, Integer lastId){
+        try {
+            return em.createQuery("SELECT e.id, e.text, e.time FROM Translation e WHERE "+
                     "e.speech.id=:speechId AND e.id>:lastId")
                     .setParameter("speechId", speechId)
                     .setParameter("lastId", lastId)
