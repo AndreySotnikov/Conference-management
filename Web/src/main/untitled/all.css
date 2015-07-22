@@ -1,32 +1,3 @@
-@font-face {
-    font-family: 'Cambria';
-    src: url('http://amm.vsu.ru//fonts/cambria.eot');
-    src: url('../fonts/cambria.eot?#iefix') format('embedded-opentype'), url('../fonts/cambria.woff') format('woff'), url('../fonts/cambria.ttf') format('truetype'), url('../fonts/cambria.svg#cambria') format('svg');
-}
-
-@font-face {
-    font-family: 'MyriadProCondensed';
-    src: url('../fonts/myriadpro-cond-webfont.eot');
-    src: url('../fonts/myriadpro-cond-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/myriadpro-cond-webfont.woff') format('woff'), url('../fonts/myriadpro-cond-webfont.ttf') format('truetype'), url('../fonts/myriadpro-cond-webfont.svg#MyriadProCondensed') format('svg');
-}
-
-@font-face {
-    font-family: 'MyriadProRegular';
-    src: url('../fonts/mr-webfont.eot');
-    src: url('../fonts/mr-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/mr-webfont.woff') format('woff'), url('../fonts/mr-webfont.ttf') format('truetype'), url('../fonts/mr-webfont.svg#MyriadProRegular') format('svg');
-}
-
-@font-face {
-    font-family: 'EpsilonCTT';
-    src: url('../fonts/epsilon.eot');
-    src: url('../fonts/epsilon.eot?#iefix') format('embedded-opentype'), url('../fonts/epsilon.woff') format('woff'), url('../fonts/epsilon.ttf') format('truetype'), url('../fonts/epsilon.svg#epsilon') format('svg');
-}
-
-@font-face {
-    font-family: 'als_rublregular';
-    src: url('../fonts/rouble_2-webfont.eot');
-    src: url('../fonts/rouble_2-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/rouble_2-webfont.woff') format('woff'), url('../fonts/rouble_2-webfont.ttf') format('truetype'), url('../fonts/rouble_2-webfont.svg#als_rublregular') format('svg');
-}
 
 html {
     height: 100%;
@@ -35,7 +6,6 @@ html {
 body {
     margin: 0;
     color: #3c3c3c;
-    font: 16px/19px 'Cambria', "Times New Roman", Times, serif;
     background: #fff;
     min-width: 1000px;
     height: 100%;
