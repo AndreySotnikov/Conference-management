@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+<script src="js/translation.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+</head>
+<body ng-app="myApp" >
+
+<div ng-controller="translationCtrl" class="container">
+    <h3>Live трансляция с места событий</h3>
+    <h3 ng-model="title">{{ title }}</h3>
+<table class="table table-bordered table-hover" >
+  <thead>
+  <tr>
+      <th>Время</th>
+      <th>Сообщение</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="report in reports" >
+    <td class="col-xs-3">{{ report.time | date : 'mediumTime' }}</td>
+    <td class="col-xs-9">{{ report.text }}</td>
+  </tr>
+  </tbody>
+</table>
+<input id="more" type="button" ng-click='more()' class="btn btn-info" value="Проверить обновления">
+</div>
+
+</body>
+</html>
