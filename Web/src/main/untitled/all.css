@@ -457,7 +457,6 @@ form, fieldset {
     width: inherit;
     overflow: hidden;
     position: relative;
-    margin: -10px -63px 0 -31px;
     padding: 0 0 32px;
 
 }
@@ -469,7 +468,6 @@ form, fieldset {
     width: 320px;
     overflow: hidden;
     padding: 0 0 61px;
-    margin: 36px 29px 0 0;
     height: 190px;
     position: relative;
     background: url(http://amm.vsu.ru/images/bg-news.gif) no-repeat 0 100%;
@@ -477,6 +475,10 @@ form, fieldset {
 
 *+ html .nbox {
     margin-right: 32px;
+}
+
+.infobox {
+    display:inline;
 }
 
 .nbox .title {
@@ -641,6 +643,11 @@ form, fieldset {
     position: relative;
     overflow: hidden;
     min-height: 130px;
+}
+
+.left-group {
+    padding: 23px 20px;
+    float:right;
 }
 
 .works-hold {
@@ -1211,11 +1218,11 @@ form, fieldset {
     background-position: 0 -38px;
 }
 
-.lib-hold .text-box {
+.text-box {
+    display:inline-block;
     height: 1%;
     padding: 23px 20px;
     overflow: hidden;
-    background: url(http://amm.vsu.ru/images/sep3.gif) no-repeat 50% 0;
 }
 
 .lib-hold .text-box p {
