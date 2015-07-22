@@ -18,7 +18,7 @@ public class TranslationService extends CrudImplementation {
         try {
             Translation oldTranslation = findOne(Translation.class, id);
             oldTranslation.setText(translation.getText());
-            oldTranslation.setTime(translation.getTime());
+            oldTranslation.setTimestamp(translation.getTimestamp());
             oldTranslation.setSpeech(translation.getSpeech());
             return em.merge(oldTranslation);
         }catch (Exception e){
@@ -29,7 +29,7 @@ public class TranslationService extends CrudImplementation {
 
     public List<TranslationDTO> findBySpeech(Integer speechId){
         try {
-            return em.createQuery("SELECT e.id, e.text, e.time  FROM Translation e WHERE e.speech.id=:speechId ")
+            return em.createQuery("SELECT e.id, e.text, e.timestamp  FROM Translation e WHERE e.speech.id=:speechId ")
                     .setParameter("speechId", speechId)
                     .getResultList();
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class TranslationService extends CrudImplementation {
 
     public List<TranslationDTO> findUpdates(Integer speechId, Integer lastId){
         try {
-            return em.createQuery("SELECT e.id, e.text, e.time FROM Translation e WHERE "+
+            return em.createQuery("SELECT e.id, e.text, e.timestamp FROM Translation e WHERE "+
                     "e.speech.id=:speechId AND e.id>:lastId")
                     .setParameter("speechId", speechId)
                     .setParameter("lastId", lastId)

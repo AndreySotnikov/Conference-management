@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by nikita on 20.07.15.
@@ -41,7 +42,7 @@ public class SpeechController {
             speech.setText("");
             speech.setApproved(false);
             speech.setCompleted(false);
-            speech.setStartDate(Date.valueOf(form.getFirst("start")));
+            speech.setStartDate(Timestamp.valueOf(form.getFirst("start")));
             speech.setConference(conferenceService.findOne(Integer.valueOf(form.getFirst("conference"))));
             speechService.save(speech);
             return "OK";
@@ -89,7 +90,7 @@ public class SpeechController {
             speech.setConference(conferenceService.findOne(Integer.valueOf(form.getFirst("conference"))));
             speech.setTopic(form.getFirst("topic"));
             speech.setSpeaker(speakerService.findOne(form.getFirst("speaker")));
-            speech.setStartDate(Date.valueOf(form.getFirst("start")));
+            speech.setStartDate(Timestamp.valueOf(form.getFirst("start")));
             speechService.update(form.getFirst("id"), speech);
             return "OK";
         } catch (Exception e){

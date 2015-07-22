@@ -1,7 +1,8 @@
 package project.Entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
+//import java.sql.Date;
 
 /**
  * Created by Green-L on 18.07.2015.
@@ -14,7 +15,7 @@ public class Translation {
     private Integer id;
 
     private String text;
-    private Date time;
+    private Timestamp timestamp;
 
     @ManyToOne
     private Speech speech;
@@ -22,9 +23,9 @@ public class Translation {
     public Translation() {
     }
 
-    public Translation(String text, Date time, Speech speech) {
+    public Translation(String text, Timestamp timestamp, Speech speech) {
         this.text = text;
-        this.time = time;
+        this.timestamp = timestamp;
         this.speech = speech;
     }
 
@@ -44,12 +45,12 @@ public class Translation {
         this.text = text;
     }
 
-    public Date getTime() {
-        return time;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Speech getSpeech() {
