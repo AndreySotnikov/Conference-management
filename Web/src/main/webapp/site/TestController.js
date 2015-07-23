@@ -3,10 +3,6 @@ myModule.config(function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
-//myModule.value('globalText', 'GLOBAL');
-//myModule.run(function($rootScope, globalText) {
-//    $rootScope.globalText = globalText;
-//});
 
 myModule.controller('MyCtrl', function($scope, $http) {
     $scope.greetings = 'Hello world!';

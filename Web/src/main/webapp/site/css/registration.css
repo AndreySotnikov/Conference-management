@@ -96,7 +96,7 @@ html {
     margin-top: 3px;
 }
 
-#login input[type="submit"] {
+#login .submit-button {
     width: 260px;
     padding: 12px 20px;
     margin: 15px 0;
@@ -111,11 +111,11 @@ html {
     background: #FFB83A linear-gradient(rgba(255, 207, 92, .7), rgba(223, 156, 38, .8));
 }
 
-#login input[type="submit"]:hover {
+#login .submit-button:hover {
     background-color: #F5FF00;
 }
 
-#login input[type="submit"]:active {
+#login .submit-button:active {
     padding: 13px 20px 11px;
     text-shadow: -1px -1px 1px rgba(255, 255, 255, .6);
     box-shadow: inset 0 1px 4px rgba(0, 0, 0, .2);
@@ -139,23 +139,23 @@ html {
     -moz-backface-visibility: hidden;
 }
 
-.form-signup {
-    z-index: 2;
-}
+/*.form-signup {*/
+    /*z-index: 2;*/
+/*}*/
 
-.form-login {
-    z-index: 1;
-}
+/*.form-login {*/
+    /*z-index: 1;*/
+/*}*/
 
-.form-signup {
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-}
+/*.form-signup {*/
+    /*-webkit-transform: rotateY(180deg);*/
+    /*-moz-transform: rotateY(180deg);*/
+/*}*/
 
-.flip.flipped {
-    -webkit-transform: rotateY(-180deg);
-    -moz-transform: rotateY(-180deg);
-}
+/*.flip.flipped {*/
+    /*-webkit-transform: rotateY(-180deg);*/
+    /*-moz-transform: rotateY(-180deg);*/
+/*}*/
 
 #login input.login-err,
 #login input.login-err:focus {

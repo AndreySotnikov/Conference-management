@@ -1,0 +1,62 @@
+<!--<div id="login">-->
+    <!--<div class="form-signup">-->
+        <!--<h1>Регистрация</h1>-->
+        <!--<fieldset>-->
+            <!--<p class="login-msg"></p>-->
+            <!--<form>-->
+                <!--<input class="form-control"  type="text" placeholder="Логин" required />-->
+                <!--<input class="form-control"  type="password" placeholder="Пароль" required />-->
+                <!--<input class="form-control"  type="password" placeholder="Повторите пароль" required />-->
+                <!--<input class="form-control"  type="email" placeholder="Email" required />-->
+                <!--<input class="form-control"  type="text" placeholder="ФИО" required />-->
+                <!--<input class="form-control"  type="text" placeholder="Номер телефона" required />-->
+                <!--<div class="form-group">-->
+                    <!--<label>Кто вы?</label>-->
+                    <!--<select  class="form-control">-->
+                        <!--<option value="organizer">Организатор</option>-->
+                        <!--<option value="moderator">Модератор</option>-->
+                        <!--<option value="reporter">Репортер</option>-->
+                        <!--<option value="roomOrder">Владелец помещений</option>-->
+                        <!--<option value="speaker">Спикер</option>-->
+                        <!--<option value="visitor">Посетитель</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <!--<input class="submit-button" type="button"  value="Зарегистрироваться" />-->
+            <!--</form>-->
+
+            <!--<a ui-sref="home.login"  class="flipper">Уже зарегистрированы? Войти.</a>-->
+        <!--</fieldset>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<div id="login">
+<div class="form-signup">
+    <h1>Регистрация</h1>
+    <fieldset>
+        <p class="login-msg"></p>
+        <form>
+            <input class="form-control" ng-model="user.username" type="text" placeholder="Логин" required />
+            <input class="form-control" ng-model="user.password" type="password" placeholder="Пароль" required />
+            <!--<input class="form-control" ng-model="user.password_repeat" type="password" placeholder="Повторите пароль" required />-->
+            <input class="form-control" ng-model="user.email" type="email" placeholder="Email" required />
+            <input class="form-control" ng-model="user.name" type="text" placeholder="ФИО" required />
+            <input class="form-control" ng-model="user.phone" type="text" placeholder="Номер телефона" required />
+            <div class="form-group">
+                <label>Кто вы?</label>
+                <select ng-model="user.role" class="form-control">
+                    <option value="organizer">Организатор</option>
+                    <option value="moderator">Модератор</option>
+                    <option value="reporter">Репортер</option>
+                    <option value="roomOrder">Владелец помещений</option>
+                    <option value="speaker">Спикер</option>
+                    <option value="visitor">Посетитель</option>
+                </select>
+            </div>
+            <input class="submit-button" type="button" ng-click="clickBtn()" value="Зарегистрироваться" />
+        </form>
+        <pre>{{user}}</pre>
+        <a ui-sref="home.login"  class="flipper">Уже зарегистрированы? Войти.</a>
+    </fieldset>
+</div>
+</div>
