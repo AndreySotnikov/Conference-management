@@ -31,6 +31,9 @@ public class Rest {
     @Path("register")
     @POST
     public String register(MultivaluedMap<String, String> form){
+//        System.err.println("QueryParam: " + logi);
+//        System.err.println("FormParam " + log);
+        System.err.println("form:" + form);
         try {
             String login = form.getFirst("login");
             String password = form.getFirst("password");
@@ -40,6 +43,8 @@ public class Rest {
             String phone = form.getFirst("phone");
             Users user = new Users(login, password);
             UserRoles userRoles = new UserRoles(login, role);
+            System.err.println(user);
+            System.err.println(userRoles);
             crudRepository.save(user);
             crudRepository.save(userRoles);
             switch (role) {
