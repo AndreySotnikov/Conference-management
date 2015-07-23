@@ -3,6 +3,11 @@ var app = angular.module('myApp', []);
 
 app.controller('translationCtrl', function($scope, $http) {
 
+    $scope.period = 30;
+    $scope.defaultperiod = 30;
+
+    $('#showup').hide();
+
     $scope.reports = [
         "time",
         "text"
@@ -12,7 +17,8 @@ app.controller('translationCtrl', function($scope, $http) {
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.speechId = 2;
     $scope.lastId = 0;
-    $scope.server = "http://localhost:8080/";                        // Достаем заголовок доклада
+    $scope.server = "http://localhost:8080/";
+    // Достаем заголовок доклада
     $http.get($scope.server + $scope.warName + "/rest/speech/topic/" + $scope.speechId)
         .success(function (data) {
             $scope.title = data;
@@ -26,12 +32,18 @@ app.controller('translationCtrl', function($scope, $http) {
             if (data.length>0) {
                 $scope.lastId = data[data.length - 1][0];
             }
-            $scope.autoUpdates();
         });
 
     $scope.autoUpdates = function() {
-        $scope.more();
-        setTimeout($scope.autoUpdates, 30000);
+        if ($scope.autoUpdate){
+            $scope.more();
+            if ($scope.myForm.$valid){
+                setTimeout($scope.autoUpdates, 1000*$scope.period);
+            }else{
+                setTimeout($scope.autoUpdates, 1000*$scope.defaultperiod);
+            }
+
+        }
     }
 
     // Получаем обновления
@@ -48,5 +60,14 @@ app.controller('translationCtrl', function($scope, $http) {
                 $scope.lastId = data[data.length - 1][0];
             }
         });
+    }
+
+    $scope.changeCheckbox = function() {
+        if ($scope.autoUpdate){
+            $('#showup').show();
+            $scope.autoUpdates();
+        }else{
+            $('#showup').hide();
+        }
     }
 });

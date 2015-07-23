@@ -6,13 +6,32 @@
 <script src="js/translation.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
 </head>
 <body ng-app="myApp" >
 
 <div ng-controller="translationCtrl" class="container">
-    <h3>Live трансл€ци€ с места событий</h3>
-    <h3 ng-model="title">{{ title }}</h3>
+    <div class="page-header">
+        <h3>Live трансл€ци€ с места событий</h3>
+    </div>
+
+    <form name="myForm">
+        <div>
+            <div>
+                <span> јвтоматическое обновление </span>
+                <input type="checkbox" ng-model="autoUpdate" ng-change="changeCheckbox()">
+            </div>
+            <div id="showup">
+                <span>  аждые </span>
+                <input type="number" ng-model="period" min="1" max="10000" required>
+                <span> секунд </span>
+            </div>
+        </div>
+    </form>
+
+    <div class="page-header">
+        <h3 ng-model="title">{{ title }}</h3>
+    </div>
+
 <table class="table table-bordered table-hover" >
   <thead>
   <tr>
@@ -22,8 +41,8 @@
   </thead>
   <tbody>
   <tr ng-repeat="report in reports" >
-    <td class="col-xs-3">{{ report.time | date : 'mediumTime' }}</td>
-    <td class="col-xs-9">{{ report.text }}</td>
+    <td class="col-xs-2">{{ report.time | date : 'mediumTime' }}</td>
+    <td class="col-xs-10">{{ report.text }}</td>
   </tr>
   </tbody>
 </table>
