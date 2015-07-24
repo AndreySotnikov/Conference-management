@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="page-header">
+        <h3>Live трансляция с места событий</h3>
+    </div>
+
+    <form name="myForm">
+        <div>
+            <div>
+                <span> Автоматическое обновление </span>
+                <input type="checkbox" ng-model="autoUpdate" ng-change="changeCheckbox()">
+            </div>
+            <div id="showup">
+                <span> Каждые </span>
+                <input type="number" ng-model="period" min="1" max="10000" required>
+                <span> секунд </span>
+            </div>
+        </div>
+    </form>
+
+    <div class="page-header">
+        <h3 ng-model="title">{{ title }}</h3>
+    </div>
+
+    <table class="table table-bordered table-hover" >
+        <thead>
+        <tr>
+            <th>Время</th>
+            <th>Сообщение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="report in reports" >
+            <td class="col-xs-2">{{ report.time | date : 'mediumTime' }}</td>
+            <td class="col-xs-10">{{ report.text }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <input id="more" type="button" ng-click='more()' class="btn btn-info" value="Проверить обновления">
+</div>
