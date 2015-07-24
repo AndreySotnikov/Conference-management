@@ -7,15 +7,28 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/home',
-            templateUrl: 'views/home.html'
+            views :{
+                "mainv" : {
+                    template: 'views/home.html'
+                }
+            }
+
         })
         .state('home.login', {
             url: '/login',
-            templateUrl: 'views/login.html',
+            views :{
+                "mainv" : {
+                    template: 'views/login.html'
+                }
+            }
         })
         .state('home.register', {
             url: '/register',
-            templateUrl: 'views/registration.html',
+            views :{
+                "mainv" : {
+                    template: 'views/registration.html'
+                }
+            },
             controller: function($scope, $http) {
                 $scope.master= {};
                 $scope.clickBtn = function (user) {
@@ -44,10 +57,16 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state("conference", {
             url:'/conference',
-            templateUrl:'views/conference.html',
-            views:{
-                'leftmenu':'views/leftmenu.html'
+            views :{
+                "mainv" : {
+                    template: 'views/conference.html'
+                },
+                "leftmenu" : {
+                    template: 'views/leftmenu.html'
+                }
             }
+
+
         });
 });
 
