@@ -1,5 +1,12 @@
 var routerApp = angular.module('app', ['ui.router','door3.css']);
 
+var remoteServer = 'http://127.0.0.1:8080';
+//var remoteServer = '';
+var warName='Web-1.0-SNAPSHOT';
+routerApp.config(function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+});
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/home');
@@ -12,21 +19,31 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         .state('home.login', {
             url: '/login',
             templateUrl: 'views/login.html',
-            css: 'css/registration.css'
-            //controller: function($scope, $http){
-            //    
-            //}
+            css: 'css/registration.css',
+            controller: function($scope, $http) {
+                $scope.master = {};
+                $scope.clickBtn = function (user) {
+                    $scope.master = angular.copy(user);
+                    $http({
+                        url: remoteServer+'/'+warName+'/rest/j_security_check',
+                        method: "POST",
+                        data: "j_username=" + user.j_username +
+                        "&j_password=" + user.j_password,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    });
+                }
+            }
         })
         .state('home.register', {
             url: '/register',
             templateUrl: 'views/registration.html',
             css: 'css/registration.css',
-            controller: function($scope, $http) {
+            controller: function($scope, $http, $state) {
                 $scope.master= {};
                 $scope.clickBtn = function (user) {
                     $scope.master= angular.copy(user);
                     $http({
-                        url: '/Web-1.0-SNAPSHOT/rest/register',
+                        url: remoteServer+'/'+warName+'/rest/register',
                         method: "POST",
                         data: "login="+user.username+
                             "&password="+user.password+
@@ -36,8 +53,8 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                             "&name="+user.name,
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     });
+                    $state.go('home.login');
                 }
-
             }
         })
         .state('translation', {
@@ -59,17 +76,13 @@ routerApp.controller('translationCtrl', function($scope, $http) {
     ];
     $scope.reports = [];
 
-    $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.speechId = 2;
     $scope.lastId = 0;
-    $scope.server = "http://localhost:8080/";
-    // ������� ��������� �������
-    $http.get($scope.server + $scope.warName + "/rest/speech/topic/" + $scope.speechId)
+    $http.get(remoteServer +'/' +warName+ '/rest/speech/topic/' + $scope.speechId)
         .success(function (data) {
             $scope.title = data;
         });
-    // ������� ��� ��������� ����������
-    $http.get($scope.server + $scope.warName + "/rest/trans/fbs/" + $scope.speechId)
+    $http.get(remoteServer +'/' +warName+ '/rest/trans/fbs/' + $scope.speechId)
         .success(function (data) {
             angular.forEach(data, function(elem) {
                 $scope.reports.push({time:elem[2], text:elem[1]});
@@ -91,10 +104,9 @@ routerApp.controller('translationCtrl', function($scope, $http) {
         }
     }
 
-    // �������� ����������
     $scope.more = function() {
         $http({
-            url: $scope.server + $scope.warName + "/rest/trans/updates",
+            url: remoteServer +'/' +warName+ '/rest/trans/updates',
             method: "GET",
             params: {speechId: $scope.speechId, lastId: $scope.lastId}
         }).success(function (data) {

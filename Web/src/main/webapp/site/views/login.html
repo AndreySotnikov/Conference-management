@@ -1,13 +1,26 @@
+<!--<div id="login">-->
+<!--<div class="form-login">-->
+    <!--<h1>Авторизация</h1>-->
+    <!--<fieldset>-->
+        <!--<form method=post action="/Web-1.0-SNAPSHOT/rest/j_security_check">-->
+            <!--<input name="j_username" class="form-control" type="text" placeholder="Логин" required />-->
+            <!--<input name="j_password" class="form-control" type="password" placeholder="Пароль" required />-->
+            <!--<input class="submit-button" type="submit" value="Войти" />-->
+        <!--</form>-->
+        <!--<p><a ui-sref="home.register" class="flipper">Нет аккаунта? Регистрация.</a><br>-->
+    <!--</fieldset>-->
+<!--</div>-->
+<!--</div>-->
 <div id="login">
-<div class="form-login">
-    <h1>Авторизация</h1>
-    <fieldset>
-        <form method=post action="/Web-1.0-SNAPSHOT/rest/j_security_check">
-            <input name="j_username" class="form-control" type="text" placeholder="Логин" required />
-            <input name="j_password" class="form-control" type="password" placeholder="Пароль" required />
-            <input class="submit-button" type="submit" value="Войти" />
-        </form>
-        <p><a ui-sref="home.register" class="flipper">Нет аккаунта? Регистрация.</a><br>
-    </fieldset>
-</div>
+    <div class="form-login">
+        <h1>Авторизация</h1>
+        <fieldset>
+            <form>
+                <input ng-model="user.j_username" class="form-control" type="text" placeholder="Логин" required />
+                <input ng-model="user.j_password" class="form-control" type="password" placeholder="Пароль" required />
+                <input class="submit-button" type="button" ng-click="clickBtn(user)" value="Войти" />
+            </form>
+            <p><a ui-sref="home.register" class="flipper">Нет аккаунта? Регистрация.</a><br>
+        </fieldset>
+    </div>
 </div>
