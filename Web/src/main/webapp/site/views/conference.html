@@ -1,0 +1,52 @@
+<div ui-view="leftmenu"></div>
+<div class="container-fluid">
+    <div class="row orange">
+        <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
+            <span id="menu-button" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span><!--Left Menu -->
+        </div>
+        <div class="col-xs-11 nomargin nopadding logocontainer">
+
+        </div>
+    </div>
+    <div class="row mainspace">
+        <div class="col-xs-2 back column"></div>
+        <div class="col-xs-8 main-padding back column"><div ui-view="content"></div>
+        <div class="col-xs-2 back column"></div>
+    </div>
+</div>
+</div>
+<script>
+    function setEqualHeight(columns)
+    {
+        var tallestcolumn = 0;
+        columns.each(
+                function()
+                {
+                    currentHeight = $(this).height();
+                    if(currentHeight > tallestcolumn)
+                    {
+                        tallestcolumn = currentHeight;
+                    }
+                }
+        );
+        columns.height(tallestcolumn);
+    }
+    $(document).ready(function() {
+        setEqualHeight($(".mainspace > .column"));
+    });
+    $(document).on('click','#menu-button',function(){
+        $(".menuoverlay").show();
+        $(".leftmenu").animate({width: 'toggle'});
+        $(".shade").show();
+    });
+    var closeFunc = function() {
+        $(".leftmenu").animate({width: 'toggle'}, 500, "swing", function () {
+            $(".shade").hide();
+            $(".menuoverlay").hide();
+        });
+    }
+    $(document).on('click','.shade', closeFunc);
+    $(document).on('click','#close',closeFunc);
+
+
+</script>

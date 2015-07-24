@@ -41,6 +41,13 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 }
 
             }
+        })
+        .state("conference", {
+            url:'/conference',
+            templateUrl:'views/conference.html',
+            views:{
+                'leftmenu':'views/leftmenu.html'
+            }
         });
 });
 
