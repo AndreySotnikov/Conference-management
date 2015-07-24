@@ -11,7 +11,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('home.login', {
             url: '/login',
-            templateUrl: 'views/login.html',
+            templateUrl: 'views/login.html'
         })
         .state('home.register', {
             url: '/register',

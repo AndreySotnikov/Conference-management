@@ -76,6 +76,22 @@ public class Rest {
     }
 
     @GET
+    @Path("whoami")
+    @Produces("application/json")
+    public String whoami() {
+        response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");
+        response.getOutputHeaders().putSingle("Pragma", "no-cache");
+        response.getOutputHeaders().putSingle("Expires", new java.util.Date().toString());
+
+
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+
+        return String.format("{ \"login\" : \"%s\" }", request.getUserPrincipal().getName());
+    }
+
+    @GET
     @Path("logout")
     public void logout() throws ServletException {
         response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");

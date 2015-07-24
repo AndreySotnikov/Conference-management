@@ -80,6 +80,7 @@ public class QuestionController {
                     Integer.valueOf(form.getFirst("speechId")));
             return "OK";
         }catch (Exception e){
+            e.printStackTrace();
             return "fail";
         }
     }
