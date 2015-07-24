@@ -2,7 +2,7 @@
     <div class="infobox">
         <div class="text-box">
             <strong>{{title}}</strong>
-            <div class="btn-group-vertical left-group" role="group" aria-label="...">
+            <div class="btn-group-vertical left-group" role="group" ng-if="buttons==true" aria-label="...">
                 <button type="button" class="btn btn-default">{{button1}}</button>
                 <button type="button" class="btn btn-default">{{button2}}</button>
             </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="bbox">
                 <em class="date">{{square.date}}</em>
-                <a href="link2">подробнее &gt;&gt;</a><!--edit this link-->
+                <a ui-sref="conference.info({idconf:square.id})">подробнее &gt;&gt;</a><!--edit this link-->
             </div>
         </div>
     </div>

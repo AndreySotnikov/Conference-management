@@ -143,7 +143,7 @@ form, fieldset {
 .news-gall .bbox .date {
     float: left;
     color: #959595;
-    width: 80px;
+    width: 170px;
 }
 
 .nbox .bbox a,
@@ -165,4 +165,5 @@ form, fieldset {
     height: 1%;
     padding: 23px 20px;
     overflow: hidden;
+    width:100%;
 }

@@ -67,32 +67,50 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             css:"css/style.css",
 
         })
+        .state ("conference.list",{
+            url:'/list',
+            views:{
+                "content":{
+                    templateUrl:"views/mainspace.html",
+                    controller: function ($scope, $http) {
+                        $scope.title = "Conferences";
+                        $scope.buttons = false;
+                        $scope.warName = "Web-1.0-SNAPSHOT";
+                        $scope.server = "http://localhost:8080/";
+                        $scope.list = [];
+                        $http.get($scope.server + $scope.warName + "/rest/conference/all")
+                                .success(function (data) {
+                                    angular.forEach(data, function(elem) {
+                                        $scope.list.push({
+                                            header:elem.name,
+                                            id:elem.id,
+                                            text:elem.description,
+                                            date:elem.startDate + " - " + elem.endDate
+                                        });
+                                    });
+                                });
+                    }
+                }
+            },
+            css:['css/style.css','css/all.css']
+        })
         .state("conference.info",{
-            url:'/:idconf',
+            url:'/{idconf:[0-9]+}',
             views: {
                 "content": {
                     templateUrl:"views/mainspace.html",
-                    controller: function ($scope, $stateParams) {
-                        $scope.title = $stateParams.idconf;
-                        $scope.description = $stateParams.idconf;
-                        $scope.list = [ {
-                            header:"test",
-                            text:"test",
-                            date:"24.07.2015"
-                        },{
-                            header:"test2",
-                            text:"test2",
-                            date:"25.07.2015"
-                        },{
-                            header:"test3",
-                            text:"test3",
-                            date:"26.07.2015"
-                        },{
-                            header:"test4",
-                            text:"test4",
-                            date:"27.07.2015"
-                        }]
-                        //buttons - depending on role, include hide
+                    controller: function ($scope, $stateParams, $http, $log) {
+                        $scope.warName = "Web-1.0-SNAPSHOT";
+                        $scope.server = "http://localhost:8080/";
+                        $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
+                            .success(function(data){
+                                $log.log(data);
+                                $scope.title =data.name;
+                                $scope.description = data.description;
+                            });
+                        $scope.buttons = true;
+                        $scope.list = []
+                        //buttons - depending on role, include hide all buttons
                         //make a REST-call to get all info
                     }
                 }
