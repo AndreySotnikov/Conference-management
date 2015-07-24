@@ -8,8 +8,8 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         .state('home', {
             url: '/home',
             views :{
-                "mainv" : {
-                    template: 'views/home.html'
+                "" : {
+                    templateUrl: 'views/home.html'
                 }
             }
 
@@ -17,18 +17,20 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         .state('home.login', {
             url: '/login',
             views :{
-                "mainv" : {
-                    template: 'views/login.html'
+                "" : {
+                    templateUrl: 'views/login.html'
                 }
-            }
+            },
+            css: 'css/registration.css'
         })
         .state('home.register', {
             url: '/register',
             views :{
-                "mainv" : {
-                    template: 'views/registration.html'
+                "" : {
+                    templateUrl: 'views/registration.html'
                 }
             },
+            css: 'css/registration.css',
             controller: function($scope, $http) {
                 $scope.master= {};
                 $scope.clickBtn = function (user) {
@@ -58,15 +60,44 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         .state("conference", {
             url:'/conference',
             views :{
-                "mainv" : {
-                    template: 'views/conference.html'
+                "" : {
+                    templateUrl: 'views/conference.html',
                 },
-                "leftmenu" : {
-                    template: 'views/leftmenu.html'
+            },
+            css:"css/style.css",
+
+        })
+        .state("conference.info",{
+            url:'/:idconf',
+            views: {
+                "content": {
+                    templateUrl:"views/mainspace.html",
+                    controller: function ($scope, $stateParams) {
+                        $scope.title = $stateParams.idconf;
+                        $scope.description = $stateParams.idconf;
+                        $scope.list = [ {
+                            header:"test",
+                            text:"test",
+                            date:"24.07.2015"
+                        },{
+                            header:"test2",
+                            text:"test2",
+                            date:"25.07.2015"
+                        },{
+                            header:"test3",
+                            text:"test3",
+                            date:"26.07.2015"
+                        },{
+                            header:"test4",
+                            text:"test4",
+                            date:"27.07.2015"
+                        }]
+                        //buttons - depending on role, include hide
+                        //make a REST-call to get all info
+                    }
                 }
-            }
-
-
+            },
+            css:['css/style.css','css/all.css']
         });
 });
 

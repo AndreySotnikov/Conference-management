@@ -1,4 +1,15 @@
-<div ui-view="leftmenu"></div>
+<div class="menuoverlay">
+    <div class="leftmenu">
+        <div class="menu-item">Conferences</div>
+        <div class="separator"></div>
+        <div class="menu-item">Profile</div>
+        <div class="separator"></div>
+        <div class="menu-item">Logout</div>
+        <div class="separator"></div>
+        <div id="close" class="menu-item">Close</div>
+    </div>
+    <div class="shade"></div>
+</div>
 <div class="container-fluid">
     <div class="row orange">
         <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
@@ -10,43 +21,8 @@
     </div>
     <div class="row mainspace">
         <div class="col-xs-2 back column"></div>
-        <div class="col-xs-8 main-padding back column"><div ui-view="content"></div>
+        <div class="col-xs-8 main-padding back column"><div ui-view="content"></div></div>
         <div class="col-xs-2 back column"></div>
     </div>
 </div>
 </div>
-<script>
-    function setEqualHeight(columns)
-    {
-        var tallestcolumn = 0;
-        columns.each(
-                function()
-                {
-                    currentHeight = $(this).height();
-                    if(currentHeight > tallestcolumn)
-                    {
-                        tallestcolumn = currentHeight;
-                    }
-                }
-        );
-        columns.height(tallestcolumn);
-    }
-    $(document).ready(function() {
-        setEqualHeight($(".mainspace > .column"));
-    });
-    $(document).on('click','#menu-button',function(){
-        $(".menuoverlay").show();
-        $(".leftmenu").animate({width: 'toggle'});
-        $(".shade").show();
-    });
-    var closeFunc = function() {
-        $(".leftmenu").animate({width: 'toggle'}, 500, "swing", function () {
-            $(".shade").hide();
-            $(".menuoverlay").hide();
-        });
-    }
-    $(document).on('click','.shade', closeFunc);
-    $(document).on('click','#close',closeFunc);
-
-
-</script>

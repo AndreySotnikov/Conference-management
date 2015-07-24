@@ -1,4 +1,3 @@
-
 html {
     height: 100%;
 }
@@ -6,7 +5,7 @@ html {
 body {
     margin: 0;
     color: #3c3c3c;
-    background: #fff;
+    background-color:#F5F5F5 !important;
     min-width: 1000px;
     height: 100%;
 }
