@@ -1,0 +1,28 @@
+<div class="menuoverlay">
+    <div class="leftmenu">
+        <div class="menu-item"><a ui-sref="conference.list">Conferences</a></div>
+        <div class="separator"></div>
+        <div class="menu-item">Profile</div>
+        <div class="separator"></div>
+        <div class="menu-item">Logout</div>
+        <div class="separator"></div>
+        <div id="close" class="menu-item">Close</div>
+    </div>
+    <div class="shade"></div>
+</div>
+<div class="container-fluid">
+    <div class="row orange">
+        <div class="col-xs-1 nomargin whitefont menubuttoncontainer">
+            <span id="menu-button" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span><!--Left Menu -->
+        </div>
+        <div class="col-xs-11 nomargin nopadding logocontainer">
+
+        </div>
+    </div>
+    <div class="row mainspace">
+        <div class="col-xs-2 back column"></div>
+        <div class="col-xs-8 main-padding back column"><div ui-view="content"></div></div>
+        <div class="col-xs-2 back column"></div>
+    </div>
+</div>
+</div>

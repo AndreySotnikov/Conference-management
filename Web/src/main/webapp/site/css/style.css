@@ -1,0 +1,110 @@
+html { font-size: 62.5%;
+    margin:0;
+    padding:0;}
+body { font-size: 1em;
+    background-color:#F5F5F5 !important;
+    margin:0;
+    padding:0;}
+
+@media (max-width: 300px) {
+    html { font-size: 70%; }
+}
+
+@media (min-width: 500px) {
+    html { font-size: 80%; }
+}
+
+@media (min-width: 700px) {
+    html { font-size: 120%; }
+}
+
+@media (min-width: 1200px) {
+    html { font-size: 200%; }
+}
+
+.orange {
+    background-color: orange;
+}
+
+.orange div {
+    display:inline;
+}
+
+.whitefont {
+    color:white;
+}
+
+.logocontainer {
+}
+
+.menubuttoncontainer {
+}
+
+.nopadding {
+    padding:0 !important;
+}
+
+.nomargin {
+    margin:0 !important;
+}
+
+.back {
+    background-color:#F5F5F5;
+}
+
+.main {
+    min-height:100%;
+    background-color:white;
+}
+
+.input-settings {
+    margin-top: 5px;
+}
+.menuoverlay {
+    position:absolute;
+    width:100%;
+    z-index:1;
+    height:100%;
+    display: none;
+}
+
+.leftmenu {
+    position:absolute;
+    padding-top:1.5em;
+    float:left;
+    height:100%;
+    background-color: black;
+    z-index:3;
+    display: none;
+}
+.shade {
+    background-color: black;
+    height:100%;
+    opacity: 0.4;
+    z-index:2;
+    display: none;
+}
+
+#close {
+}
+
+.main-padding {
+    padding:5px 0 10px 0;
+}
+
+.separator {
+    margin-left:12px;
+    margin-right:10px;
+    border: 1px dashed;
+}
+
+.menu-item {
+    color: white;
+    margin-left:15px;
+    margin-right:10px;
+}
+
+
+.announs {
+    float: left;
+}

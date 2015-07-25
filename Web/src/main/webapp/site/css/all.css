@@ -1,0 +1,169 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    color: #3c3c3c;
+    background-color:#F5F5F5 !important;
+    min-width: 1000px;
+    height: 100%;
+}
+
+img {
+    border: 0;
+}
+
+a {
+    color: #264b9f;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+input,
+textarea,
+select {
+    font: 100% arial, sans-serif;
+    vertical-align: middle;
+    outline: none;
+}
+
+form, fieldset {
+    margin: 0;
+    padding: 0;
+    border-style: none;
+}
+
+.infobox {
+    font-size:50%;
+}
+
+.left-group {
+    padding: 23px 20px;
+    float:right;
+}
+
+.info-title {
+    margin-bottom:15px;
+    font-weight: bold;
+    font-size:120%;
+}
+
+.news-hold,
+.action-hold {
+    width: inherit;
+    overflow: hidden;
+    position: relative;
+    padding: 0 0 32px;
+
+}
+
+.nbox {
+    display: inline-block;
+    vertical-align: top;
+
+    width: 320px;
+    overflow: hidden;
+    padding: 0 0 61px;
+    height: 190px;
+    position: relative;
+    background: url(http://amm.vsu.ru/images/bg-news.gif) no-repeat 0 100%;
+}
+
+*+ html .nbox {
+    margin-right: 32px;
+}
+
+.infobox {
+    display:inline;
+}
+
+.nbox .title {
+    /*width: 100%;*/
+    overflow: hidden;
+}
+
+.nbox .title a {
+    display: block;
+    overflow: hidden;
+    padding: 8px 15px 14px;
+    text-decoration: none;
+    background: url(http://amm.vsu.ru/images/bg-title-grey.gif) no-repeat 0 100%;
+}
+
+.action-hold .nbox .title a {
+    background: url(http://amm.vsu.ru/images/bg-title-red.gif) no-repeat 0 100%;
+}
+
+.nbox .title strong {
+    margin: 0;
+    font-size: 18px;
+    line-height: 22px;
+    font-style: italic;
+    font-weight: normal;
+    color: #fff;
+}
+
+.nbox .hold {
+    overflow: hidden;
+    position: relative;
+    padding: 13px 20px 0;
+}
+
+.nbox p {
+    margin: 0;
+    font: 14px/17px MyriadProRegular, Arial, Helvetica, sans-serif;
+    text-indent: 6px;
+}
+
+.nbox .image {
+    float: left;
+    padding: 0 0 0 3px;
+    margin: -1px 10px 0 0;
+}
+
+.nbox .mimage a,
+.nbox .mimage a img {
+    float: left;
+}
+
+.nbox .bbox {
+    position: absolute;
+    left: 20px;
+    width: 270px;
+    bottom: 33px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.nbox .date,
+.news-gall .bbox .date {
+    float: left;
+    color: #959595;
+    width: 170px;
+}
+
+.nbox .bbox a,
+.news-gall .bbox a {
+    float: right;
+    color: #a52123;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.nbox .bbox a:hover,
+.news-gall .bbox a:hover {
+    text-decoration: underline;
+}
+
+
+.text-box {
+    display:inline-block;
+    height: 1%;
+    padding: 23px 20px;
+    overflow: hidden;
+    width:100%;
+}
