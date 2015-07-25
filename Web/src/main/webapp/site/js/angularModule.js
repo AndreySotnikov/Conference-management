@@ -14,7 +14,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('home', {
             url: '/home',
             views: {
-                "mainv": {
+                "": {
                     templateUrl: 'views/home.html',
                     css: 'css/registration.css'
                 }
@@ -24,7 +24,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/login',
             //templateUrl: 'views/login.html',
             views :{
-                "mainv":{
+                "":{
                     templateUrl: 'views/login.html',
                     css: 'css/registration.css',
                     controller: function ($scope, $http) {
@@ -47,7 +47,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('home.register', {
             url: '/register',
             views: {
-                "mainv": {
+                "": {
                     templateUrl: 'views/registration.html',
                     css: 'css/registration.css',
                     controller: function ($scope, $http, $state) {
@@ -71,32 +71,32 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
 
         })
-        .state("conference", {
-            url: '/conference',
-            css: ['css/style.css', 'css/all.css'],
-            views: {
-                'mainv': {
-                    templateUrl: 'views/conference.html'
-                },
-                'leftmenu@conference': {
-                    templateUrl: 'views/leftmenu.html'
-                }
-            }
-
-
-        })
         //.state("conference", {
-        //    url:'/conference',
-        //    css:"css/style.css",
-        //    views :{
-        //        "" : {
-        //            templateUrl: 'views/conference.html',
+        //    url: '/conference',
+        //    css: ['css/style.css', 'css/all.css'],
+        //    views: {
+        //        'mainv': {
+        //            templateUrl: 'views/conference.html'
         //        },
-        //    "leftmenu" : {
-        //        template: 'views/leftmenu.html'
+        //        'leftmenu@conference': {
+        //            templateUrl: 'views/leftmenu.html'
+        //        }
         //    }
-        //}
+        //
+        //
         //})
+        .state("conference", {
+            url:'/conference',
+            css:"css/style.css",
+            views :{
+                "" : {
+                    templateUrl: 'views/conference.html',
+                },
+            "leftmenu" : {
+                template: 'views/leftmenu.html'
+            }
+        }
+        })
         .state("conference.list", {
             url: '/list',
             views: {
