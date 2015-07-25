@@ -68,7 +68,7 @@ public class ConferenceService extends CrudImplementation {
 
     public List<Speech> speechesByConference(Integer id) {
         try {
-            return em.createQuery("select e from Speech e where e.conference.id=:id")
+            return em.createQuery("select e from Speech e where e.conference.id=:id and e.approved=true")
                     .setParameter("id", id).getResultList();
         }catch (Exception e){
             e.printStackTrace();
