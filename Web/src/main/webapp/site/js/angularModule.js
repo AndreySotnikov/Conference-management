@@ -71,20 +71,13 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
 
         })
-        //.state("conference", {
-        //    url: '/conference',
-        //    css: ['css/style.css', 'css/all.css'],
-        //    views: {
-        //        'mainv': {
-        //            templateUrl: 'views/conference.html'
-        //        },
-        //        'leftmenu@conference': {
-        //            templateUrl: 'views/leftmenu.html'
-        //        }
-        //    }
-        //
-        //
-        //})
+        .state('logout', {
+            url:'/logout',
+            controller: function ($http, $log){
+                $http.get(remoteServer + '/' + warName + '/rest/logout');
+                $log.log('logout');
+            }
+        })
         .state("conference", {
             url:'/conference',
             css:"css/style.css",
@@ -138,8 +131,27 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 $scope.title = data.name;
                                 $scope.description = data.description;
                             });
-                        $scope.buttons = true;
-                        $scope.list = []
+                        $scope.buttons = false;
+
+                        $http.get(remoteServer + '/' + warName +  "/rest/whoami")
+                            .success(function (data) {
+                                $log.log(data);
+                                $scope.buttons = (data=='organizer');
+                            });
+
+                        $scope.list=[];
+                        $http.get(remoteServer + '/' + warName + '/rest/conference/speeches/' + $stateParams.idconf)
+                            .success(function (data) {
+                                angular.forEach(data, function (elem) {
+                                    $scope.list.push({
+                                        header: elem.topic,
+                                        id: elem.id,
+                                        //text: elem.description,
+                                        date: elem.startDate
+                                    });
+                                });
+                            });
+                        //$scope.list = []
                         //buttons - depending on role, include hide all buttons
                         //make a REST-call to get all info
                     }

@@ -2,6 +2,7 @@ package project;
 
 import project.Entity.*;
 import project.Service.ReporterService;
+import project.Service.UserRolesService;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
@@ -21,6 +22,9 @@ public class Rest {
 
     @EJB
     CrudRepository crudRepository;
+
+    @EJB
+    UserRolesService userRolesService;
 
     @Context
     private HttpServletRequest request;
@@ -76,6 +80,7 @@ public class Rest {
     @GET
     @Path("logout")
     public void logout() throws ServletException {
+        System.err.println("logout");
         response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");
         response.getOutputHeaders().putSingle("Pragma", "no-cache");
         response.getOutputHeaders().putSingle("Expires", new java.util.Date().toString());
@@ -86,6 +91,15 @@ public class Rest {
             request.getSession().invalidate();
         }
         request.logout();
+    }
+
+    @GET
+    @Path("whoami")
+    public String whoAmI(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return userRolesService.whoAmI(request.getUserPrincipal().getName());
     }
 
 }

@@ -55,6 +55,16 @@ public class ConferenceController {
         return conferenceService.findOne(id);
     }
 
+    @Path("speeches/{id}")
+    @GET
+    @Produces("application/json")
+    public List<Speech> speechesByConference(@PathParam("id") Integer id) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return conferenceService.speechesByConference(id);
+    }
+
     @Path("add")
     @POST
     public String add(MultivaluedMap<String, String> form) {

@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="bbox">
-                <em class="date">{{square.date}}</em>
+                <em class="date">{{square.date | date : 'MM/dd/yy hh:mm'}}</em>
                 <a ui-sref="conference.info({idconf:square.id})">подробнее &gt;&gt;</a><!--edit this link-->
             </div>
         </div>

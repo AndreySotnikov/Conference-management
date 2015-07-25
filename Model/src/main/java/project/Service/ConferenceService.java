@@ -1,6 +1,7 @@
 package project.Service;
 
 import project.Entity.Conference;
+import project.Entity.Speech;
 import project.Util.CrudImplementation;
 
 import javax.ejb.Stateless;
@@ -63,5 +64,15 @@ public class ConferenceService extends CrudImplementation {
 
     public void remove(int id){
         remove(Conference.class,id);
+    }
+
+    public List<Speech> speechesByConference(Integer id) {
+        try {
+            return em.createQuery("select e from Speech e where e.conference.id=:id")
+                    .setParameter("id", id).getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
