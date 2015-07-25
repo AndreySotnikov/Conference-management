@@ -31,8 +31,6 @@ public class Rest {
     @Path("register")
     @POST
     public String register(MultivaluedMap<String, String> form){
-//        System.err.println("QueryParam: " + logi);
-//        System.err.println("FormParam " + log);
         System.err.println("form:" + form);
         try {
             String login = form.getFirst("login");

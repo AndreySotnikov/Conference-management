@@ -1,5 +1,10 @@
-html { font-size: 62.5%; }
-body { font-size: 1em;}
+html { font-size: 62.5%;
+    margin:0;
+    padding:0;}
+body { font-size: 1em;
+    background-color:#F5F5F5 !important;
+    margin:0;
+    padding:0;}
 
 @media (max-width: 300px) {
     html { font-size: 70%; }
@@ -15,11 +20,6 @@ body { font-size: 1em;}
 
 @media (min-width: 1200px) {
     html { font-size: 200%; }
-}
-
-html, body {
-    margin:0;
-    padding:0;
 }
 
 .orange {

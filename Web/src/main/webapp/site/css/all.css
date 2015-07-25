@@ -10,6 +10,17 @@
     /*min-width: 1000px;*/
     /*height: 100%;*/
 /*}*/
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    color: #3c3c3c;
+    background-color:#F5F5F5 !important;
+    min-width: 1000px;
+    height: 100%;
+}
 
 img {
     border: 0;
@@ -144,7 +155,7 @@ form, fieldset {
 .news-gall .bbox .date {
     float: left;
     color: #959595;
-    width: 80px;
+    width: 170px;
 }
 
 .nbox .bbox a,
@@ -166,4 +177,5 @@ form, fieldset {
     height: 1%;
     padding: 23px 20px;
     overflow: hidden;
+    width:100%;
 }
