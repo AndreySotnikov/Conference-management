@@ -147,12 +147,11 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $http({
                             url: remoteServer + '/' + warName +  "/rest/whoami",
                             method: "GET",
-                            
+
                         })
                             .success(function (data) {
-                                alert(data);
                                 $log.log(data);
-                                $scope.buttons = (data.localeCompare('organizer'));
+                                $scope.buttons = ((data.role) == 'organizer');
                             });
 
                         $scope.list=[];
@@ -198,7 +197,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $http.get(remoteServer + '/' + warName +  "/rest/whoami")
                             .success(function (data) {
                                 $log.log(data);
-                                $scope.buttons = (data.localeCompare('speaker'));
+                                $scope.buttons = ((data.role) == 'speaker');
                             });
 
                         $scope.list=[];

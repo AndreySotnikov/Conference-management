@@ -15,11 +15,11 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UserRolesService extends CrudImplementation {
-    public String whoAmI(String login) {
+    public UserRoles whoAmI(String login) {
         try {
             UserRoles ur = (UserRoles)em.createQuery("select e from UserRoles e where e.username=:login")
                     .setParameter("login", login).getResultList().get(0);
-            return ur.getRole();
+            return ur;
         }catch (Exception e){
             e.printStackTrace();
             return null;
