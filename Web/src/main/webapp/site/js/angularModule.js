@@ -1,5 +1,5 @@
 var routerApp = angular.module('app', ['ui.router', 'door3.css']);
-var remoteServer = 'http://127.0.0.1:8080';
+var remoteServer = 'http://localhost:8080';
 //var remoteServer = '';
 var warName = 'Web-1.0-SNAPSHOT';
 routerApp.config(function ($httpProvider) {
@@ -33,6 +33,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $scope.clickBtn = function (user) {
                             $scope.master = angular.copy(user);
                             $http({
+                                //url : 'j_security_check',
                                 url: remoteServer + '/' + warName + '/rest/j_security_check',
                                 method: "POST",
                                 data: "j_username=" + user.j_username +
@@ -136,9 +137,22 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                             });
                         $scope.buttons = false;
 
-                        $http.get(remoteServer + '/' + warName +  "/rest/whoami")
+                        //$http.get(remoteServer + '/' + warName +  "/rest/whoami")
+                        //    .then(function (response) {
+                        //        alert(response);
+                        //        $log.log(response);
+                        //        $scope.buttons = (response.localeCompare('organizer'));
+                        //    });
+
+                        $http({
+                            url: remoteServer + '/' + warName +  "/rest/whoami",
+                            method: "GET",
+                            headers: {
+                                'Content-Type': undefined
+                            },
+                        })
                             .success(function (data) {
-                                alert('ok');
+                                alert(data);
                                 $log.log(data);
                                 $scope.buttons = (data.localeCompare('organizer'));
                             });
