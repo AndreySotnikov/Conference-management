@@ -47,6 +47,12 @@ public class Speech {
     public Speech() {
     }
 
+    @PrePersist
+    public void init(){
+        approved = false;
+        completed = false;
+    }
+
     public Integer getId() {
         return id;
     }

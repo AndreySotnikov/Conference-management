@@ -153,22 +153,22 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 $log.log(data);
                                 $scope.buttons = ((data.role) == 'organizer');
                             });
-
-                        $scope.list=[];
+                        $scope.sections = [];
+                        $scope.sections.list = [];
+                        $scope.sections.title = '';
                         $http.get(remoteServer + '/' + warName + '/rest/conference/speeches/' + $stateParams.idconf)
                             .success(function (data) {
                                 angular.forEach(data, function (elem) {
-                                    $scope.list.push({
+                                    $scope.sections.list.push({
                                         header: elem.topic,
                                         id: elem.id,
                                         text: elem.speaker.name,
                                         date: elem.startDate
                                     });
                                 });
+                                $scope.sections.title = 'Список докладов';
                             });
-                        //$scope.list = []
-                        //buttons - depending on role, include hide all buttons
-                        //make a REST-call to get all info
+                        $log.log($scope.sections);
                     }
                 }
             },
