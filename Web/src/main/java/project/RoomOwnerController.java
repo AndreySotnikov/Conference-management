@@ -1,5 +1,6 @@
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.RoomOwner;
 import project.Service.RoomOwnerService;
 
@@ -27,11 +28,14 @@ public class RoomOwnerController {
     private HttpServletRequest request;
 
     @Context
-    private HttpServletResponse response;
+    private HttpResponse response;
 
     @GET
     @Path("test")
     public String roomownerTest(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return  "I am room-owner";
     }
 
@@ -39,6 +43,9 @@ public class RoomOwnerController {
     @Path("get")
     @Produces("application/json")
     public RoomOwner get(@QueryParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findOne(id);
     }
 
@@ -46,6 +53,9 @@ public class RoomOwnerController {
     @Path("all")
     @Produces("application/json")
     public List<RoomOwner> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 

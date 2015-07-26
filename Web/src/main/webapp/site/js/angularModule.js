@@ -4,6 +4,7 @@ var remoteServer = 'http://127.0.0.1:8080';
 var warName = 'Web-1.0-SNAPSHOT';
 routerApp.config(function ($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
+    $httpProvider.defaults.withCredentials = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 routerApp.config(function ($stateProvider, $urlRouterProvider) {
@@ -137,6 +138,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
                         $http.get(remoteServer + '/' + warName +  "/rest/whoami")
                             .success(function (data) {
+                                alert('ok');
                                 $log.log(data);
                                 $scope.buttons = (data.localeCompare('organizer'));
                             });
@@ -174,7 +176,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                             method: "GET",
                             params: {id:$stateParams.idspeech}
                         })
-                        //$http.get($scope.server + $scope.warName + "/rest/speech/info", {id:$stateParams.idspeech} )
                             .success(function (data) {
                                 $log.log(data);
                                 $scope.title = data.topic;

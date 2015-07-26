@@ -37,7 +37,7 @@ public class ModerationController {
     @Path("moderators")
     @Produces("application/json")
     public List<Moderator> getAllModerators(){
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();

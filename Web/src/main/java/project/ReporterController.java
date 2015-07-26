@@ -1,5 +1,6 @@
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Reporter;
 import project.Service.ReporterService;
 import project.Service.TranslationService;
@@ -28,7 +29,7 @@ public class ReporterController {
     private HttpServletRequest request;
 
     @Context
-    private HttpServletResponse response;
+    private HttpResponse response;
 
     @GET
     @Path("test")
@@ -47,6 +48,9 @@ public class ReporterController {
     @Path("all")
     @Produces("application/json")
     public List<Reporter> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 
