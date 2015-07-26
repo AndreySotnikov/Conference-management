@@ -2,6 +2,7 @@ package project;
 
 import project.Entity.*;
 import project.Service.ReporterService;
+import project.Service.UserRolesService;
 import project.Util.CrudRepository;
 
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import org.jboss.resteasy.spi.HttpResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.Arrays;
 
 
 @Path("/")
@@ -21,6 +23,9 @@ public class Rest {
 
     @EJB
     CrudRepository crudRepository;
+
+    @EJB
+    UserRolesService userRolesService;
 
     @Context
     private HttpServletRequest request;
@@ -31,8 +36,6 @@ public class Rest {
     @Path("register")
     @POST
     public String register(MultivaluedMap<String, String> form){
-//        System.err.println("QueryParam: " + logi);
-//        System.err.println("FormParam " + log);
         System.err.println("form:" + form);
         try {
             String login = form.getFirst("login");
@@ -75,28 +78,16 @@ public class Rest {
         }
     }
 
-    @GET
-    @Path("whoami")
-    @Produces("application/json")
-    public String whoami() {
-        response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");
-        response.getOutputHeaders().putSingle("Pragma", "no-cache");
-        response.getOutputHeaders().putSingle("Expires", new java.util.Date().toString());
 
-
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-
-        return String.format("{ \"login\" : \"%s\" }", request.getUserPrincipal().getName());
-    }
 
     @GET
     @Path("logout")
     public void logout() throws ServletException {
-        response.getOutputHeaders().putSingle("Cache-Control", "no-cache, no-store");
-        response.getOutputHeaders().putSingle("Pragma", "no-cache");
-        response.getOutputHeaders().putSingle("Expires", new java.util.Date().toString());
+        System.err.println("logout");
+
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         if(request.getSession(false)!=null){
             request.getSession(false).invalidate();
         }
@@ -104,6 +95,16 @@ public class Rest {
             request.getSession().invalidate();
         }
         request.logout();
+    }
+
+    @GET
+    @Path("whoami")
+    @Produces("application/json")
+    public UserRoles whoAmI(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return userRolesService.whoAmI(request.getUserPrincipal().getName());
     }
 
 }

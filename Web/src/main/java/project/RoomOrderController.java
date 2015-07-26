@@ -41,7 +41,7 @@ public class RoomOrderController {
     @Path("all")
     @Produces("application/json")
     public List<RoomOrder> getAll(){
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
@@ -51,7 +51,7 @@ public class RoomOrderController {
     @Path("{id}")
     @Produces("application/json")
     public RoomOrder getRoom(@PathParam("id") Integer id) {
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findOne(id);

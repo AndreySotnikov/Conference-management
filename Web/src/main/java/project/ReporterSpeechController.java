@@ -1,5 +1,6 @@
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Reporter;
 import project.Entity.ReporterRequestsSpeech;
 import project.Entity.Speech;
@@ -35,11 +36,14 @@ public class ReporterSpeechController {
     private HttpServletRequest request;
 
     @Context
-    private HttpServletResponse response;
+    private HttpResponse response;
 
     @GET
     @Path("test")
     public String reporterSpeechTest(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return  "reporterSpeech controller";
     }
 
@@ -47,6 +51,9 @@ public class ReporterSpeechController {
     @Path("get/{id}")
     @Produces("application/json")
     public ReporterRequestsSpeech get(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findOne(id);
     }
 
@@ -54,6 +61,9 @@ public class ReporterSpeechController {
     @Path("all")
     @Produces("application/json")
     public List<ReporterRequestsSpeech> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 
@@ -61,6 +71,9 @@ public class ReporterSpeechController {
     @Path("fswtar")
     @Produces("application/json")
     public List<Speech> findSpeechesWithoutApprovedReporters(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findSpeechesWithoutApprovedReporters();
     }
 
@@ -68,6 +81,9 @@ public class ReporterSpeechController {
     @Path("fswar")
     @Produces("application/json")
     public List<Speech> findSpeechesWithApprovedReporters(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findSpeechesWithApprovedReporters();
     }
 
@@ -75,6 +91,9 @@ public class ReporterSpeechController {
     @Path("farbs/{id}")
     @Produces("application/json")
     public List<Reporter> findApprovedReportersBySpeech(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findApprovedReportersBySpeech(id);
     }
 
@@ -82,6 +101,9 @@ public class ReporterSpeechController {
     @Path("fuarbs/{id}")
     @Produces("application/json")
     public List<Reporter> findUnapprovedReportersBySpeech(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findUnapprovedReportersBySpeech(id);
     }
 
@@ -89,6 +111,9 @@ public class ReporterSpeechController {
     @Path("rros")
     public String registerReporterOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("reporterId") String reporterId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String res = (service.registerReporterOnSpeech(reporterId, speechId)?"OK":"NOT OK");
         return res;
     }
@@ -97,6 +122,9 @@ public class ReporterSpeechController {
     @Path("aros")
     public String approveReporterOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("reporterId") String reporterId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String res = (service.approveReporterOnSpeech(reporterId, speechId)?"OK":"NOT OK");
         return res;
     }

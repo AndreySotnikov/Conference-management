@@ -1,5 +1,6 @@
 package project;
 
+import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.*;
 import project.Service.ModeratorSpeechService;
 import project.Util.CrudRepository;
@@ -30,11 +31,14 @@ public class ModeratorSpeechController {
     private HttpServletRequest request;
 
     @Context
-    private HttpServletResponse response;
+    private HttpResponse response;
 
     @GET
     @Path("test")
     public String moderatorSpeechTest(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return  "moderatorSpeech controller";
     }
 
@@ -42,6 +46,9 @@ public class ModeratorSpeechController {
     @Path("get/{id}")
     @Produces("application/json")
     public ModeratorRequestsSpeech get(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findOne(id);
     }
 
@@ -49,6 +56,9 @@ public class ModeratorSpeechController {
     @Path("all")
     @Produces("application/json")
     public List<ModeratorRequestsSpeech> getAll(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findAll();
     }
 
@@ -56,6 +66,9 @@ public class ModeratorSpeechController {
     @Path("fswtam")
     @Produces("application/json")
     public List<Speech> findSpeechesWithoutApprovedModerators(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findSpeechesWithoutApprovedModerators();
     }
 
@@ -63,6 +76,9 @@ public class ModeratorSpeechController {
     @Path("fswam")
     @Produces("application/json")
     public List<Speech> findSpeechesWithApprovedModerators(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findSpeechesWithApprovedModerators();
     }
 
@@ -70,6 +86,9 @@ public class ModeratorSpeechController {
     @Path("fambs/{id}")
     @Produces("application/json")
     public List<Moderator> findApprovedModeratorsBySpeech(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findApprovedModeratorsBySpeech(id);
     }
 
@@ -77,6 +96,9 @@ public class ModeratorSpeechController {
     @Path("fuambs/{id}")
     @Produces("application/json")
     public List<Moderator> findUnapprovedModeratorsBySpeech(@PathParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         return service.findUnapprovedModeratorsBySpeech(id);
     }
 
@@ -84,6 +106,9 @@ public class ModeratorSpeechController {
     @Path("rmos")
     public String registerModeratorOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("moderatorId") String moderatorId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String res = (service.registerModeratorOnSpeech(moderatorId, speechId)?"OK":"NOT OK");
         return res;
     }
@@ -92,6 +117,9 @@ public class ModeratorSpeechController {
     @Path("amos")
     public String approveModeratorOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("moderatorId") String moderatorId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String res = (service.approveModeratorOnSpeech(moderatorId, speechId)?"OK":"NOT OK");
         return res;
     }

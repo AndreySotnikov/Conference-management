@@ -25,6 +25,12 @@ public class Question {
     public Question() {
     }
 
+    @PrePersist
+    public void init(){
+        moderated = false;
+        answered = false;
+    }
+
     public Integer getId() {
         return id;
     }

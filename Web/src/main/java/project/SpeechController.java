@@ -57,9 +57,9 @@ public class SpeechController {
     @Produces("application/json")
     public Speech getInfo(@QueryParam("id") Integer id){
         try {
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
             response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
             return speechService.findOne(id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,9 +72,9 @@ public class SpeechController {
     @Produces("application/json")
     public String getTopic(@PathParam("id") Integer id){
         try {
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
             response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
             return speechService.findOne(id).getTopic();
         } catch (Exception e) {
             e.printStackTrace();

@@ -39,7 +39,7 @@ public class ConferenceController {
     @GET
     @Produces("application/json")
     public List<Conference> findAll() {
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return conferenceService.findAll();
@@ -49,10 +49,20 @@ public class ConferenceController {
     @GET
     @Produces("application/json")
     public Conference findOne(@PathParam("id") Integer id) {
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return conferenceService.findOne(id);
+    }
+
+    @Path("speeches/{id}")
+    @GET
+    @Produces("application/json")
+    public List<Speech> speechesByConference(@PathParam("id") Integer id) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return conferenceService.speechesByConference(id);
     }
 
     @Path("add")
@@ -78,7 +88,7 @@ public class ConferenceController {
     @GET
     @Produces("application/json")
     public List<Conference> getAllByUser() {
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return conferenceService.findAllByLogin(request.getUserPrincipal().getName());

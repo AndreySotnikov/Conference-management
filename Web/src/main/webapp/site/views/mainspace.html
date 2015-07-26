@@ -1,0 +1,28 @@
+<div class="margin-settings main">
+    <div class="infobox">
+        <div class="text-box">
+            <strong>{{title}}</strong>
+            <div class="btn-group-vertical left-group" role="group" ng-if="buttons==true" aria-label="...">
+                <button type="button" class="btn btn-default">{{button1}}</button>
+                <button type="button" class="btn btn-default">{{button2}}</button>
+            </div>
+            <p>{{description}} </p>
+        </div>
+    </div>
+    <div class="news-hold" align="center">
+        <div class="nbox" ng-repeat="square in list">
+            <div class="news_words">
+                <div class="title">
+                    <a href="link1"><strong>{{square.header}}</strong></a>
+                </div>
+                <div class="hold smp">
+                    <p>{{square.text}}</p>
+                </div>
+            </div>
+            <div class="bbox">
+                <em class="date">{{square.date | date : 'MM/dd/yy hh:mm'}}</em>
+                <a ui-sref={{link}}>подробнее &gt;&gt;</a><!--edit this link-->
+            </div>
+        </div>
+    </div>
+</div>
