@@ -147,9 +147,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $http({
                             url: remoteServer + '/' + warName +  "/rest/whoami",
                             method: "GET",
-                            headers: {
-                                'Content-Type': undefined
-                            },
+                            
                         })
                             .success(function (data) {
                                 alert(data);

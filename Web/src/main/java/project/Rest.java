@@ -97,6 +97,7 @@ public class Rest {
 
     @GET
     @Path("whoami")
+    @Produces("application/json")
     public String whoAmI(){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
