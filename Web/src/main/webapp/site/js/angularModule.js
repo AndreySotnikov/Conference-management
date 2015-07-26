@@ -244,12 +244,36 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('translation', {
             url: '/translation',
             views: {
-                'mainv': {
+                '': {
                     templateUrl: 'views/translation.html',
                     controller: 'translationCtrl'
                 }
             },
 
+        })
+        .state('profile',{
+            url:'/profile',
+            views: {
+                "": {
+                    templateUrl:'views/conference.html',
+                    controller: function () {
+
+                    }
+                }
+            },
+            css:"css/style.css"
+        })
+        .state('profile.info',{
+            url:'/profile/{login[0-9a-zA-Z]+}',
+            css: ['css/style.css', 'css/all.css'],
+            views: {
+                "content": {
+                    templateUrl:"views/mainspace.html",
+                    controller: function () {
+
+                    }
+                }
+            }
         });
 });
 routerApp.controller('translationCtrl', function ($scope, $http) {
