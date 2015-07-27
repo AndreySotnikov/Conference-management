@@ -1,5 +1,6 @@
 package project.Service;
 
+import project.Entity.ReporterRequestsSpeech;
 import project.Entity.Speech;
 import project.Util.CrudImplementation;
 
@@ -84,4 +85,24 @@ public class SpeechService extends CrudImplementation {
     }
 
     public void remove(Integer id) { super.remove(Speech.class, id);}
+
+    public boolean hasReportedRequested(Integer speechId, String reporterLogin) {
+        Speech sp = findOne(speechId);
+        return em
+                .createQuery("SELECT e FROM ReporterRequestsSpeech e WHERE e.speech.id=:speechId AND e.reporter.id=:reporterLogin")
+                .setParameter("speechId", speechId)
+                .setParameter("reporterLogin", reporterLogin)
+                .getResultList()
+                .size() != 0;
+    }
+
+    public boolean hasModeratorRequested(Integer speechId, String moderatorLogin) {
+        Speech sp = findOne(speechId);
+        return em
+                .createQuery("SELECT e FROM ModeratorRequestsSpeech e WHERE e.speech.id=:speechId AND e.moderator.id=:moderatorLogin")
+                .setParameter("speechId", speechId)
+                .setParameter("moderatorLogin", moderatorLogin)
+                .getResultList()
+                .size() != 0;
+    }
 }

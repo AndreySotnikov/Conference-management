@@ -39,28 +39,25 @@ public class VisitorService extends CrudImplementation {
 
     public void remove(String id) { super.remove(Visitor.class, id);}
 
-    public Boolean registerToSpeech(String visitorId, Integer speechId, Integer conferenceId) {
+    public Boolean registerToSpeech(String visitorId, Integer speechId) {
         Visitor visitor = findOne(visitorId);
         Speech speech = findOne(Speech.class, speechId);
 
-        if (!speech.getConference().getId().equals(conferenceId))
+        List<Visitor> visitors = speech.getVisitors();
+        if (visitors.contains(visitor))
             return false;
         else {
-            List<Visitor> visitors = speech.getVisitors();
-            if (visitors.contains(visitor))
+            try {
+                visitors.add(visitor);
+                em.merge(speech);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
                 return false;
-            else {
-                try {
-                    visitors.add(visitor);
-                    em.merge(speech);
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
             }
         }
     }
+
 
     public void addQuestion(String text, String visitorId, Integer speechId ) {
         Visitor visitor = findOne(visitorId);

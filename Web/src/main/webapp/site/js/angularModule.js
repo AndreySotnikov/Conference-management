@@ -469,18 +469,22 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
         "text"
     ];
     $scope.reports = [];
-    $scope.username = '';
     $scope.speechId = 2;
     $scope.lastId = 0;
-
 
     $('#reporter').hide();
 
     $http.get(remoteServer + '/' + warName + '/rest/whoami/')
         .success(function (data) {
             if (data.role=='reporter'){
-                $('#reporter').show();
-                $scope.username = data.username;
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/repspeech/crs',
+                    method: "GET",
+                    params: {speechId: $scope.speechId, reporterId: data.username}
+                }).success(function (response) {
+                    if (response)
+                        $('#reporter').show();
+                });
             }
         });
 
