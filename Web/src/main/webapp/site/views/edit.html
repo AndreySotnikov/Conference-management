@@ -16,7 +16,7 @@
         </select>
     </div>
     <div ng-repeat="file in files" class="input-group" style="float:{{file.float}}">
-        <!--TODO:file-->
+        <input type="file" id="{{file.id}}"/> <!--TODO:style-->
     </div>
     <button class="btn btn-default" ng-click="submit()">Submit</button>
 </form>
