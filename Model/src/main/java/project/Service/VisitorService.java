@@ -1,6 +1,7 @@
 package project.Service;
 
 import project.Entity.Conference;
+import project.Entity.Question;
 import project.Entity.Speech;
 import project.Entity.Visitor;
 import project.Util.CrudImplementation;
@@ -59,6 +60,26 @@ public class VisitorService extends CrudImplementation {
                 }
             }
         }
+    }
+
+    public void addQuestion(String text, String visitorId, Integer speechId ) {
+        Visitor visitor = findOne(visitorId);
+        Question question = new Question();
+        question.setText(text);
+        question.setSpeech(findOne(Speech.class, speechId));
+        question.setRating(1);
+        question.setModerated(false);
+        question.setAnswered(false);
+
+        question = em.merge(question);
+        System.err.println("visitor " + visitor.getQuestions());
+        System.err.println("questionID " + question.getId());
+        visitor.getQuestions().add(question);
+        System.err.println("visitor: " + visitor.getQuestions());
+        em.merge(visitor);
+        em.flush();
+        System.err.println("visitor: " + findOne(visitorId).getQuestions());
+
     }
 
 
