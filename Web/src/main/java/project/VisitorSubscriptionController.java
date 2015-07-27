@@ -89,13 +89,13 @@ public class VisitorSubscriptionController {
     @GET
     @Path("check")
     @Produces("application/json")
-    public Map<String, Boolean> isVisitorSubscribedToConference(@QueryParam("visitor") String visitorLogin, @QueryParam("conf") Integer conferenceId) {
+    public Map<String, Boolean> isVisitorSubscribedToConference(@QueryParam("visitor") String visitorLogin, @QueryParam("speech") Integer speechId) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
 
         Map<String, Boolean> result = new HashMap<>();
-        result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, conferenceId));
+        result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, speechId));
         return result;
     }
 

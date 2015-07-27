@@ -406,29 +406,46 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
         }
 
         if (role=='moderator') {
-            var button = new Object();
-            button.text = 'Request';
-            button.action = function(){
-                $http({
-                    url: remoteServer + '/' + warName + "/rest/modspeech/rmos",
-                    method: "GET",
-                    params: {speechId: $stateParams.idspeech}
-                });
-            };
-            $scope.buttons.push(button);
+            $http({
+                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/modrequested/"+login,
+                method: "GET"
+            }).success(function(data){
+                if (!data.result){
+                    var button = new Object();
+                    button.text = 'Request';
+                    button.action = function(){
+                        $http({
+                            url: remoteServer + '/' + warName + "/rest/modspeech/rmos",
+                            method: "GET",
+                            params: {speechId: $stateParams.idspeech}
+                        });
+                    };
+                    $scope.buttons.push(button);
+                }
+            });
+
         }
 
         if (role=='reporter') {
-            var button = new Object();
-            button.text = 'Request';
-            button.action = function(){
-                $http({
-                    url: remoteServer + '/' + warName + "/rest/repspeech/rros",
-                    method: "GET",
-                    params: {speechId: $stateParams.idspeech}
-                });
-            };
-            $scope.buttons.push(button);
+            $http({
+                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/reprequested/"+login,
+                method: "GET"
+            }).success(function(data){
+                if (!data.result){
+                    var button = new Object();
+                    button.text = 'Request';
+                    button.action = function(){
+                        $http({
+                            url: remoteServer + '/' + warName + "/rest/repspeech/rros",
+                            method: "GET",
+                            params: {speechId: $stateParams.idspeech}
+                        });
+                    };
+                    $scope.buttons.push(button);
+                }
+            });
+
+
         }
 
         if (role=='speaker' && whoami == login) {
@@ -443,21 +460,25 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
 
         if (role=='visitor') { //TODO
             $http({
-                url: remoteServer + '/' + warName + "/rest/subscribe/check?visitor=login&conf=id",
+                url: remoteServer + '/' + warName + "/rest/subscribe/check",
                 method: "GET",
-                params: {visitor: login}
+                params: {visitor: login , speech: $stateParams.idspeech}
+            }).success(function(data){
+                if (data.result){
+                    var button = new Object();
+                    button.text = 'Register';
+                    button.action = function(){
+                        $http({
+                            url: remoteServer + '/' + warName + '/rest/subscribe/speech',
+                            method: "POST",
+                            data: "speechId=" + $stateParams.idspeech,
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        });
+                    };
+                    $scope.buttons.push(button);
+                }
             });
-            var button = new Object();
-            button.text = 'Register';
-            button.action = function(){
-                $http({
-                    url: remoteServer + '/' + warName + '/rest/subscribe/speech',
-                    method: "POST",
-                    data: "speechId=" + $stateParams.idspeech,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                });
-            };
-            $scope.buttons.push(button);
+
         }
 
         var button = new Object();
