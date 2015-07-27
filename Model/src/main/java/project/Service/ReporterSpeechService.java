@@ -69,6 +69,14 @@ public class ReporterSpeechService extends CrudImplementation {
         return query.getResultList();
     }
 
+    public boolean checkReporterSpeech(String reporterId, Integer speechId) {
+        Query query = em.createQuery("SELECT e FROM ReporterRequestsSpeech e WHERE "+
+            "e.reporter.id=:reporterId AND e.speech.id=:speechId AND e.approved=TRUE ");
+        query.setParameter("reporterId", reporterId);
+        query.setParameter("speechId", speechId);
+        return query.getResultList().size()>0;
+    }
+
     public List<Speech> findApprovedSpeechesByReporter(String reporterId){
         return findSpeeches(reporterId, true);
     }
