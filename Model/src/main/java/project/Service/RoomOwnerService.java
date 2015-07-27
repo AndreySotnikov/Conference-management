@@ -1,5 +1,6 @@
 package project.Service;
 
+import project.Entity.Room;
 import project.Entity.RoomOwner;
 import project.Util.CrudImplementation;
 
@@ -35,6 +36,11 @@ public class RoomOwnerService extends CrudImplementation {
 
     public void remove(String id){
         super.remove(RoomOwner.class, id);
+    }
+
+    public List<Room> myRooms(String id ) {
+        RoomOwner me = findOne(id);
+        return me.getRooms();
     }
 
 }

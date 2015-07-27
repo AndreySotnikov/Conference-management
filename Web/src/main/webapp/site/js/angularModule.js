@@ -203,7 +203,15 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
+        .state('question', {
+            url: '/ask',
+            views: {
+                '': {
+                    templateUrl: 'views/addQuestion.html',
+                    controller: 'questionCtrl'
+                }
+            }
+        })
 
         .state('translation', {
             url: '/translation',
@@ -393,13 +401,14 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
 
     $scope.login = "";
-
-
+    $scope.speechId = 2;
+    $scope.server = 'http://localhost:8080';
+    $scope.warName = 'Web-1.0-SNAPSHOT';
 
     $scope.question = {
         text: "",
         userLogin: "",
-        speechId: $stateParams.idspeech
+        speechId: $scope.speechId//$stateParams.idspeech
     };
 
 
@@ -424,6 +433,8 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
                 speechId: $scope.question.speechId
             },
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(data) {
+            alert("hello world");
         });
 
     }
