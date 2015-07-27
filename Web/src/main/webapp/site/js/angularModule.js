@@ -209,42 +209,39 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             $log.log(data);
             $scope.title = data.name;
             $scope.description = data.description;
-        });
-    $scope.buttons = [];
-    $scope.sections = [];
-    var show = false;
-    $http({
-        url: remoteServer + '/' + warName + "/rest/whoami",
-        method: "GET",
-
-    })
-        .success(function (data) {
-            show = ((data.role) == 'organizer');
-            $log.log('show1 ' + show);
-            test(show);
-            //$scope.buttons = show;
+            fillPage(data.organizer.login);
         });
 
-    function test(value) {
-        show = value;
-        $log.log('show2 ' + show);
-        if (show) {
-            var button = new Object();
-            button.text = 'Edit';
-            button.action = function(){
-                alert('clicked');
-            };
-            $scope.buttons.push(button);
+    function fillPage(login){
+        $scope.buttons = [];
+        $scope.sections = [];
+        var role ='';
+        $http({
+            url: remoteServer + '/' + warName + "/rest/whoami",
+            method: "GET",
+
+        })
+            .success(function (data) {
+                role = data.role;
+                addSpeechesAndButtons(role, login, data.username);
+            });
+    }
+
+
+
+    function addSpeechesAndButtons(value, login,whoami) {
+        role = value;
+        $log.log('show2 ' + role);
+
+        if (role=='organizer'){
             $http({
                 url: $scope.server + $scope.warName + '/rest/conference/uaspeeches/' + $stateParams.idconf,
                 method: "GET",
-                //params: {id: $stateParams.idspeech}
             })
                 .success(function (data) {
                     var tmp = new Object();
                     tmp.list = [];
                     tmp.title = '';
-                    //$log.log('unmoderated ' + data[0].text);
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
@@ -256,18 +253,46 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     if (tmp.list.length !=0)
                         tmp.title = 'Unapproves speeches';
                     $scope.sections.push(tmp);
+                    $log.log('login ' + login);
+                    $log.log('username ' + whoami);
+                    if (whoami == login) {
+                        var button = new Object();
+                        button.text = 'Edit';
+                        button.action = function () {
+                            alert('clicked');
+                        };
+                        $scope.buttons.push(button);
+                    }
                 });
+
         }
+
+        if (role=='speaker') {
+            var button = new Object();
+            button.text = 'Add Speech';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
+        if (role=='visitor') {
+            var button = new Object();
+            button.text = 'Register';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
             $http({
                 url: $scope.server + $scope.warName + '/rest/conference/aspeeches/' + $stateParams.idconf,
                 method: "GET",
-                //params: {id: $stateParams.idspeech}
             })
                 .success(function (data) {
                     var tmp = new Object();
                     tmp.list = [];
                     tmp.title = '';
-                    //$log.log('moderated ' + data[0].text);
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
@@ -279,9 +304,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     tmp.title = 'Speeches';
                     $scope.sections.push(tmp);
                 });
-
     };
-
 });
 
 routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) {
@@ -297,35 +320,29 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             $log.log(data);
             $scope.title = data.topic;
             $scope.description = data.speaker.name;
-        });
-    $scope.buttons = [];
-    $scope.sections = [];
-
-    var show = false;
-    $http({
-        url: remoteServer + '/' + warName + "/rest/whoami",
-        method: "GET",
-
-    })
-        .success(function (data) {
-            show = ((data.role) == 'moderator');
-            $log.log('show1 ' + show);
-            test(show);
-            if ((data.role) == 'speaker'){
-                var button = new Object();
-                button.text = 'Edit';
-                button.action = function(){
-                    alert('clicked');
-                };
-                $scope.buttons.push(button);
-            }
+            fillPage(data.speaker.login, data.approved);
         });
 
+    function fillPage(login, approved){
+        $scope.buttons = [];
+        $scope.sections = [];
+        var role ='';
+        $http({
+            url: remoteServer + '/' + warName + "/rest/whoami",
+            method: "GET",
 
-    function test(value) {
-        show = value;
-        $log.log('show2 ' + show);
-        if (show) {
+        })
+            .success(function (data) {
+                role = data.role;
+                addQuestionsAndButtons(role, login, data.username, approved);
+            });
+    }
+
+    function addQuestionsAndButtons(value, login,whoami, approved) {
+        role = value;
+        $log.log('show2 ' + role);
+
+        if (role=='moderator'){
             $http({
                 url: $scope.server + $scope.warName + "/rest/question/unmoderated",
                 method: "GET",
@@ -341,7 +358,6 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
                             header: elem.text,
                             id: elem.id,
                             text: elem.answer,
-                            //date: elem.startDate
                         });
                     });
                     if (tmp.list.length !=0)
@@ -349,30 +365,80 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
                     $scope.sections.push(tmp);
                 });
         }
-            $http({
-                url: $scope.server + $scope.warName + "/rest/question/moderated",
-                method: "GET",
-                params: {id: $stateParams.idspeech}
-            })
-                .success(function (data) {
-                    var tmp = new Object();
-                    tmp.list = [];
-                    tmp.title = '';
-                    $log.log('moderated ' + data[0].text);
-                    angular.forEach(data, function (elem) {
-                        tmp.list.push({
-                            header: elem.text,
-                            id: elem.id,
-                            text: elem.answer,
-                            //date: elem.startDate
-                        });
+
+        $http({
+            url: $scope.server + $scope.warName + "/rest/question/moderated",
+            method: "GET",
+            params: {id: $stateParams.idspeech}
+        })
+            .success(function (data) {
+                var tmp = new Object();
+                tmp.list = [];
+                tmp.title = '';
+                $log.log('moderated ' + data[0].text);
+                angular.forEach(data, function (elem) {
+                    tmp.list.push({
+                        header: elem.text,
+                        id: elem.id,
+                        text: elem.answer,
                     });
-                    tmp.title = 'Questions';
-                    $scope.sections.push(tmp);
                 });
+                tmp.title = 'Questions';
+                $scope.sections.push(tmp);
+            });
 
+        if (!approved && role=='organizer') {
+            var button = new Object();
+            button.text = 'Approve';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
 
-    };
+        if (role=='moderator') {
+            var button = new Object();
+            button.text = 'Request';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
+        if (role=='reporter') {
+            var button = new Object();
+            button.text = 'Request';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
+        if (role=='speaker' && whoami == login) {
+            var button = new Object();
+            button.text = 'Edit';
+            button.action = function () {
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
+        if (role=='visitor') {
+            var button = new Object();
+            button.text = 'Register';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
+        }
+
+        var button = new Object();
+        button.text = 'Translation';
+        button.action = function(){
+            alert('clicked');
+        };
+        $scope.buttons.push(button);
+    }
 });
 
 routerApp.controller('translationCtrl', function ($scope, $http) {
