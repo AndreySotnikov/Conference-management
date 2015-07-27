@@ -5,6 +5,7 @@ import project.Entity.Question;
 import project.Service.ConferenceService;
 import project.Service.OrganizerService;
 import project.Service.QuestionService;
+import project.Service.VisitorService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +25,9 @@ import java.util.List;
 public class QuestionController {
     @EJB
     QuestionService questionService;
+
+    @EJB
+    VisitorService visitorService;
 
     @Context
     private HttpServletRequest request;
@@ -74,8 +78,14 @@ public class QuestionController {
     @Path("add")
     @POST
     public String addQuestion(MultivaluedMap<String, String> form){
+        System.err.println("form " + form);
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         try {
-            questionService.addQuestion(form.getFirst("text"),
+            System.err.println("text " + form.getFirst("text"));
+            System.err.println("speechId " + form.getFirst("speechId"));
+            visitorService.addQuestion(form.getFirst("text"),
                     request.getUserPrincipal().getName(),
                     Integer.valueOf(form.getFirst("speechId")));
             return "OK";

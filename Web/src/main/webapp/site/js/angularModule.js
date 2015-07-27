@@ -142,6 +142,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
+        /*
         .state('conference.speech.question', {
             url: '/speech/{idspeech:[0-9]+}/ask',
             views: {
@@ -150,17 +151,17 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                     controller: 'questionCtrl'
                 }
             }
-        })
-        .state('question', {
-            url: '/ask',
+        })*/
+        .state('conference.question', {
+            url: '/ask/:idspeech',
             views: {
-                '': {
+                "content": {
                     templateUrl: 'views/addQuestion.html',
                     controller: 'questionCtrl'
                 }
-            }
+            },
+            css: ['css/style.css', 'css/all.css']
         })
-
         .state('translation', {
             url: '/translation',
             views: {
@@ -207,7 +208,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             $scope.title = data.name;
             $scope.description = data.description;
         });
-    $scope.buttons = false;
+    $scope.buttons = [];
     $scope.sections = [];
     var show = false;
     $http({
@@ -226,6 +227,12 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
         show = value;
         $log.log('show2 ' + show);
         if (show) {
+            var button = new Object();
+            button.text = 'Edit';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
             $http({
                 url: $scope.server + $scope.warName + '/rest/conference/uaspeeches/' + $stateParams.idconf,
                 method: "GET",
@@ -307,7 +314,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             $scope.title = data.topic;
             $scope.description = data.speaker.name;
         });
-    $scope.buttons = false;
+    $scope.buttons = [];
     $scope.sections = [];
 
     var show = false;
@@ -320,7 +327,14 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             show = ((data.role) == 'moderator');
             $log.log('show1 ' + show);
             test(show);
-            //$scope.buttons = show;
+            if ((data.role) == 'speaker'){
+                var button = new Object();
+                button.text = 'Edit';
+                button.action = function(){
+                    alert('clicked');
+                };
+                $scope.buttons.push(button);
+            }
         });
 
 
@@ -471,8 +485,8 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
 
     $scope.login = "";
-    $scope.speechId = 2;
-    $scope.server = 'http://localhost:8080';
+    $scope.speechId = $stateParams.idspeech;
+    $scope.server = 'http://localhost:8080/';
     $scope.warName = 'Web-1.0-SNAPSHOT';
 
     $scope.question = {
@@ -485,23 +499,16 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
     $http.get($scope.server + $scope.warName + "/rest/whoami")
         .success(function (data) {
             $scope.login = data.login;
-            alert(data);
-            alert($scope.login)
         });
 
     $scope.addQuestion = function() {
         $scope.question.speechId = $scope.speechId;
-        alert($scope.question.text);
-        alert($scope.question.speechId);
-        alert("clicked");
 
         $http({
             url: $scope.server + $scope.warName + '/rest/question/add',
             method: "POST",
-            data: {
-                text: $scope.question.text,
-                speechId: $scope.question.speechId
-            },
+            data: "text=" + $scope.question.text +
+            "&speechId=" + $scope.question.speechId,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data) {
             alert("hello world");
