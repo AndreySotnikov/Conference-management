@@ -23,7 +23,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('home.login', {
             url: '/login',
-            //templateUrl: 'views/login.html',
             views: {
                 "": {
                     templateUrl: 'views/login.html',
@@ -33,7 +32,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $scope.clickBtn = function (user) {
                             $scope.master = angular.copy(user);
                             $http({
-                                //url : 'j_security_check',
                                 url: remoteServer + '/' + warName + '/rest/j_security_check',
                                 method: "POST",
                                 data: "j_username=" + user.j_username +
@@ -71,8 +69,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                     }
                 }
             }
-
-
         })
         .state('logout', {
             url: '/logout',
@@ -106,8 +102,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $scope.warName = "Web-1.0-SNAPSHOT";
                         $scope.server = "http://localhost:8080/";
                         $scope.sections = [];
-                        //$scope.sections.list = [];
-                        //$scope.sections.title = '';
                         var tmp = new Object();
                         tmp.list = [];
                         tmp.title = '';
@@ -133,53 +127,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 "content": {
                     templateUrl: "views/mainspace.html",
-                    controller: function ($scope, $stateParams, $http, $log) {
-                        $scope.link = "conference.speech({idspeech:square.id})";
-                        $scope.warName = "Web-1.0-SNAPSHOT";
-                        $scope.server = "http://localhost:8080/";
-                        $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
-                            .success(function (data) {
-                                $log.log(data);
-                                $scope.title = data.name;
-                                $scope.description = data.description;
-                            });
-                        $scope.buttons = false;
-
-                        //$http.get(remoteServer + '/' + warName +  "/rest/whoami")
-                        //    .then(function (response) {
-                        //        alert(response);
-                        //        $log.log(response);
-                        //        $scope.buttons = (response.localeCompare('organizer'));
-                        //    });
-
-                        $http({
-                            url: remoteServer + '/' + warName + "/rest/whoami",
-                            method: "GET",
-
-                        })
-                            .success(function (data) {
-                                $log.log(data);
-                                $scope.buttons = ((data.role) == 'organizer');
-                            });
-                        $scope.sections = [];
-                        var tmp = new Object();
-                        tmp.list = [];
-                        tmp.title = '';
-                        $http.get(remoteServer + '/' + warName + '/rest/conference/speeches/' + $stateParams.idconf)
-                            .success(function (data) {
-                                angular.forEach(data, function (elem) {
-                                    tmp.list.push({
-                                        header: elem.topic,
-                                        id: elem.id,
-                                        text: elem.speaker.name,
-                                        date: elem.startDate
-                                    });
-                                });
-                                tmp.title = 'Список докладов';
-                            });
-                        $scope.sections.push(tmp);
-                        $log.log($scope.sections);
-                    }
+                    controller: 'conferenceCtrl'
                 }
             },
             css: ['css/style.css', 'css/all.css']
@@ -249,7 +197,103 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         });
 });
 
-routerApp.controller('speechCtrl',function ($scope, $stateParams, $http, $log) {
+routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log) {
+    $scope.link = "conference.speech({idspeech:square.id})";
+    $scope.warName = "Web-1.0-SNAPSHOT";
+    $scope.server = "http://localhost:8080/";
+    $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
+        .success(function (data) {
+            $log.log(data);
+            $scope.title = data.name;
+            $scope.description = data.description;
+        });
+    $scope.buttons = false;
+    $scope.sections = [];
+    var show = false;
+    $http({
+        url: remoteServer + '/' + warName + "/rest/whoami",
+        method: "GET",
+
+    })
+        .success(function (data) {
+            show = ((data.role) == 'organizer');
+            $log.log('show1 ' + show);
+            test(show);
+            //$scope.buttons = show;
+        });
+
+    function test(value) {
+        show = value;
+        $log.log('show2 ' + show);
+        if (show) {
+            $http({
+                url: $scope.server + $scope.warName + '/rest/conference/uaspeeches/' + $stateParams.idconf,
+                method: "GET",
+                //params: {id: $stateParams.idspeech}
+            })
+                .success(function (data) {
+                    var tmp = new Object();
+                    tmp.list = [];
+                    tmp.title = '';
+                    //$log.log('unmoderated ' + data[0].text);
+                    angular.forEach(data, function (elem) {
+                        tmp.list.push({
+                            header: elem.topic,
+                            id: elem.id,
+                            text: elem.speaker.name,
+                            date: elem.startDate
+                        });
+                    });
+                    if (tmp.list.length !=0)
+                        tmp.title = 'Unapproves speeches';
+                    $scope.sections.push(tmp);
+                });
+        }
+            $http({
+                url: $scope.server + $scope.warName + '/rest/conference/aspeeches/' + $stateParams.idconf,
+                method: "GET",
+                //params: {id: $stateParams.idspeech}
+            })
+                .success(function (data) {
+                    var tmp = new Object();
+                    tmp.list = [];
+                    tmp.title = '';
+                    //$log.log('moderated ' + data[0].text);
+                    angular.forEach(data, function (elem) {
+                        tmp.list.push({
+                            header: elem.topic,
+                            id: elem.id,
+                            text: elem.speaker.name,
+                            date: elem.startDate
+                        });
+                    });
+                    tmp.title = 'Speeches';
+                    $scope.sections.push(tmp);
+                });
+
+    };
+
+    //$scope.sections = [];
+    //var tmp = new Object();
+    //tmp.list = [];
+    //tmp.title = '';
+    //$http.get(remoteServer + '/' + warName + '/rest/conference/aspeeches/' + $stateParams.idconf)
+    //    .success(function (data) {
+    //        angular.forEach(data, function (elem) {
+    //            tmp.list.push({
+    //                header: elem.topic,
+    //                id: elem.id,
+    //                text: elem.speaker.name,
+    //                date: elem.startDate
+    //            });
+    //        });
+    //        tmp.title = 'Список докладов';
+    //    });
+    //$scope.sections.push(tmp);
+    //$log.log($scope.sections);
+});
+
+routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) {
     $scope.link = "conference.speech({idspeech:square.id})";
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
@@ -264,9 +308,9 @@ routerApp.controller('speechCtrl',function ($scope, $stateParams, $http, $log) {
             $scope.description = data.speaker.name;
         });
     $scope.buttons = false;
-    var show = false;
     $scope.sections = [];
 
+    var show = false;
     $http({
         url: remoteServer + '/' + warName + "/rest/whoami",
         method: "GET",
@@ -302,9 +346,11 @@ routerApp.controller('speechCtrl',function ($scope, $stateParams, $http, $log) {
                             //date: elem.startDate
                         });
                     });
-                    tmp.title = 'Unmoderated questions';
+                    if (tmp.list.length !=0)
+                        tmp.title = 'Unmoderated questions';
                     $scope.sections.push(tmp);
                 });
+        }
             $http({
                 url: $scope.server + $scope.warName + "/rest/question/moderated",
                 method: "GET",
@@ -327,7 +373,7 @@ routerApp.controller('speechCtrl',function ($scope, $stateParams, $http, $log) {
                     $scope.sections.push(tmp);
                 });
 
-        }
+
     };
 });
 
