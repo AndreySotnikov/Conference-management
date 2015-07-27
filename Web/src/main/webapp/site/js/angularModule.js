@@ -160,7 +160,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
         .state('translation', {
             url: '/translation',
             views: {
@@ -448,7 +447,7 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     $scope.login = "";
     $scope.speechId = 2;
-    $scope.server = 'http://localhost:8080';
+    $scope.server = 'http://localhost:8080/';
     $scope.warName = 'Web-1.0-SNAPSHOT';
 
     $scope.question = {
@@ -461,23 +460,16 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
     $http.get($scope.server + $scope.warName + "/rest/whoami")
         .success(function (data) {
             $scope.login = data.login;
-            alert(data);
-            alert($scope.login)
         });
 
     $scope.addQuestion = function() {
         $scope.question.speechId = $scope.speechId;
-        alert($scope.question.text);
-        alert($scope.question.speechId);
-        alert("clicked");
 
         $http({
             url: $scope.server + $scope.warName + '/rest/question/add',
             method: "POST",
-            data: {
-                text: $scope.question.text,
-                speechId: $scope.question.speechId
-            },
+            data: "text=" + $scope.question.text +
+            "&speechId=" + $scope.question.speechId,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data) {
             alert("hello world");

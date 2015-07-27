@@ -48,16 +48,31 @@ public class QuestionService extends CrudImplementation{
     public void addQuestion(String text, String visitorLogin, Integer speechId) throws Exception{
         Question question = new Question();
         question.setText(text);
-        question.setSpeech(findOne(Speech.class, speechId));
-//        question.setVisitorsUpVoteQuestion(visitors);
+        List<Visitor> visitors = new ArrayList<>();
+        Visitor visitor = findOne(Visitor.class,visitorLogin);
+        visitors.add(visitor);
+        question.setVisitorsUpVoteQuestion(visitors);
         question.setRating(1);
-        question.setModerated(false);
+        question.setSpeech(findOne(Speech.class, speechId));
         save(question);
-        System.err.println("QUESTION ID: " + question);
-//        Visitor visitor = findOne(Visitor.class,visitorLogin);
-
-
-
+//        Question question = new Question();
+//        question.setText(text);
+//        List<Visitor> visitors = new ArrayList<>();
+//        visitors.add(visitor);
+//        question.setVisitorsUpVoteQuestion(visitors);
+//        question.setRating(1);
+//        save(question);
+//        Question question = new Question();
+//        question.setText(text);
+//        question.setSpeech(findOne(Speech.class, speechId));
+//        Visitor visitor = findOne(Visitor.class, visitorLogin);
+//        List<Visitor> visitors = new ArrayList<>();
+//        visitors.add(visitor);
+//        question.setVisitorsUpVoteQuestion(visitors);
+//        question.setRating(1);
+//        question.setModerated(false);
+//        save(question);
+//        System.err.println("QUESTION ID: " + question);
     }
 
     public void moderate(Integer id){

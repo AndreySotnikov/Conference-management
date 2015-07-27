@@ -74,7 +74,13 @@ public class QuestionController {
     @Path("add")
     @POST
     public String addQuestion(MultivaluedMap<String, String> form){
+        System.err.println("form " + form);
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         try {
+            System.err.println("text " + form.getFirst("text"));
+            System.err.println("speechId " + form.getFirst("speechId"));
             questionService.addQuestion(form.getFirst("text"),
                     request.getUserPrincipal().getName(),
                     Integer.valueOf(form.getFirst("speechId")));

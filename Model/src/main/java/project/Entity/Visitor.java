@@ -18,7 +18,7 @@ public class Visitor {
     private String email;
     private String phone;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
     private List<Question> questions;
     @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)
     private transient List<Conference> conferences;
