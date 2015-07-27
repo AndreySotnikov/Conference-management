@@ -2,18 +2,18 @@
     <div class="infobox">
         <div class="text-box">
             <strong>{{title}}</strong>
-            <div class="btn-group-vertical left-group" role="group" ng-if="buttons==true" aria-label="...">
-                <button type="button" class="btn btn-default">{{button1}}</button>
-                <button type="button" class="btn btn-default">{{button2}}</button>
+            <div class="btn-group-vertical left-group" role="group" ng-repeat="button in buttons" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="button.action()">{{button.text}}</button>
             </div>
-            <p>{{description}} </p>
+            <p>{{description}}</p>
         </div>
     </div>
-    <div class="news-hold" align="center">
-        <div class="nbox" ng-repeat="square in list">
+    <div class="news-hold" align="center" ng-repeat="section in sections">
+        <div class="header">{{section.title}}</div>
+        <div class="nbox" ng-repeat="square in section.list">
             <div class="news_words">
                 <div class="title">
-                    <a href="link1"><strong>{{square.header}}</strong></a>
+                    <a ui-sref={{link}}><strong>{{square.header}}</strong></a>
                 </div>
                 <div class="hold smp">
                     <p>{{square.text}}</p>

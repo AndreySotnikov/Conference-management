@@ -28,7 +28,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "":{
                     templateUrl: 'views/login.html',
                     css: 'css/registration.css',
-                    controller: function ($scope, $http) {
+                    controller: function ($scope, $http,$state) {
                         $scope.master = {};
                         $scope.clickBtn = function (user) {
                             $scope.master = angular.copy(user);
@@ -40,8 +40,9 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 "&j_password=" + user.j_password,
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             });
-
+                            $state.go('conference.list');
                         }
+
                     }
                 }
             }
@@ -75,8 +76,9 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('logout', {
             url:'/logout',
-            controller: function ($http, $log){
+            controller: function ($http, $log,$state){
                 $http.get(remoteServer + '/' + warName + '/rest/logout');
+                $state.go('home.login');
                 $log.log('logout');
             }
         })
@@ -103,11 +105,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         $scope.buttons = false;
                         $scope.warName = "Web-1.0-SNAPSHOT";
                         $scope.server = "http://localhost:8080/";
-                        $scope.list = [];
+                        $scope.sections = [];
+                        //$scope.sections.list = [];
+                        //$scope.sections.title = '';
+                        var tmp = new Object();
+                        tmp.list=[];
+                        tmp.title='';
                         $http.get($scope.server + $scope.warName + "/rest/conference/all")
                             .success(function (data) {
                                 angular.forEach(data, function (elem) {
-                                    $scope.list.push({
+                                    tmp.list.push({
                                         header: elem.name,
                                         id: elem.id,
                                         text: elem.description,
@@ -115,6 +122,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                     });
                                 });
                             });
+                        $scope.sections.push(tmp);
                     }
                 }
             },
@@ -145,7 +153,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         //    });
 
                         $http({
-                            url: remoteServer + '/' + warName +  "/rest/whoami",
+                            url: remoteServer + '/' + warName + "/rest/whoami",
                             method: "GET",
 
                         })
@@ -153,22 +161,24 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 $log.log(data);
                                 $scope.buttons = ((data.role) == 'organizer');
                             });
-
-                        $scope.list=[];
+                        $scope.sections = [];
+                        var tmp = new Object();
+                        tmp.list=[];
+                        tmp.title='';
                         $http.get(remoteServer + '/' + warName + '/rest/conference/speeches/' + $stateParams.idconf)
                             .success(function (data) {
                                 angular.forEach(data, function (elem) {
-                                    $scope.list.push({
+                                    tmp.list.push({
                                         header: elem.topic,
                                         id: elem.id,
                                         text: elem.speaker.name,
                                         date: elem.startDate
                                     });
                                 });
+                                tmp.title = 'Список докладов';
                             });
-                        //$scope.list = []
-                        //buttons - depending on role, include hide all buttons
-                        //make a REST-call to get all info
+                        $scope.sections.push(tmp);
+                        $log.log($scope.sections);
                     }
                 }
             },
@@ -180,6 +190,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "content": {
                     templateUrl: "views/mainspace.html",
                     controller: function ($scope, $stateParams, $http, $log) {
+                        $scope.link="conference.speech({idspeech:square.id})";
                         $scope.warName = "Web-1.0-SNAPSHOT";
                         $scope.server = "http://localhost:8080/";
                         $http({
@@ -193,16 +204,25 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 $scope.description = data.speaker.name;
                             });
                         $scope.buttons = false;
+                        var show = false;
+                        $http({
+                            url: remoteServer + '/' + warName + "/rest/whoami",
+                            method: "GET",
 
-                        $http.get(remoteServer + '/' + warName +  "/rest/whoami")
+                        })
                             .success(function (data) {
-                                $log.log(data);
-                                $scope.buttons = ((data.role) == 'speaker');
+
+                                show = ((data.role) == 'moderator');
+                                $log.log('show1 ' +show);
+                                $scope.buttons = show;
                             });
 
-                        $scope.list=[];
-
-                        if ($scope.buttons) {
+                        $scope.sections = [];
+                        var tmp = new Object();
+                        tmp.list=[];
+                        tmp.title='';
+                        $log.log('show2 ' +$scope.buttons);
+                        if (show) {
                             $http({
                                 url: $scope.server + $scope.warName + "/rest/question/unmoderated",
                                 method: "GET",
@@ -210,7 +230,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                             })
                                 .success(function (data) {
                                     angular.forEach(data, function (elem) {
-                                        $scope.list.push({
+                                        tmp.list.push({
                                             header: elem.text,
                                             id: elem.id,
                                             text: elem.answer,
@@ -218,7 +238,13 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                         });
                                     });
                                 });
-                        }else{
+
+                            tmp.title = 'Unmoderated questions';
+                            $scope.sections.push(tmp);
+                        }
+                        tmp = new Object();
+                        tmp.list=[];
+                        tmp.title='';
                             $http({
                                 url: $scope.server + $scope.warName + "/rest/question/moderated",
                                 method: "GET",
@@ -226,7 +252,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                             })
                                 .success(function (data) {
                                     angular.forEach(data, function (elem) {
-                                        $scope.list.push({
+                                        tmp.list.push({
                                             header: elem.text,
                                             id: elem.id,
                                             text: elem.answer,
@@ -234,7 +260,8 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                         });
                                     });
                                 });
-                        }
+                        tmp.title = 'Questions';
+                        $scope.sections.push(tmp);
                     }
                 }
             },
@@ -244,7 +271,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('translation', {
             url: '/translation',
             views: {
-                'mainv': {
+                '': {
                     templateUrl: 'views/translation.html',
                     controller: 'translationCtrl'
                 }
@@ -254,12 +281,35 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('conference.speech.question', {
             url: '/speech/{idspeech:[0-9]+}/ask',
             views: {
-                'mainv': {
+                'content': {
                     templateUrl: 'views/addQuestion.html',
                     controller: 'questionCtrl'
                 }
-            },
+            })
 
+        .state('profile',{
+            url:'/profile',
+            views: {
+                "": {
+                    templateUrl:'views/conference.html',
+                    controller: function () {
+
+                    }
+                }
+            },
+            css:"css/style.css"
+        })
+        .state('profile.info',{
+            url:'/profile/{login[0-9a-zA-Z]+}',
+            css: ['css/style.css', 'css/all.css'],
+            views: {
+                "content": {
+                    templateUrl:"views/mainspace.html",
+                    controller: function () {
+
+                    }
+                }
+            }
         });
 });
 routerApp.controller('translationCtrl', function ($scope, $http) {
