@@ -81,6 +81,33 @@ public class SpeechController {
     }
 
 
+    @GET
+    @Path("{id}/modrequested/{login}")
+    @Produces("application/json")
+    public Map<String, Boolean> hasModeratorRequested(@PathParam("id") Integer speechId, @PathParam("login") String modLogin) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("result", speechService.hasModeratorRequested(speechId, modLogin));
+        return result;
+    }
+
+
+    @GET
+    @Path("{id}/reprequested/{login}")
+    @Produces("application/json")
+    public Map<String, Boolean> hasReporterRequested(@PathParam("id") Integer speechId, @PathParam("login") String repLogin) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("result", speechService.hasReportedRequested(speechId, repLogin));
+        return result;
+    }
+
 
     @GET
     @Path("topic/{id}")
@@ -157,4 +184,6 @@ public class SpeechController {
             return "Error";
         }
     }
+
+
 }
