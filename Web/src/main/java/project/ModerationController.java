@@ -8,10 +8,7 @@ import project.Service.QuestionService;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
@@ -32,6 +29,16 @@ public class ModerationController {
     private HttpServletRequest request;
     @Context
     private org.jboss.resteasy.spi.HttpResponse response;
+
+    @GET
+    @Path("show/{id}")
+    public Moderator findOne(@PathParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.findOne(id);
+    }
+
 
     @GET
     @Path("moderators")
