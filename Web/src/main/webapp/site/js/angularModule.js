@@ -343,12 +343,13 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
         }
     }
 });
-routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $location) {
+routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $location,$http) {
     $scope.title = $stateParams.login;
     $scope.buttons = [];
     $scope.sections = [];
     $http.get(remoteServer + '/' + warName + "/rest/whoami")
         .success(function (data) {
+
             if (data.username === $stateParams.login) {
                 $scope.buttons.push(
                     {
@@ -501,4 +502,4 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     });
             }
         });
-})
+});

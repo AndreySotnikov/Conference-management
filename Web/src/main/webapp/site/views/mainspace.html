@@ -2,8 +2,8 @@
     <div class="infobox">
         <div class="text-box">
             <strong>{{title}}</strong>
-            <div class="btn-group-vertical left-group" role="group" ng-repeat="button in buttons" aria-label="...">
-                    <button type="button" class="btn btn-default" ng-click="button.action()">{{button.text}}</button>
+            <div class="btn-group-vertical left-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-repeat="button in buttons" ng-click="button.action()">{{button.text}}</button>
             </div>
             <p>{{description}}</p>
         </div>
