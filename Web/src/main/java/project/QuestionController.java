@@ -5,6 +5,7 @@ import project.Entity.Question;
 import project.Service.ConferenceService;
 import project.Service.OrganizerService;
 import project.Service.QuestionService;
+import project.Service.VisitorService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +25,9 @@ import java.util.List;
 public class QuestionController {
     @EJB
     QuestionService questionService;
+
+    @EJB
+    VisitorService visitorService;
 
     @Context
     private HttpServletRequest request;
@@ -81,7 +85,7 @@ public class QuestionController {
         try {
             System.err.println("text " + form.getFirst("text"));
             System.err.println("speechId " + form.getFirst("speechId"));
-            questionService.addQuestion(form.getFirst("text"),
+            visitorService.addQuestion(form.getFirst("text"),
                     request.getUserPrincipal().getName(),
                     Integer.valueOf(form.getFirst("speechId")));
             return "OK";

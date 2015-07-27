@@ -142,6 +142,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
+        /*
         .state('conference.speech.question', {
             url: '/speech/{idspeech:[0-9]+}/ask',
             views: {
@@ -150,15 +151,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                     controller: 'questionCtrl'
                 }
             }
-        })
-        .state('question', {
-            url: '/ask',
+        })*/
+        .state('conference.question', {
+            url: '/ask/:idspeech',
             views: {
-                '': {
+                "content": {
                     templateUrl: 'views/addQuestion.html',
                     controller: 'questionCtrl'
                 }
-            }
+            },
+            css: ['css/style.css', 'css/all.css']
         })
         .state('translation', {
             url: '/translation',
@@ -604,7 +606,7 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
 
     $scope.login = "";
-    $scope.speechId = 2;
+    $scope.speechId = $stateParams.idspeech;
     $scope.server = 'http://localhost:8080/';
     $scope.warName = 'Web-1.0-SNAPSHOT';
 

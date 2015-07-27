@@ -19,6 +19,7 @@ public class Question {
     private Boolean answered;
     @ManyToOne
     private Speech speech;
+
     @ManyToMany
     private List<Visitor> visitorsUpVoteQuestion;
 
