@@ -1,6 +1,7 @@
 package project;
 
 import org.jboss.resteasy.spi.HttpResponse;
+import project.Entity.Room;
 import project.Entity.RoomOwner;
 import project.Service.RoomOwnerService;
 
@@ -89,4 +90,15 @@ public class RoomOwnerController {
         service.remove(login);
         return "OK";
     }
+
+    @GET
+    @Path("my")
+    @Produces("application/json")
+    public List<Room> getMyRooms(){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.myRooms(request.getUserPrincipal().getName());
+    }
+
 }

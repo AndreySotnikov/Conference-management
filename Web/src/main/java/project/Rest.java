@@ -78,6 +78,8 @@ public class Rest {
         }
     }
 
+
+
     @GET
     @Path("logout")
     public void logout() throws ServletException {

@@ -80,4 +80,17 @@ public class VisitorService extends CrudImplementation {
         }
     }
 
+
+    public List<Conference> getConferencesSubscribedTo(String visitorLogin) {
+        Visitor visitor = findOne(visitorLogin);
+        return visitor.getConferences();
+    }
+
+    public List<Speech> getSpeechesSubscribedTo(String visitorLogin) {
+        Visitor visitor = findOne(visitorLogin);
+        return visitor.getSpeeches();
+    }
+
+
+
 }
