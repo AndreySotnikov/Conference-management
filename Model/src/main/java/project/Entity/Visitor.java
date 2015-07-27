@@ -20,6 +20,7 @@ public class Visitor {
 
     @ManyToMany(mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
     private List<Question> questions;
+
     @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)
     private transient List<Conference> conferences;
 
