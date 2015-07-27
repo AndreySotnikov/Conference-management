@@ -389,9 +389,21 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
         "text"
     ];
     $scope.reports = [];
-
+    $scope.username = '';
     $scope.speechId = 2;
     $scope.lastId = 0;
+
+
+    $('#reporter').hide();
+
+    $http.get(remoteServer + '/' + warName + '/rest/whoami/')
+        .success(function (data) {
+            if (data.role=='reporter'){
+                $('#reporter').show();
+                $scope.username = data.username;
+            }
+        });
+
     $http.get(remoteServer + '/' + warName + '/rest/speech/topic/' + $scope.speechId)
         .success(function (data) {
             $scope.title = data.topic;
@@ -431,6 +443,18 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
                 $scope.lastId = data[data.length - 1][0];
             }
         });
+    }
+
+    $scope.report = function () {
+        $http({
+            url: remoteServer + '/' + warName + '/rest/trans/insert',
+            method: "POST",
+            data: "text=" + $scope.text + "&time=" + $scope.time + "&speechId=" + $scope.speechId,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        });
+        $scope.text = '';
+        $scope.time = '';
+        $scope.more();
     }
 
     $scope.changeCheckbox = function () {
