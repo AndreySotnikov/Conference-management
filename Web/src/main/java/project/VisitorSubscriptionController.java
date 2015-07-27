@@ -44,7 +44,7 @@ public class VisitorSubscriptionController {
     }
 
     @POST
-    @Path("conference/")
+    @Path("conference")
     public String subscribeToConference(MultivaluedMap<String, String> form) {
         Integer confId = Integer.valueOf(form.getFirst("confId"));
         String visitorLogin = request.getUserPrincipal().getName();

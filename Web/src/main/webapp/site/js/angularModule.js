@@ -280,7 +280,12 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             var button = new Object();
             button.text = 'Register';
             button.action = function(){
-                alert('clicked');
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/subscribe/conference',
+                    method: "POST",
+                    data: "confId=" + $stateParams.idconf,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                });
             };
             $scope.buttons.push(button);
         }
@@ -436,13 +441,20 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             $scope.buttons.push(button);
         }
 
-        if (role=='visitor') {
+        if (role=='visitor') { //TODO
+            $http({
+                url: remoteServer + '/' + warName + "/rest/subscribe/check?visitor=login&conf=id",
+                method: "GET",
+                params: {visitor: login}
+            });
             var button = new Object();
             button.text = 'Register';
             button.action = function(){
                 $http({
-                    url: remoteServer + '/' + warName + "/rest/subscribe/"+$stateParams.idspeech,
-                    method: "GET",
+                    url: remoteServer + '/' + warName + '/rest/subscribe/speech',
+                    method: "POST",
+                    data: "speechId=" + $stateParams.idspeech,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 });
             };
             $scope.buttons.push(button);
