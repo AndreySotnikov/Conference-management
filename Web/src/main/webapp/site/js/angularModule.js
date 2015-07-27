@@ -457,6 +457,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                 );
             }
             if (data.role === "organizer") {
+                $http.get(remoteServer + '/' + warName + "/rest/organizer/show/" + $stateParams.login)
+                    .success(function(data){
+                        $scope.description = "Organizer, " + data.name + ", " + data.email + ", " + data.phone;
+                    });
                 if (data.username === $stateParams.login) {
                     $scope.buttons.push(
                         {
@@ -486,6 +490,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
             }
 
             if (data.role === "visitor") {
+                $http.get(remoteServer + '/' + warName + "/rest/visitor/info?login" + $stateParams.login)
+                    .success(function(data){
+                        $scope.description = "Visitor, " + data.name + ", " + data.email + ", " + data.phone;
+                    });
                 $http.get(remoteServer + '/' + warName + "/rest/subscribe/conferences/" + $stateParams.username)
                     .success(function(data){
                         var section = new Object();
@@ -518,6 +526,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     });
             }
             if (data.role === "speaker") {
+                $http.get(remoteServer + '/' + warName + "/rest/speaker/info?login" + $stateParams.login)
+                    .success(function(data){
+                        $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
+                    });
                 $http.get(remoteServer + '/' + warName + "/rest/speech/fasbs/" + $stateParams.username)
                     .success(function(data){
                         var section = new Object();
@@ -536,6 +548,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
             }
 
             if (data.role === "moderator") {
+                $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + $stateParams.login)
+                    .success(function(data){
+                        $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
+                    });
                 $http.get(remoteServer + '/' + warName + "/rest/modspeech/fasbm/" + $stateParams.username)
                     .success(function(data){
                         var section = new Object();
@@ -554,6 +570,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
             }
 
             if (data.role === "roomOwner") {
+                $http.get(remoteServer + '/' + warName + "/rest/moderator/get?id=" + $stateParams.login)
+                    .success(function(data){
+                        $scope.description = "Room Owner, " + data.name + ", " + data.email + ", " + data.phone;
+                    });
                 if (data.username === $stateParams.login) {
                     $scope.buttons.push({
                         text: "Add Room",
