@@ -24,11 +24,11 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('home.login', {
             url: '/login',
             //templateUrl: 'views/login.html',
-            views :{
-                "":{
+            views: {
+                "": {
                     templateUrl: 'views/login.html',
                     css: 'css/registration.css',
-                    controller: function ($scope, $http,$state) {
+                    controller: function ($scope, $http, $state) {
                         $scope.master = {};
                         $scope.clickBtn = function (user) {
                             $scope.master = angular.copy(user);
@@ -75,24 +75,24 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
         })
         .state('logout', {
-            url:'/logout',
-            controller: function ($http, $log,$state){
+            url: '/logout',
+            controller: function ($http, $log, $state) {
                 $http.get(remoteServer + '/' + warName + '/rest/logout');
                 $state.go('home.login');
                 $log.log('logout');
             }
         })
         .state("conference", {
-            url:'/conference',
-            css:"css/style.css",
-            views :{
-                "" : {
+            url: '/conference',
+            css: "css/style.css",
+            views: {
+                "": {
                     templateUrl: 'views/conference.html',
                 },
-            "leftmenu" : {
-                template: 'views/leftmenu.html'
+                "leftmenu": {
+                    template: 'views/leftmenu.html'
+                }
             }
-        }
         })
         .state("conference.list", {
             url: '/list',
@@ -100,7 +100,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "content": {
                     templateUrl: "views/mainspace.html",
                     controller: function ($scope, $http) {
-                        $scope.link="conference.info({idconf:square.id})";
+                        $scope.link = "conference.info({idconf:square.id})";
                         $scope.title = "Conferences";
                         $scope.buttons = false;
                         $scope.warName = "Web-1.0-SNAPSHOT";
@@ -109,8 +109,8 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                         //$scope.sections.list = [];
                         //$scope.sections.title = '';
                         var tmp = new Object();
-                        tmp.list=[];
-                        tmp.title='';
+                        tmp.list = [];
+                        tmp.title = '';
                         $http.get($scope.server + $scope.warName + "/rest/conference/all")
                             .success(function (data) {
                                 angular.forEach(data, function (elem) {
@@ -134,7 +134,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "content": {
                     templateUrl: "views/mainspace.html",
                     controller: function ($scope, $stateParams, $http, $log) {
-                        $scope.link="conference.speech({idspeech:square.id})";
+                        $scope.link = "conference.speech({idspeech:square.id})";
                         $scope.warName = "Web-1.0-SNAPSHOT";
                         $scope.server = "http://localhost:8080/";
                         $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
@@ -163,8 +163,8 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                             });
                         $scope.sections = [];
                         var tmp = new Object();
-                        tmp.list=[];
-                        tmp.title='';
+                        tmp.list = [];
+                        tmp.title = '';
                         $http.get(remoteServer + '/' + warName + '/rest/conference/speeches/' + $stateParams.idconf)
                             .success(function (data) {
                                 angular.forEach(data, function (elem) {
@@ -189,80 +189,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 "content": {
                     templateUrl: "views/mainspace.html",
-                    controller: function ($scope, $stateParams, $http, $log) {
-                        $scope.link="conference.speech({idspeech:square.id})";
-                        $scope.warName = "Web-1.0-SNAPSHOT";
-                        $scope.server = "http://localhost:8080/";
-                        $http({
-                            url: $scope.server + $scope.warName + "/rest/speech/info",
-                            method: "GET",
-                            params: {id:$stateParams.idspeech}
-                        })
-                            .success(function (data) {
-                                $log.log(data);
-                                $scope.title = data.topic;
-                                $scope.description = data.speaker.name;
-                            });
-                        $scope.buttons = false;
-                        var show = false;
-                        $http({
-                            url: remoteServer + '/' + warName + "/rest/whoami",
-                            method: "GET",
-
-                        })
-                            .success(function (data) {
-
-                                show = ((data.role) == 'moderator');
-                                $log.log('show1 ' +show);
-                                $scope.buttons = show;
-                            });
-
-                        $scope.sections = [];
-                        var tmp = new Object();
-                        tmp.list=[];
-                        tmp.title='';
-                        $log.log('show2 ' +$scope.buttons);
-                        if (show) {
-                            $http({
-                                url: $scope.server + $scope.warName + "/rest/question/unmoderated",
-                                method: "GET",
-                                params: {id: $stateParams.idspeech}
-                            })
-                                .success(function (data) {
-                                    angular.forEach(data, function (elem) {
-                                        tmp.list.push({
-                                            header: elem.text,
-                                            id: elem.id,
-                                            text: elem.answer,
-                                            //date: elem.startDate
-                                        });
-                                    });
-                                });
-
-                            tmp.title = 'Unmoderated questions';
-                            $scope.sections.push(tmp);
-                        }
-                        tmp = new Object();
-                        tmp.list=[];
-                        tmp.title='';
-                            $http({
-                                url: $scope.server + $scope.warName + "/rest/question/moderated",
-                                method: "GET",
-                                params: {id:$stateParams.idspeech}
-                            })
-                                .success(function (data) {
-                                    angular.forEach(data, function (elem) {
-                                        tmp.list.push({
-                                            header: elem.text,
-                                            id: elem.id,
-                                            text: elem.answer,
-                                            //date: elem.startDate
-                                        });
-                                    });
-                                });
-                        tmp.title = 'Questions';
-                        $scope.sections.push(tmp);
-                    }
+                    controller: 'speechCtrl'
                 }
             },
             css: ['css/style.css', 'css/all.css']
@@ -278,24 +205,24 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
 
         })
-        .state('profile',{
-            url:'/profile',
+        .state('profile', {
+            url: '/profile',
             views: {
                 "": {
-                    templateUrl:'views/conference.html',
+                    templateUrl: 'views/conference.html',
                     controller: function () {
 
                     }
                 }
             },
-            css:"css/style.css"
+            css: "css/style.css"
         })
-        .state('profile.info',{
-            url:'/profile/{login[0-9a-zA-Z]+}',
+        .state('profile.info', {
+            url: '/profile/{login[0-9a-zA-Z]+}',
             css: ['css/style.css', 'css/all.css'],
             views: {
                 "content": {
-                    templateUrl:"views/mainspace.html",
+                    templateUrl: "views/mainspace.html",
                     controller: function () {
 
                     }
@@ -303,6 +230,89 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             }
         });
 });
+
+routerApp.controller('speechCtrl',function ($scope, $stateParams, $http, $log) {
+    $scope.link = "conference.speech({idspeech:square.id})";
+    $scope.warName = "Web-1.0-SNAPSHOT";
+    $scope.server = "http://localhost:8080/";
+    $http({
+        url: $scope.server + $scope.warName + "/rest/speech/info",
+        method: "GET",
+        params: {id: $stateParams.idspeech}
+    })
+        .success(function (data) {
+            $log.log(data);
+            $scope.title = data.topic;
+            $scope.description = data.speaker.name;
+        });
+    $scope.buttons = false;
+    var show = false;
+    $scope.sections = [];
+
+    $http({
+        url: remoteServer + '/' + warName + "/rest/whoami",
+        method: "GET",
+
+    })
+        .success(function (data) {
+            show = ((data.role) == 'moderator');
+            $log.log('show1 ' + show);
+            test(show);
+            //$scope.buttons = show;
+        });
+
+
+    function test(value) {
+        show = value;
+        $log.log('show2 ' + show);
+        if (show) {
+            $http({
+                url: $scope.server + $scope.warName + "/rest/question/unmoderated",
+                method: "GET",
+                params: {id: $stateParams.idspeech}
+            })
+                .success(function (data) {
+                    var tmp = new Object();
+                    tmp.list = [];
+                    tmp.title = '';
+                    $log.log('unmoderated ' + data[0].text);
+                    angular.forEach(data, function (elem) {
+                        tmp.list.push({
+                            header: elem.text,
+                            id: elem.id,
+                            text: elem.answer,
+                            //date: elem.startDate
+                        });
+                    });
+                    tmp.title = 'Unmoderated questions';
+                    $scope.sections.push(tmp);
+                });
+            $http({
+                url: $scope.server + $scope.warName + "/rest/question/moderated",
+                method: "GET",
+                params: {id: $stateParams.idspeech}
+            })
+                .success(function (data) {
+                    var tmp = new Object();
+                    tmp.list = [];
+                    tmp.title = '';
+                    $log.log('moderated ' + data[0].text);
+                    angular.forEach(data, function (elem) {
+                        tmp.list.push({
+                            header: elem.text,
+                            id: elem.id,
+                            text: elem.answer,
+                            //date: elem.startDate
+                        });
+                    });
+                    tmp.title = 'Questions';
+                    $scope.sections.push(tmp);
+                });
+
+        }
+    };
+});
+
 routerApp.controller('translationCtrl', function ($scope, $http) {
 
     $scope.period = 30;
