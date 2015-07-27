@@ -66,9 +66,20 @@ public class ConferenceService extends CrudImplementation {
         remove(Conference.class,id);
     }
 
-    public List<Speech> speechesByConference(Integer id) {
+
+    public List<Speech> approvedSpeechesByConference(Integer id) {
         try {
             return em.createQuery("select e from Speech e where e.conference.id=:id and e.approved=true")
+                    .setParameter("id", id).getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Speech> unapprovedSpeechesByConference(Integer id) {
+        try {
+            return em.createQuery("select e from Speech e where e.conference.id=:id and e.approved=false")
                     .setParameter("id", id).getResultList();
         }catch (Exception e){
             e.printStackTrace();
