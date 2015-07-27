@@ -98,6 +98,17 @@ public class ReporterSpeechController {
     }
 
     @GET
+    @Path("crs")
+    @Produces("application/json")
+    public boolean checkReporterSpeech(@QueryParam("speechId") Integer speechId,
+                                       @QueryParam("reporterId") String reporterId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.checkReporterSpeech(reporterId, speechId);
+    }
+
+    @GET
     @Path("fuarbs/{id}")
     @Produces("application/json")
     public List<Reporter> findUnapprovedReportersBySpeech(@PathParam("id") Integer id){
