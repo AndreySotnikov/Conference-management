@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nikitayakuntsev on 19.07.15.
@@ -83,5 +85,20 @@ public class VisitorSubscriptionController {
 
 
     }
+
+    @GET
+    @Path("check")
+    @Produces("application/json")
+    public Map<String, Boolean> isVisitorSubscribedToConference(@QueryParam("visitor") String visitorLogin, @QueryParam("conf") Integer conferenceId) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, conferenceId));
+        return result;
+    }
+
+
 
 }
