@@ -13,6 +13,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nikita on 20.07.15.
@@ -53,6 +56,16 @@ public class SpeechController {
     }
 
     @GET
+    @Path("fasbs/{id}")
+    @Produces("application/json")
+    public List<Speech> findApprovedSpeechesBySpeaker(@PathParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return speechService.findBySpeaker(id);
+    }
+
+    @GET
     @Path("info")
     @Produces("application/json")
     public Speech getInfo(@QueryParam("id") Integer id){
@@ -67,15 +80,19 @@ public class SpeechController {
         }
     }
 
+
+
     @GET
     @Path("topic/{id}")
     @Produces("application/json")
-    public String getTopic(@PathParam("id") Integer id){
+    public Map<String, String> getTopic(@PathParam("id") Integer id){
         try {
             response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
             response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-            return speechService.findOne(id).getTopic();
+            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            Map<String, String> res = new HashMap<>();
+            res.put("topic", speechService.findOne(id).getTopic());
+            return res;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

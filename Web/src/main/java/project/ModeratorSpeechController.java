@@ -103,6 +103,26 @@ public class ModeratorSpeechController {
     }
 
     @GET
+    @Path("fasbm/{id}")
+    @Produces("application/json")
+    public List<Speech> findApprovedSpeechesByModerator(@PathParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.findApprovedSpeechesByModerator(id);
+    }
+
+    @GET
+    @Path("fuasbm/{id}")
+    @Produces("application/json")
+    public List<Speech> findUnapprovedSpeechesByModerator(@PathParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return service.findUnapprovedSpeechesByModerator(id);
+    }
+
+    @GET
     @Path("rmos")
     public String registerModeratorOnSpeech(
             @QueryParam("speechId") Integer speechId, @QueryParam("moderatorId") String moderatorId){

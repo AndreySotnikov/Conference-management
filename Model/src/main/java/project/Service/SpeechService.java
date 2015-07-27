@@ -40,8 +40,8 @@ public class SpeechService extends CrudImplementation {
 
     public List<Speech> findBySpeaker(String speakerId){
         try {
-            return em.createQuery("select e from Speech e where e.speaker.id = :id")
-                    .setParameter("id",speakerId)
+            return em.createQuery("select e from Speech e where e.speaker.id = :id and e.approved=true ")
+                    .setParameter("id", speakerId)
                     .getResultList();
         } catch (Exception e){
             e.printStackTrace();
