@@ -208,7 +208,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             $scope.title = data.name;
             $scope.description = data.description;
         });
-    $scope.buttons = false;
+    $scope.buttons = [];
     $scope.sections = [];
     var show = false;
     $http({
@@ -227,6 +227,12 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
         show = value;
         $log.log('show2 ' + show);
         if (show) {
+            var button = new Object();
+            button.text = 'Edit';
+            button.action = function(){
+                alert('clicked');
+            };
+            $scope.buttons.push(button);
             $http({
                 url: $scope.server + $scope.warName + '/rest/conference/uaspeeches/' + $stateParams.idconf,
                 method: "GET",
@@ -308,7 +314,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             $scope.title = data.topic;
             $scope.description = data.speaker.name;
         });
-    $scope.buttons = false;
+    $scope.buttons = [];
     $scope.sections = [];
 
     var show = false;
@@ -321,7 +327,14 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             show = ((data.role) == 'moderator');
             $log.log('show1 ' + show);
             test(show);
-            //$scope.buttons = show;
+            if ((data.role) == 'speaker'){
+                var button = new Object();
+                button.text = 'Edit';
+                button.action = function(){
+                    alert('clicked');
+                };
+                $scope.buttons.push(button);
+            }
         });
 
 
