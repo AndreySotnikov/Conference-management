@@ -652,4 +652,3 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     }
 });
-
