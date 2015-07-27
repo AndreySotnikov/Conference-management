@@ -66,6 +66,22 @@ public class ModeratorSpeechService extends CrudImplementation {
         return findModerators(speechId, false);
     }
 
+    public List<Speech> findSpeeches(String moderatorId, boolean approved) {
+        Query query = em.createQuery("SELECT e.speech FROM ModeratorRequestsSpeech e WHERE "+
+                "e.moderator.id=:moderatorId AND e.approved=:approved");
+        query.setParameter("moderatorId", moderatorId);
+        query.setParameter("approved", approved);
+        return query.getResultList();
+    }
+
+    public List<Speech> findApprovedSpeechesByModerator(String moderatorId){
+        return findSpeeches(moderatorId, true);
+    }
+
+    public List<Speech> findUnapprovedSpeechesByModerator(String moderatorId){
+        return findSpeeches(moderatorId, false);
+    }
+
     public boolean registerModeratorOnSpeech(String moderatorId, Integer speechId){
         Query query = em.createQuery("SELECT e FROM ModeratorRequestsSpeech e WHERE "+
                 "e.speech.id=:speechId AND e.moderator.login=:moderatorId");

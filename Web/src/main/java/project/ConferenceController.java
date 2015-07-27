@@ -45,6 +45,16 @@ public class ConferenceController {
         return conferenceService.findAll();
     }
 
+    @GET
+    @Path("fcbo/{id}")
+    @Produces("application/json")
+    public List<Conference> findConferenceByOrganizer(@PathParam("id") String id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        return conferenceService.findAllByLogin(id);
+    }
+
     @Path("show/{id}")
     @GET
     @Produces("application/json")
@@ -55,14 +65,24 @@ public class ConferenceController {
         return conferenceService.findOne(id);
     }
 
-    @Path("speeches/{id}")
+    @Path("aspeeches/{id}")
     @GET
     @Produces("application/json")
-    public List<Speech> speechesByConference(@PathParam("id") Integer id) {
+    public List<Speech> approvedSpeechesByConference(@PathParam("id") Integer id) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        return conferenceService.speechesByConference(id);
+        return conferenceService.approvedSpeechesByConference(id);
+    }
+
+    @Path("uaspeeches/{id}")
+    @GET
+    @Produces("application/json")
+    public List<Speech> unapprovedSpeechesByConference(@PathParam("id") Integer id) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        return conferenceService.unapprovedSpeechesByConference(id);
     }
 
     @Path("add")

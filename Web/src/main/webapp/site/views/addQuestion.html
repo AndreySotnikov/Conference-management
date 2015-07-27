@@ -1,0 +1,18 @@
+
+<div ng-controller="questionCtrl" class="container">
+    <div class="page-header">
+        <h3>Add question</h3>
+    </div>
+
+    <form class="form-horizontal" name="myForm">
+        <div class="form-group">
+            <label for="comment">Question text:</label>
+            <input type="hidden" ng-model="login">
+            <input type="hidden" ng-model="speechId">
+            <textarea class="form-control" ng-model="question.text" style="resize: none" rows="5" id="comment"></textarea>
+            <input id="more" type="button" ng-click='addQuestion()' class="btn btn-info" value="Send question">
+        </div>
+    </form>
+
+
+</div>
