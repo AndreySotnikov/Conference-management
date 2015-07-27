@@ -330,7 +330,7 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
     $scope.lastId = 0;
     $http.get(remoteServer + '/' + warName + '/rest/speech/topic/' + $scope.speechId)
         .success(function (data) {
-            $scope.title = data;
+            $scope.title = data.topic;
         });
     $http.get(remoteServer + '/' + warName + '/rest/trans/fbs/' + $scope.speechId)
         .success(function (data) {
