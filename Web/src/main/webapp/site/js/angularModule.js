@@ -391,7 +391,11 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             var button = new Object();
             button.text = 'Approve';
             button.action = function(){
-                alert('clicked');
+                $http({
+                    url: remoteServer + '/' + warName + "/rest/speech/approve",
+                    method: "GET",
+                    params: {id: $stateParams.idspeech}
+                });
             };
             $scope.buttons.push(button);
         }
@@ -400,7 +404,11 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             var button = new Object();
             button.text = 'Request';
             button.action = function(){
-                alert('clicked');
+                $http({
+                    url: remoteServer + '/' + warName + "/rest/modspeech/rmos",
+                    method: "GET",
+                    params: {speechId: $stateParams.idspeech}
+                });
             };
             $scope.buttons.push(button);
         }
@@ -409,7 +417,11 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             var button = new Object();
             button.text = 'Request';
             button.action = function(){
-                alert('clicked');
+                $http({
+                    url: remoteServer + '/' + warName + "/rest/repspeech/rros",
+                    method: "GET",
+                    params: {speechId: $stateParams.idspeech}
+                });
             };
             $scope.buttons.push(button);
         }
@@ -418,6 +430,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             var button = new Object();
             button.text = 'Edit';
             button.action = function () {
+                //TODO
                 alert('clicked');
             };
             $scope.buttons.push(button);
@@ -427,7 +440,10 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             var button = new Object();
             button.text = 'Register';
             button.action = function(){
-                alert('clicked');
+                $http({
+                    url: remoteServer + '/' + warName + "/rest/subscribe/"+$stateParams.idspeech,
+                    method: "GET",
+                });
             };
             $scope.buttons.push(button);
         }
