@@ -153,7 +153,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             }
         })*/
         .state('conference.question', {
-            url: '/speech/question/:idquestion',
+            url: '/speech/:idspeech/question/:idquestion',
             views: {
                 "content": {
                     templateUrl: 'views/mainspace.html',
@@ -163,7 +163,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             css: ['css/style.css', 'css/all.css']
         })
         .state('conference.askquestion', {
-            url: '/speech/ask/:idspeech',
+            url: '/speech/:idspeech/ask',
             views: {
                 "content": {
                     templateUrl: 'views/addQuestion.html',
@@ -212,6 +212,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
 routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $log){
     //$scope.link = "conference.speech({idspeech:square.id})";
+    $log.log('id speech ' + $stateParams.idspeech);
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
     $http.get($scope.server + $scope.warName + "/rest/question/show/" + $stateParams.idquestion)
@@ -219,10 +220,10 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
             $log.log(data);
             $scope.title = 'Question: ' + data.text;
             if (!data.answer===null)
-            $scope.description = 'Answer: ' +data.answer;
+                $scope.description = 'Answer: ' +data.answer;
             fillPage();
         });
-    function fillPage(login, approved){
+    function fillPage(){
         $scope.buttons = [];
         $scope.sections = [];
         var role ='';
@@ -233,7 +234,38 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
         })
             .success(function (data) {
                 role = data.role;
-                addQuestionsAndButtons(role, login, data.username, approved);
+                if (role === 'moderator'){
+                    $http({
+                        url: remoteServer + '/' + warName + "/checkspeech/" + $stateParams.idspeech,
+                        method: "GET",
+
+                    }).success(function (data){
+                        if (data === true){
+                            $scope.buttons = [];
+                            var button = new Object();
+                            button.text = 'Approve';
+                            button.action = function(){
+                                $http({
+                                    url: remoteServer + '/' + warName + "/rest/question/moderate" + $stateParams.idquestion,
+                                    method: "GET",
+                                });
+                            };
+                            $scope.buttons.push(button);
+
+                            var button1 = new Object();
+                            button1.text = 'Delete';
+                            button1.action = function(){
+                                $http({
+                                    url: remoteServer + '/' + warName + "/rest/question/delete",
+                                    method: "POST",
+                                    data: "id="+ $stateParams.idquestion,
+                                });
+                            };
+                            $scope.buttons.push(button1);
+                        }
+                    });
+                }
+                //addQuestionsAndButtons(role, login, data.username, approved);
             });
     }
 });
