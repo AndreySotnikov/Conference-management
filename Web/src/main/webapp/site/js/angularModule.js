@@ -1,4 +1,4 @@
-var routerApp = angular.module('app', ['ui.router', 'door3.css']);
+var routerApp = angular.module('app', ['ui.router', 'door3.css','ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 var remoteServer = 'http://localhost:8080';
 //var remoteServer = '';
 var warName = 'Web-1.0-SNAPSHOT';
@@ -237,6 +237,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             },
             css: ['css/style.css', 'css/all.css']
+        })
+        .state('conference.addspeech', {
+            url: '/:idconf/add',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: "addSpeechCtrl"
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
         });
 });
 
@@ -317,7 +327,7 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
     }
 });
 
-routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log) {
+routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log, $state) {
     $scope.idconf = $stateParams.idconf;
     $scope.link = "conference.speech({idconf:idconf, idspeech:square.id})";
     $scope.warName = "Web-1.0-SNAPSHOT";
@@ -369,7 +379,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                         });
                     });
                     if (tmp.list.length !=0)
-                        tmp.title = 'Unapproves speeches';
+                        tmp.title = 'Unapproved speeches';
                     $scope.sections.push(tmp);
                     $log.log('login ' + login);
                     $log.log('username ' + whoami);
@@ -389,7 +399,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             var button = new Object();
             button.text = 'Add Speech';
             button.action = function(){
-                alert('clicked');
+                $state.go("conference.addspeech", {'idconf': $stateParams.idconf});
             };
             $scope.buttons.push(button);
         }
@@ -783,7 +793,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 }
                             );
                         }
-                        $http.get(remoteServer + '/' + warName + "/conference/fcbo/" + $stateParams.login)
+                        $http.get(remoteServer + '/' + warName + "/rest/conference/fcbo/" + $stateParams.login)
                             .success(function (data) {
                                 var section = new Object();
                                 section.title = "My Conferences";
@@ -1072,7 +1082,47 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
         $state.go("profile.info",{'login':$scope.login});
     }
 });
-routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
+
+routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
+
+    $scope.texts = [];
+    var dto = new Object();
+    dto.placeholder = "Topic";
+    $scope.texts.push(dto);
+
+    dto = new Object();
+    dto.placeholder = "Text";
+    $scope.texts.push(dto);
+
+
+    $scope.dates = [];
+    dto = new Object();
+    dto.placeholder = "Starttime";
+    $scope.dates.push(dto);
+
+
+    $scope.submit = function () {
+
+        var post = "topic=" + $scope.texts[0].value +
+            "&text=" + $scope.texts[1].value +
+            "&start=" + $scope.dates[0].value +
+            "&conference=" + $stateParams.idconf;
+
+        alert(post);
+
+        $http({
+            url: remoteServer + '/' + warName + '/rest/speech/add',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: post
+        });
+
+
+
+    }
+});
+
+routerApp.controller('createConferenceCtrl', function($scope,$http,$location,$filter) {
     $scope.texts = [];
     $scope.dates = [];
     $scope.texts.push({
@@ -1084,11 +1134,13 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
         value: ""
     });
     $scope.dates.push({
-        //placeholder:"Start date",
+        id:"startdate",
+        placeholder:"Start date",
         value: ""
     });
     $scope.dates.push({
-        //placeholder:"End date",
+        id:"enddate",
+        placeholder:"End date",
         value: ""
     });
     $scope.submit = function () {
@@ -1096,10 +1148,9 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
             url: remoteServer + '/' + warName + '/rest/conference/add',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $scope.dates[0].value + "&end=" + $scope.dates[1].value
+            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd") + "&end=" + $filter('date')($scope.dates[1].value,"yyyy-MM-dd")
         });
-        $location.path("profile");
+        $location.path("/conference/list");
         $scope.apply();
     };
 });
-
