@@ -133,6 +133,10 @@ public class QuestionService extends CrudImplementation{
     }
 
     public void remove(int id){
-        remove(Question.class,id);
+        em.createNativeQuery("DELETE FROM Question_Visitor WHERE questions_id=:id")
+                .setParameter("id",id).executeUpdate();
+        em.createNativeQuery("DELETE FROM Question WHERE id=:id")
+                .setParameter("id", id).executeUpdate();
+//        remove(Question.class,id);
     }
 }

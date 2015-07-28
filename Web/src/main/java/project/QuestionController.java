@@ -141,6 +141,9 @@ public class QuestionController {
     @Path("delete")
     @POST
     public Map<String, Boolean> deleteQuestion(MultivaluedMap<String, String> form){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         Map<String, Boolean> result = new HashMap<>();
         try {
             questionService.remove(Integer.parseInt(form.getFirst("id")));
