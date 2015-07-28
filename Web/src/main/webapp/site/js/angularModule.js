@@ -152,6 +152,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
+        .state("conference.room", {
+            url: '/:idconf/speech/{idspeech:[0-9]+}/order',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: 'roomOrderCtrl'
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
+    })
         /*
          .state('conference.speech.question', {
          url: '/speech/{idspeech:[0-9]+}/ask',
@@ -394,6 +404,9 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                             method: "POST",
                             data: "confId=" + $stateParams.idconf,
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).success(function(data){
+                            if (data.result)
+                                $scope.buttons.splice($scope.buttons.indexOf(button),1);
                         });
                     };
                     $scope.buttons.push(button);
@@ -599,7 +612,10 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                                     method: "POST",
                                     data: "speechId=" + $stateParams.idspeech,
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                })
+                                }).success(function(data){
+                                    if (data.result)
+                                        $scope.buttons.splice($scope.buttons.indexOf(button),1);
+                                });
                             };
                             $scope.buttons.push(button);
                         }
