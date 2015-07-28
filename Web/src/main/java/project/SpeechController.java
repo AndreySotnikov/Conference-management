@@ -42,7 +42,7 @@ public class SpeechController {
             speech.setTopic(form.getFirst("topic"));
 
             speech.setSpeaker(speakerService.findOne(request.getUserPrincipal().getName()));
-            speech.setText("");
+            speech.setText(form.getFirst("text"));
             speech.setApproved(false);
             speech.setCompleted(false);
             speech.setStartDate(Timestamp.valueOf(form.getFirst("start")));

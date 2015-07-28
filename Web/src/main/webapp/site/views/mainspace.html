@@ -13,7 +13,7 @@
         <div class="nbox" ng-repeat="square in section.list">
             <div class="news_words">
                 <div class="title">
-                    <a ui-sref={{link}}><strong>{{square.header}}</strong></a>
+                    <a ui-sref={{square.link}}><strong>{{square.header}}</strong></a>
                 </div>
                 <div class="hold smp">
                     <p>{{square.text}}</p>
@@ -21,7 +21,7 @@
             </div>
             <div class="bbox">
                 <em class="date">{{square.date | date : 'MM/dd/yy hh:mm'}}</em>
-                <a ui-sref={{link}}>подробнее &gt;&gt;</a><!--edit this link-->
+                <a ui-sref={{square.link}}>подробнее &gt;&gt;</a><!--edit this link-->
             </div>
         </div>
     </div>
