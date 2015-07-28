@@ -1,8 +1,5 @@
 package project.Entity;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -18,7 +15,7 @@ public class Visitor {
     private String email;
     private String phone;
 
-    @ManyToMany(mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
     private List<Question> questions;
 
     @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)

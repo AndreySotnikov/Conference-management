@@ -407,7 +407,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
 
         if (role=='moderator') {
             $http({
-                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/modrequested/"+login,
+                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/modrequested/"+whoami,
                 method: "GET"
             }).success(function(data){
                 if (!data.result){
@@ -428,7 +428,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
 
         if (role=='reporter') {
             $http({
-                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/reprequested/"+login,
+                url: $scope.server + $scope.warName + "/rest/speech/"+$stateParams.idspeech+"/reprequested/"+whoami,
                 method: "GET"
             }).success(function(data){
                 if (!data.result){
