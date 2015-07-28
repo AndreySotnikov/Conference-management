@@ -90,6 +90,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state("conference.create", {
+            url: '/create',
+            css: 'css/style.css',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: "createConferenceCtrl"
+                }
+            }
+        })
         .state("conference.list", {
             url: '/list',
             views: {
@@ -143,15 +153,15 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             css: ['css/style.css', 'css/all.css']
         })
         /*
-        .state('conference.speech.question', {
-            url: '/speech/{idspeech:[0-9]+}/ask',
-            views: {
-                'content': {
-                    templateUrl: 'views/addQuestion.html',
-                    controller: 'questionCtrl'
-                }
-            }
-        })*/
+         .state('conference.speech.question', {
+         url: '/speech/{idspeech:[0-9]+}/ask',
+         views: {
+         'content': {
+         templateUrl: 'views/addQuestion.html',
+         controller: 'questionCtrl'
+         }
+         }
+         })*/
         .state('conference.question', {
             url: '/speech/:idspeech/question/:idquestion',
             views: {
@@ -198,15 +208,15 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: "css/style.css"
         })
-        .state('profile.edit',{
-            url:'/edit',
+        .state('profile.edit', {
+            url: '/edit',
+            css: 'css/style.css',
             views: {
                 "content": {
-                    templateUrl:"views/edit.html",
-                    controller:"profileEditCtrl"
+                    templateUrl: "views/edit.html",
+                    controller: "profileEditCtrl"
                 }
-            },
-            css:'css/style.css'
+            }
         })
         .state('profile.info', {
             url: '/{login}',
@@ -815,7 +825,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     if (data.role === "moderator") {
                         $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + $stateParams.login)
                             .success(function(data){
-                                $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
+                                $scope.description = "Moderator, " + data.name + ", " + data.email + ", " + data.phone;
                             });
                         $http.get(remoteServer + '/' + warName + "/rest/modspeech/fasbm/" + $stateParams.username)
                             .success(function(data){
@@ -902,21 +912,18 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     }
 });
-routerApp.controller('profileEditCtrl', function($scope,$http,$location){
+routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
     $scope.texts = [];
     var getInfo = function(data){
         $scope.texts.push({
-            float:"left",
             value:data.name,
             placeholder:"Name"
         });
         $scope.texts.push({
-            float:"right",
             value:data.email,
             placeholder:"E-mail"
         });
         $scope.texts.push({
-            float:"left",
             value:data.phone,
             placeholder:"Phone"
         })
@@ -1007,7 +1014,37 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location){
                 });
                 break;
         }
-        $state.go("/profile");
+        $state.go("profile.info",{'login':$scope.login});
     }
-
 });
+routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
+    $scope.texts = [];
+    $scope.dates = [];
+    $scope.texts.push({
+        placeholder: "Name",
+        value: ""
+    });
+    $scope.texts.push({
+        placeholder: "Description",
+        value: ""
+    });
+    $scope.dates.push({
+        //placeholder:"Start date",
+        value: ""
+    });
+    $scope.dates.push({
+        //placeholder:"End date",
+        value: ""
+    });
+    $scope.submit = function () {
+        $http({
+            url: remoteServer + '/' + warName + '/rest/conference/add',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $scope.dates[0].value + "&end=" + $scope.dates[1].value
+        });
+        $location.path("profile");
+        $scope.apply();
+    };
+});
+
