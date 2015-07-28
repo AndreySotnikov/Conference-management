@@ -929,6 +929,8 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
     $scope.addQuestion = function () {
         $scope.question.speechId = $scope.speechId;
         alert("add clicked");
+        alert( "text=" + $scope.question.text +
+            "&speechId=" + $scope.question.speechId);
         $http({
             url: $scope.server + $scope.warName + '/rest/question/add',
             method: "POST",

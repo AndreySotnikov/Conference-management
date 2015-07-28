@@ -20,7 +20,7 @@ public class Question {
     @ManyToOne
     private Speech speech;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Visitor> visitorsUpVoteQuestion;
 
     public Question() {
