@@ -22,7 +22,7 @@ public class Question {
     @ManyToOne
     private Speech speech;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     private List<Visitor> visitorsUpVoteQuestion;
 

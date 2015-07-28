@@ -1,4 +1,6 @@
 package project.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,10 +22,12 @@ public class Visitor {
     private  List<Question> questions;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "visitors", cascade = CascadeType.REMOVE)
-    private transient List<Conference> conferences;
+    @JsonIgnore
+    private  List<Conference> conferences;
 
     @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)
-    private transient List<Speech> speeches;
+    @JsonIgnore
+    private List<Speech> speeches;
 
     public Visitor(String login, String name, String email, String phone) {
         this.login = login;
