@@ -198,6 +198,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: "css/style.css"
         })
+        .state('profile.edit',{
+            url:'/edit',
+            views: {
+                "content": {
+                    templateUrl:"views/edit.html",
+                    controller:"profileEditCtrl"
+                }
+            },
+            css:'css/style.css'
+        })
         .state('profile.info', {
             url: '/{login}',
             views: {
@@ -626,9 +636,9 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
     $scope.buttons = [];
     $scope.sections = [];
     $http.get(remoteServer + '/' + warName + "/rest/whoami")
-        .success(function (data) {
-
-            if (data.username === $stateParams.login) {
+        .success(function(data) {
+            var username = data.username;
+            if (username === $stateParams.login) {
                 $scope.buttons.push(
                     {
                         text: "Edit Profile",
@@ -639,170 +649,171 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     }
                 );
             }
-            if (data.role === "organizer") {
-                $http.get(remoteServer + '/' + warName + "/rest/organizer/show/" + $stateParams.login)
-                    .success(function(data){
-                        $scope.description = "Organizer, " + data.name + ", " + data.email + ", " + data.phone;
-                    });
-                if (data.username === $stateParams.login) {
-                    $scope.buttons.push(
-                        {
-                            text: "Create Conference",
-                            action: function () {
-                                $location.path("/conference/create");
-                                $scope.apply();
-                            }
+            $http.get(remoteServer + '/' + warName + "/rest/role/" + $stateParams.login)
+                .success(function (data) {
+                    if (data.role === "organizer") {
+                        $http.get(remoteServer + '/' + warName + "/rest/organizer/show/" + $stateParams.login)
+                            .success(function(data){
+                                $scope.description = "Organizer, " + data.name + ", " + data.email + ", " + data.phone;
+                            });
+                        if (username === $stateParams.login) {
+                            $scope.buttons.push(
+                                {
+                                    text: "Create Conference",
+                                    action: function () {
+                                        $location.path("/conference/create");
+                                        $scope.apply();
+                                    }
+                                }
+                            );
                         }
-                    );
-                }
-                $http.get(remoteServer + '/' + warName + "/conference/fcbo/" + $stateParams.login)
-                    .success(function (data) {
-                        var section = new Object();
-                        section.title = "My Conferences";
-                        section.list = [];
-                        angular.forEach(data, function (elem) {
-                            section.list.push({
-                                header: elem.name,
-                                description: elem.description,
-                                link: "conference.info({idconf:" + elem.id + "})",
-                                date: elem.startDate + " - " + elem.endDate
+                        $http.get(remoteServer + '/' + warName + "/conference/fcbo/" + $stateParams.login)
+                            .success(function (data) {
+                                var section = new Object();
+                                section.title = "My Conferences";
+                                section.list = [];
+                                angular.forEach(data, function (elem) {
+                                    section.list.push({
+                                        header: elem.name,
+                                        description: elem.description,
+                                        link: "conference.info({idconf:" + elem.id + "})",
+                                        date: elem.startDate + " - " + elem.endDate
+                                    });
+                                });
+                                $scope.sections.push(section);
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-            }
+                    }
 
-            if (data.role === "visitor") {
-                $http.get(remoteServer + '/' + warName + "/rest/visitor/info?login" + $stateParams.login)
-                    .success(function(data){
-                        $scope.description = "Visitor, " + data.name + ", " + data.email + ", " + data.phone;
-                    });
-                $http.get(remoteServer + '/' + warName + "/rest/subscribe/conferences/" + $stateParams.username)
-                    .success(function(data){
-                        var section = new Object();
-                        section.title = "My Conferences";
-                        section.list = [];
-                        angular.forEach(data, function (elem) {
-                            section.list.push({
-                                header: elem.name,
-                                description: elem.description,
-                                link: "conference.info(" + elem.id + ")",
-                                date: elem.startDate + " - " + elem.endDate
+                    if (data.role === "visitor") {
+                        $http.get(remoteServer + '/' + warName + "/rest/visitor/info?login=" + $stateParams.login)
+                            .success(function (data) {
+                                $scope.description = "Visitor, " + data.name + ", " + data.email + ", " + data.phone;
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-                $http.get(remoteServer + '/' + warName + "/rest/subscribe/speeches/" + $stateParams.username)
-                    .success(function (data){
-                        var section = new Object();
-                        section.title = "My Speeches";
-                        section.list = [];
-                        angular.forEach(data, function(elem){
-                            section.list.push({
-                                header:elem.topic,
-                                description:elem.speaker.name,
-                                date:elem.startDate,
-                                link:"conference.speech({idspeech:elem.id})"
+                        $http.get(remoteServer + '/' + warName + "/rest/subscribe/conferences/" + $stateParams.username)
+                            .success(function (data) {
+                                var section = new Object();
+                                section.title = "My Conferences";
+                                section.list = [];
+                                angular.forEach(data, function (elem) {
+                                    section.list.push({
+                                        header: elem.name,
+                                        description: elem.description,
+                                        link: "conference.info(" + elem.id + ")",
+                                        date: elem.startDate + " - " + elem.endDate
+                                    });
+                                });
+                                $scope.sections.push(section);
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-            }
+                        $http.get(remoteServer + '/' + warName + "/rest/subscribe/speeches/" + $stateParams.username)
+                            .success(function (data) {
+                                var section = new Object();
+                                section.title = "My Speeches";
+                                section.list = [];
+                                angular.forEach(data, function (elem) {
+                                    section.list.push({
+                                        header: elem.topic,
+                                        description: elem.speaker.name,
+                                        date: elem.startDate,
+                                        link: "conference.speech({idspeech:elem.id})"
+                                    });
+                                });
+                                $scope.sections.push(section);
+                            });
+                    }
 
-            if (data.role === "reporter") {
-                $http.get(remoteServer + '/' + warName + "/rest/repspeech/fasbr/" + $stateParams.username)
-                    .success(function (data) {
-                        var section = new Object();
-                        section.title = "My Speeches";
-                        section.list = [];
-                        angular.forEach(data, function (elem) {
-                            section.list.push({
-                                header: elem.topic,
-                                description: elem.speaker.name,
-                                date: elem.startDate,
-                                link: "conference.speech({idspeech:elem.id})"
+                    if (data.role === "reporter") {
+                        $http.get(remoteServer + '/' + warName + "/rest/repspeech/fasbr/" + $stateParams.username)
+                            .success(function (data) {
+                                var section = new Object();
+                                section.title = "My Speeches";
+                                section.list = [];
+                                angular.forEach(data, function (elem) {
+                                    section.list.push({
+                                        header: elem.topic,
+                                        description: elem.speaker.name,
+                                        date: elem.startDate,
+                                        link: "conference.speech({idspeech:elem.id})"
+                                    });
+                                });
+                                $scope.sections.push(section);
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-            }
+                    }
 
-            if (data.role === "speaker") {
-                $http.get(remoteServer + '/' + warName + "/rest/speaker/info?login" + $stateParams.login)
-                    .success(function(data){
-                        $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
-                    });
-                $http.get(remoteServer + '/' + warName + "/rest/speech/fasbs/" + $stateParams.username)
-                    .success(function(data){
-                        var section = new Object();
-                        section.title="My Speeches";
-                        section.list = [];
-                        angular.forEach(data, function(elem){
-                            section.list.push({
-                                header:elem.topic,
-                                description:elem.speaker.name,
-                                date:elem.startDate,
-                                link:"conference.speech({idspeech:elem.id})"
+                    if (data.role === "speaker") {
+                        $http.get(remoteServer + '/' + warName + "/rest/speaker/info?login=" + $stateParams.login)
+                            .success(function(data){
+                                $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-            }
-
-            if (data.role === "moderator") {
-                $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + $stateParams.login)
-                    .success(function(data){
-                        $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
-                    });
-                $http.get(remoteServer + '/' + warName + "/rest/modspeech/fasbm/" + $stateParams.username)
-                    .success(function(data){
-                        var section = new Object();
-                        section.title="My Speeches";
-                        section.list = [];
-                        angular.forEach(data, function(elem){
-                            section.list.push({
-                                header:elem.topic,
-                                description:elem.speaker.name,
-                                date:elem.startDate,
-                                link:"conference.speech({idspeech:elem.id})"
+                        $http.get(remoteServer + '/' + warName + "/rest/speech/fasbs/" + $stateParams.username)
+                            .success(function(data){
+                                var section = new Object();
+                                section.title="My Speeches";
+                                section.list = [];
+                                angular.forEach(data, function(elem){
+                                    section.list.push({
+                                        header:elem.topic,
+                                        description:elem.speaker.name,
+                                        date:elem.startDate,
+                                        link:"conference.speech({idspeech:elem.id})"
+                                    });
+                                });
+                                $scope.sections.push(section);
                             });
-                        });
-                        $scope.sections.push(section);
-                    });
-            }
+                    }
 
-            if (data.role === "roomOwner") {
-                $http.get(remoteServer + '/' + warName + "/rest/moderator/get?id=" + $stateParams.login)
-                    .success(function(data){
-                        $scope.description = "Room Owner, " + data.name + ", " + data.email + ", " + data.phone;
-                    });
-                if (data.username === $stateParams.login) {
-                    $scope.buttons.push({
-                        text: "Add Room",
-                        action: function () {
-                            $location.path("/room/add");
-                            $scope.apply();
+                    if (data.role === "moderator") {
+                        $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + $stateParams.login)
+                            .success(function(data){
+                                $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
+                            });
+                        $http.get(remoteServer + '/' + warName + "/rest/modspeech/fasbm/" + $stateParams.username)
+                            .success(function(data){
+                                var section = new Object();
+                                section.title="My Speeches";
+                                section.list = [];
+                                angular.forEach(data, function(elem){
+                                    section.list.push({
+                                        header:elem.topic,
+                                        description:elem.speaker.name,
+                                        date:elem.startDate,
+                                        link:"conference.speech({idspeech:elem.id})"
+                                    });
+                                });
+                                $scope.sections.push(section);
+                            });
+                    }
+
+                    if (data.role === "roomOwner") {
+                        $http.get(remoteServer + '/' + warName + "/rest/moderator/get?id=" + $stateParams.login)
+                            .success(function(data){
+                                $scope.description = "Room Owner, " + data.name + ", " + data.email + ", " + data.phone;
+                            });
+                        if (username === $stateParams.login) {
+                            $scope.buttons.push({
+                                text: "Add Room",
+                                action: function () {
+                                    $location.path("/room/add");
+                                    $scope.apply();
+                                }
+                            });
                         }
-                    });
-                }
-                $http.get(remoteServer + '/' + warName + "/rest/rowner/" + $stateParams.username)
-                    .success(function(data){
-                        var section = new Object();
-                        section.title = "My Rooms";
-                        section.list = [];
-                        angular.forEach(data, function(elem){
-                            section.list.push({
-                                header:elem.number,
-                                //description:elem.speaker.name, //TODO:elem.address
-                                link:"room.info({idroom:elem.number})"
+                        $http.get(remoteServer + '/' + warName + "/rest/rowner/" + $stateParams.username)
+                            .success(function(data){
+                                var section = new Object();
+                                section.title = "My Rooms";
+                                section.list = [];
+                                angular.forEach(data, function(elem){
+                                    section.list.push({
+                                        header:elem.number,
+                                        //description:elem.speaker.name, //TODO:elem.address
+                                        link:"room.info({idroom:elem.number})"
+                                    });
+                                });
                             });
-                        });
-                    });
-            }
+                    }
+                });
         });
 });
-
-
 
 routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
@@ -840,4 +851,112 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     }
 });
+routerApp.controller('profileEditCtrl', function($scope,$http,$location){
+    $scope.texts = [];
+    var getInfo = function(data){
+        $scope.texts.push({
+            float:"left",
+            value:data.name,
+            placeholder:"Name"
+        });
+        $scope.texts.push({
+            float:"right",
+            value:data.email,
+            placeholder:"E-mail"
+        });
+        $scope.texts.push({
+            float:"left",
+            value:data.phone,
+            placeholder:"Phone"
+        })
+    };
+    $http.get(remoteServer + "/" + warName + "/rest/whoami")
+        .success(function(data){
+            switch (data.role) {
+                case "organizer":
+                    $http.get(remoteServer + '/' + warName + "/rest/organizer/show/" + data.username)
+                        .success(getInfo);
+                    break;
+                case "visitor":
+                    $http.get(remoteServer + '/' + warName + "/rest/visitor/info?login" + data.username)
+                        .success(getInfo);
+                    break;
+                case "reporter":
+                    $http.get(remoteServer + '/' + warName + "/rest/reporter/get/" + data.username)
+                        .success(getInfo);
+                    break;
+                case "moderator":
+                    $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + data.username)
+                        .success(getInfo);
+                    break;
+                case "speaker":
+                    $http.get(remoteServer + '/' + warName + "/rest/speaker/info?login" + data.username)
+                        .success(getInfo);
+                    break;
+                case "roomOwner":
+                    $http.get(remoteServer + '/' + warName + "/rest/rowner/get?id=" + data.username)
+                        .success(getInfo);
+                    break;
+                default :
+                    $location.path("/home");
+                    $scope.$apply();
+                    break;
+            }
+            $scope.role = data.role;
+            $scope.login = data.username;
+        });
+    $scope.submit = function() {
+        switch ($scope.role) {
+            case "organizer":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/organizer/update',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value
+                });
+                break;
+            case "visitor":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/visitor/info',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value
+                });
+                break;
+            case "moderator":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/moderator/update',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value
+                });
+                break;
+            case "speaker":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/speaker/info',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value
+                });
+                break;
+            case "roomOwner":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/rowner/update',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value
+                });
+                break;
+            case "reporter":
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/reporter/update',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: 'login='+$scope.login + '&name=' + $scope.texts[0].value + '&email=' + $scope.texts[1].value + '&phone=' + $scope.texts[2].value + '&busy=false'
+                });
+                break;
+        }
+        $state.go("/profile");
+    }
 
+});
