@@ -150,11 +150,11 @@ public class ModeratorSpeechController {
     @GET
     @Path("rmos")
     public String registerModeratorOnSpeech(
-            @QueryParam("speechId") Integer speechId, @QueryParam("moderatorId") String moderatorId){
+            @QueryParam("speechId") Integer speechId){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        String res = (service.registerModeratorOnSpeech(moderatorId, speechId)?"OK":"NOT OK");
+        String res = (service.registerModeratorOnSpeech(request.getUserPrincipal().getName(), speechId)?"OK":"NOT OK");
         return res;
     }
 
