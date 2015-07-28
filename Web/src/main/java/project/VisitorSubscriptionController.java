@@ -34,6 +34,9 @@ public class VisitorSubscriptionController {
     @POST
     @Path("speech")
     public String subscribeToSpeech(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer speechId = Integer.valueOf(form.getFirst("speechId"));
         String visitorLogin = request.getUserPrincipal().getName();
         try {
@@ -48,6 +51,9 @@ public class VisitorSubscriptionController {
     @POST
     @Path("conference")
     public String subscribeToConference(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer confId = Integer.valueOf(form.getFirst("confId"));
         String visitorLogin = request.getUserPrincipal().getName();
         try {
@@ -87,16 +93,21 @@ public class VisitorSubscriptionController {
     }
 
     @GET
-    @Path("check")
+    @Path("check/")
     @Produces("application/json")
-    public Map<String, Boolean> isVisitorSubscribedToConference(@QueryParam("visitor") String visitorLogin, @QueryParam("speech") Integer speechId) {
+    public Map<String, Boolean> isVisitorSubscribedToConference(
+            @QueryParam("visitor") String visitorLogin,
+            @DefaultValue("-1") @QueryParam("speech") Integer speechId,
+            @DefaultValue("-1") @QueryParam("conf") Integer confId) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
 
         Map<String, Boolean> result = new HashMap<>();
-        System.err.println("visitorLogin: " + visitorLogin + " speechId " + speechId);
-        result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, speechId));
+        if (speechId != -1)
+            result.put("speech", service.hasVisitorSubscribedToSpeech(visitorLogin, speechId));
+        if (confId != -1)
+            result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, confId));
         return result;
     }
 

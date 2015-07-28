@@ -143,7 +143,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             css: ['css/style.css', 'css/all.css']
         })
         .state("conference.speech", {
-            url: '/speech/{idspeech:[0-9]+}',
+            url: '/:idconf/speech/{idspeech:[0-9]+}',
             views: {
                 "content": {
                     templateUrl: "views/mainspace.html",
@@ -302,7 +302,8 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
 });
 
 routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log) {
-    $scope.link = "conference.speech({idspeech:square.id})";
+    $scope.idconf = $stateParams.idconf;
+    $scope.link = "conference.speech({idconf:idconf, idspeech:square.id})";
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
     $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
@@ -378,17 +379,26 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
         }
 
         if (role=='visitor') {
-            var button = new Object();
-            button.text = 'Register';
-            button.action = function(){
-                $http({
-                    url: remoteServer + '/' + warName + '/rest/subscribe/conference',
-                    method: "POST",
-                    data: "confId=" + $stateParams.idconf,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                });
-            };
-            $scope.buttons.push(button);
+
+            $http({
+                url: remoteServer + '/' + warName + '/rest/subscribe/check',
+                method: "GET",
+                params: {visitor: whoami, conf: $stateParams.idconf}
+            }).success(function(data){
+                if (!data.result){
+                    var button = new Object();
+                    button.text = 'Register';
+                    button.action = function(){
+                        $http({
+                            url: remoteServer + '/' + warName + '/rest/subscribe/conference',
+                            method: "POST",
+                            data: "confId=" + $stateParams.idconf,
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        });
+                    };
+                    $scope.buttons.push(button);
+                }
+            });
         }
 
             $http({
@@ -568,25 +578,35 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                 $state.go('conference.askquestion',{ 'idspeech':$stateParams.idspeech });
             };
             $scope.buttons.push(button);
+
             $http({
                 url: remoteServer + '/' + warName + "/rest/subscribe/check",
                 method: "GET",
-                params: {visitor: whoami , speech: $stateParams.idspeech}
+                params: {visitor: whoami , conf: $stateParams.idconf}
             }).success(function(data){
                 if (data.result){
-                    var button = new Object();
-                    button.text = 'Register';
-                    button.action = function(){
-                        $http({
-                            url: remoteServer + '/' + warName + '/rest/subscribe/speech',
-                            method: "POST",
-                            data: "speechId=" + $stateParams.idspeech,
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        });
-                    };
-                    $scope.buttons.push(button);
+                    $http({
+                        url: remoteServer + '/' + warName + "/rest/subscribe/check",
+                        method: "GET",
+                        params: {visitor: whoami , speech: $stateParams.idspeech}
+                    }).success(function(data){
+                        if (!data.speech){
+                            var button = new Object();
+                            button.text = 'Register';
+                            button.action = function(){
+                                $http({
+                                    url: remoteServer + '/' + warName + '/rest/subscribe/speech',
+                                    method: "POST",
+                                    data: "speechId=" + $stateParams.idspeech,
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                })
+                            };
+                            $scope.buttons.push(button);
+                        }
+                    });
                 }
             });
+
         }
 
         var button = new Object();

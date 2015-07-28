@@ -109,12 +109,16 @@ public class VisitorService extends CrudImplementation {
         return visitor.getSpeeches();
     }
 
-    public boolean hasVisitorSubscribedToConference(String visitorLogin, Integer speechId) {
+    public boolean hasVisitorSubscribedToConference(String visitorLogin, Integer confId) {
         Visitor visitor = findOne(visitorLogin);
-        Conference conference = findOne(Speech.class, speechId).getConference();
-        System.err.println("hBSTC visitor: " + visitorLogin + " conference " + conference);
+        Conference conference = findOne(Conference.class, confId);
         return conference.getVisitors().contains(visitor);
-//        return visitor.getConferences() == null ? false : visitor.getConferences().contains(conference);
+    }
+
+    public boolean hasVisitorSubscribedToSpeech(String visitorLogin, Integer speechId) {
+        Visitor visitor = findOne(visitorLogin);
+        Speech speech = findOne(Speech.class, speechId);
+        return speech.getVisitors().contains(visitor);
     }
 
 
