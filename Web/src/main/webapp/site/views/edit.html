@@ -4,13 +4,20 @@
             <input type="text" ng-model="text.value" class="form-control" placeholder="{{text.placeholder}}"/>
             <br/>
         </div>
-        <div ng-repeat="date in dates" class="input-append date form_datetime">
-            <input ng-model="date.value" data-format="yyyy-MM-dd" type="text">
-                <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                    </i>
-                </span>
-            <br/>
+        <div ng-repeat="date in dates" class="input-group">
+            <div class="dropdown">
+                <a class="dropdown-toggle" id="{{date.id}}" role="button" data-toggle="dropdown" data-target="#" href="">
+                    <div class="input-group">
+                        <input type="text" class="form-control" data-ng-model="date.value" placeholder="{{date.placeholder}}">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <datetimepicker data-ng-model="date.value"
+                                    data-datetimepicker-config="{ dropdownSelector: '#{{date.id}}' }">
+                    </datetimepicker>
+                </ul>
+            </div>
         </div>
         <div ng-repeat="number in numbers" class="input-group">
             <input type="number" ng-model="number.value" class="form-control" placeholder="{{text.placeholder}}"/>

@@ -97,6 +97,7 @@ public class ConferenceController {
             conference.setEndDate(Date.valueOf(form.getFirst("end")));
             conference.setOrganizer(organizerService.findOne(request.getUserPrincipal().getName()));
             conference.setSpeeches(new ArrayList<Speech>());
+            System.err.println(conference);
             conferenceService.save(conference);
             return "OK";
         } catch (Exception e) {
