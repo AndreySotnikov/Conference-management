@@ -18,7 +18,6 @@ public class VisitorService extends CrudImplementation {
         try {
             Visitor oldVisitor = findOne(Visitor.class, id);
             oldVisitor.setEmail(visitor.getEmail());
-            oldVisitor.setLogin(visitor.getLogin());
             oldVisitor.setName(visitor.getName());
             oldVisitor.setPhone(visitor.getPhone());
             return em.merge(oldVisitor);
