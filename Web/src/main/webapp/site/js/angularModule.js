@@ -572,7 +572,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     if (data.role === "moderator") {
                         $http.get(remoteServer + '/' + warName + "/rest/moderator/show/" + $stateParams.login)
                             .success(function(data){
-                                $scope.description = "Speaker, " + data.name + ", " + data.email + ", " + data.phone;
+                                $scope.description = "Moderator, " + data.name + ", " + data.email + ", " + data.phone;
                             });
                         $http.get(remoteServer + '/' + warName + "/rest/modspeech/fasbm/" + $stateParams.username)
                             .success(function(data){
@@ -675,7 +675,7 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     }
 });
-routerApp.controller('profileEditCtrl', function($scope,$http,$location){
+routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
     $scope.texts = [];
     var getInfo = function(data){
         $scope.texts.push({
@@ -777,8 +777,7 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location){
                 });
                 break;
         }
-        $location.path("/profile");
-        $scope.apply();
+        $state.go("profile.info",{'login':$scope.login});
     }
 });
 routerApp.controller('createConferenceCtrl', function($scope,$http,$location){
