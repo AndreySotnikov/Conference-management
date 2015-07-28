@@ -101,7 +101,7 @@ public class VisitorSubscriptionController {
         if (speechId != -1)
             result.put("speech", service.hasVisitorSubscribedToSpeech(visitorLogin, speechId));
         if (confId != -1)
-            result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, confId));
+            result.put("conf", service.hasVisitorSubscribedToConference(visitorLogin, confId));
         return result;
     }
 
