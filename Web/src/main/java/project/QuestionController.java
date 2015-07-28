@@ -14,7 +14,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by andrey on 18.07.15.
@@ -97,12 +99,19 @@ public class QuestionController {
 
     @Path("moderate/{id}")
     @GET
-    public String moderateQuestion(@PathParam("id") Integer id){
+    public Map<String, Boolean> moderateQuestion(@PathParam("id") Integer id){
+        Map<String, Boolean> result = new HashMap<>();
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        questionService.moderate(id);
-        return "OK";
+        try {
+            questionService.moderate(id);
+            result.put("result", true);
+        }catch (Exception e){
+            result.put("result", false);
+        }finally {
+            return result;
+        }
     }
 
     @Path("answer")
@@ -131,12 +140,18 @@ public class QuestionController {
 
     @Path("delete")
     @POST
-    public String deleteQuestion(MultivaluedMap<String, String> form){
+    public Map<String, Boolean> deleteQuestion(MultivaluedMap<String, String> form){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        Map<String, Boolean> result = new HashMap<>();
         try {
             questionService.remove(Integer.parseInt(form.getFirst("id")));
-            return "OK";
+            result.put("result", true);
         }catch (Exception e){
-            return "fail";
+            result.put("result", false);
+        }finally {
+            return result;
         }
     }
 

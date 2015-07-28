@@ -1,5 +1,8 @@
 package project.Entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -20,7 +23,8 @@ public class Conference {
     private Organizer organizer;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Visitor> visitors;
 
     public List<Visitor> getVisitors() {

@@ -1,5 +1,7 @@
 package project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,8 +14,9 @@ public class Reporter {
     private String email;
     private String phone;
     private boolean busy;
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy="reporter")
-    private transient List<ReporterRequestsSpeech> speechReporter;
+    private  List<ReporterRequestsSpeech> speechReporter;
 
     public Reporter(String login, String name, String email, String phone) {
         this.login = login;

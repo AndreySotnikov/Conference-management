@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Green-L on 18.07.2015.
@@ -149,13 +151,17 @@ public class ModeratorSpeechController {
 
     @GET
     @Path("rmos")
-    public String registerModeratorOnSpeech(
+    public Map<String, Boolean> registerModeratorOnSpeech(
             @QueryParam("speechId") Integer speechId){
+        Map<String, Boolean> result = new HashMap<>();
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        String res = (service.registerModeratorOnSpeech(request.getUserPrincipal().getName(), speechId)?"OK":"NOT OK");
-        return res;
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        if (service.registerModeratorOnSpeech(request.getUserPrincipal().getName(), speechId))
+            result.put("result", true);
+        else
+            result.put("result", false);
+        return result;
     }
 
     @GET
