@@ -34,6 +34,9 @@ public class VisitorSubscriptionController {
     @POST
     @Path("speech")
     public String subscribeToSpeech(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer speechId = Integer.valueOf(form.getFirst("speechId"));
         String visitorLogin = request.getUserPrincipal().getName();
         try {
@@ -48,6 +51,9 @@ public class VisitorSubscriptionController {
     @POST
     @Path("conference")
     public String subscribeToConference(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer confId = Integer.valueOf(form.getFirst("confId"));
         String visitorLogin = request.getUserPrincipal().getName();
         try {
@@ -101,7 +107,7 @@ public class VisitorSubscriptionController {
         if (speechId != -1)
             result.put("speech", service.hasVisitorSubscribedToSpeech(visitorLogin, speechId));
         if (confId != -1)
-            result.put("conf", service.hasVisitorSubscribedToConference(visitorLogin, confId));
+            result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, confId));
         return result;
     }
 

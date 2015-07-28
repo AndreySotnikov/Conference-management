@@ -15,3 +15,6 @@ var closeFunc = function() {
 $(document).on('click','.shade', closeFunc);
 $(document).on('click','#close',closeFunc);
 $('input[type=file]').bootstrapFileInput();
+$(function(){
+    $(".form_datetime").datetimepicker();
+})
