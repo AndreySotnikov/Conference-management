@@ -999,14 +999,14 @@ routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
             "&conference=" + $stateParams.idconf;
 
         alert(post);
-        /*
+
         $http({
             url: remoteServer + '/' + warName + '/rest/speech/add',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: post
         });
-*/
+
 
 
     }
