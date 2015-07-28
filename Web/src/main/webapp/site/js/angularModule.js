@@ -217,6 +217,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             },
             css: ['css/style.css', 'css/all.css']
+        })
+        .state('conference.addspeech', {
+            url: '/conference/:idconf/add',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: "addSpeechCtrl"
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
         });
 });
 
@@ -248,7 +258,7 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
     }
 });
 
-routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log) {
+routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log, $state) {
     $scope.link = "conference.speech({idspeech:square.id})";
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
@@ -299,7 +309,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                         });
                     });
                     if (tmp.list.length !=0)
-                        tmp.title = 'Unapproves speeches';
+                        tmp.title = 'Unapproved speeches';
                     $scope.sections.push(tmp);
                     $log.log('login ' + login);
                     $log.log('username ' + whoami);
@@ -319,7 +329,8 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             var button = new Object();
             button.text = 'Add Speech';
             button.action = function(){
-                alert('clicked');
+                alert('clicked');           ///TODO
+                $state.go("conference.addspeech");
             };
             $scope.buttons.push(button);
         }
