@@ -15,7 +15,7 @@ public class Visitor {
     private String email;
     private String phone;
 
-    @ManyToMany(mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
     private List<Question> questions;
 
     @ManyToMany(mappedBy = "visitors", cascade = CascadeType.REMOVE)

@@ -141,11 +141,11 @@ public class ReporterSpeechController {
     @GET
     @Path("rros")
     public String registerReporterOnSpeech(
-            @QueryParam("speechId") Integer speechId, @QueryParam("reporterId") String reporterId){
+            @QueryParam("speechId") Integer speechId){
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        String res = (service.registerReporterOnSpeech(reporterId, speechId)?"OK":"NOT OK");
+        String res = (service.registerReporterOnSpeech(request.getUserPrincipal().getName(), speechId)?"OK":"NOT OK");
         return res;
     }
 

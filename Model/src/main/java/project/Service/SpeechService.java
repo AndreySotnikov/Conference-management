@@ -98,6 +98,20 @@ public class SpeechService extends CrudImplementation {
 
     public boolean hasModeratorRequested(Integer speechId, String moderatorLogin) {
         Speech sp = findOne(speechId);
+//        System.err.println("speechId " + speechId);
+//        System.err.println("moderatorLogin " + moderatorLogin);
+//        System.err.println(em.createNativeQuery("SELECT COUNT(*) FROM ModeratorRequestsSpeech WHERE moderator_login=:moderatorLogin AND speech_id=:speechId")
+//                .setParameter("speechId", speechId)
+//                .setParameter("moderatorLogin", moderatorLogin).getResultList().get(0));
+//        return em.createNativeQuery("SELECT COUNT(*) FROM ModeratorRequestsSpeech WHERE moderator_login=:moderatorLogin AND speech_id=:speechId")
+//                .setParameter("speechId", speechId)
+//                .setParameter("moderatorLogin", moderatorLogin)
+//                .getResultList().size()!=0;
+//        System.err.println(em
+//                .createQuery("SELECT e FROM ModeratorRequestsSpeech e WHERE e.speech.id=:speechId AND e.moderator.login=:moderatorLogin")
+//                .setParameter("speechId", speechId)
+//                .setParameter("moderatorLogin", moderatorLogin)
+//                .getResultList());
         return em
                 .createQuery("SELECT e FROM ModeratorRequestsSpeech e WHERE e.speech.id=:speechId AND e.moderator.login=:moderatorLogin")
                 .setParameter("speechId", speechId)
