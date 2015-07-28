@@ -12,7 +12,7 @@ public class Moderator {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "moderator",  cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "moderator",  cascade = CascadeType.REMOVE)
     private transient ModeratorRequestsSpeech moderatorRequestsSpeech;
 
     public String getLogin() {

@@ -15,7 +15,7 @@ public class Room {
     private Integer capacity;
     private boolean busy;
 
-    @OneToMany(mappedBy = "room",  cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "room",  cascade = CascadeType.REMOVE)
     private transient List<RoomOrder> orders;
 
     @ManyToOne
