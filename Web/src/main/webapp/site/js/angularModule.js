@@ -173,7 +173,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             css: ['css/style.css', 'css/all.css']
         })
         .state('conference.translation', {
-            url: '/translation',
+            url: '/speech/:idspeech/translation',
             views: {
                 'content': {
                     templateUrl: 'views/translation.html',
@@ -236,15 +236,15 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                 role = data.role;
                 if (role === 'moderator'){
                     $http({
-                        url: remoteServer + '/' + warName + "/checkspeech/" + $stateParams.idspeech,
+                        url: remoteServer + '/' + warName + "/rest/modspeech/checkspeech/" + $stateParams.idspeech,
                         method: "GET",
                     }).success(function (data){
                         if (data === true){
                             $http({
-                                url: remoteServer + '/' + warName + "/checkquestion/" + $stateParams.idquestion,
+                                url: remoteServer + '/' + warName + "/rest/modspeech/checkquestion/" + $stateParams.idquestion,
                                 method: "GET",
                             }).success (function (data){
-                                if (data === true){
+                                if (data === false){
                                     addButtons();
                                 }
                             });
@@ -257,7 +257,7 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                         button.text = 'Approve';
                         button.action = function(){
                             $http({
-                                url: remoteServer + '/' + warName + "/rest/question/moderate" + $stateParams.idquestion,
+                                url: remoteServer + '/' + warName + "/rest/question/moderate/" + $stateParams.idquestion,
                                 method: "GET",
                             });
                         };
@@ -270,6 +270,7 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                                 url: remoteServer + '/' + warName + "/rest/question/delete",
                                 method: "POST",
                                 data: "id="+ $stateParams.idquestion,
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             });
                         };
                         $scope.buttons.push(button1);
@@ -392,8 +393,9 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
     };
 });
 
-routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) {
-    $scope.link = "conference.question({idquestion:square.id})";
+routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, $state) {
+    $scope.idspeech = $stateParams.idspeech;
+    $scope.link = "conference.question({idquestion: square.id, idspeech: idspeech})"
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
     $http({
@@ -538,11 +540,18 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
             $scope.buttons.push(button);
         }
 
-        if (role=='visitor') { //TODO
+
+        if (role=='visitor') {
+            var button = new Object();
+            button.text = 'Add question';
+            button.action = function(){
+                $state.go('conference.askquestion',{ 'idspeech':$stateParams.idspeech });
+            };
+            $scope.buttons.push(button);
             $http({
                 url: remoteServer + '/' + warName + "/rest/subscribe/check",
                 method: "GET",
-                params: {visitor: login , speech: $stateParams.idspeech}
+                params: {visitor: whoami , speech: $stateParams.idspeech}
             }).success(function(data){
                 if (data.result){
                     var button = new Object();
@@ -564,13 +573,13 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log) 
         var button = new Object();
         button.text = 'Translation';
         button.action = function(){
-            alert('clicked');
+            $state.go('conference.translation',{ 'idspeech':$stateParams.idspeech });
         };
         $scope.buttons.push(button);
     }
 });
 
-routerApp.controller('translationCtrl', function ($scope, $http) {
+routerApp.controller('translationCtrl', function ($scope, $http, $stateParams) {
 
     $scope.period = 30;
     $scope.defaultperiod = 30;
@@ -582,7 +591,7 @@ routerApp.controller('translationCtrl', function ($scope, $http) {
         "text"
     ];
     $scope.reports = [];
-    $scope.speechId = 2;
+    $scope.speechId = $stateParams.idspeech;
     $scope.lastId = 0;
 
     $('#reporter').hide();

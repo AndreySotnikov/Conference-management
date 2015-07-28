@@ -95,6 +95,7 @@ public class VisitorSubscriptionController {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
 
         Map<String, Boolean> result = new HashMap<>();
+        System.err.println("visitorLogin: " + visitorLogin + " speechId " + speechId);
         result.put("result", service.hasVisitorSubscribedToConference(visitorLogin, speechId));
         return result;
     }
