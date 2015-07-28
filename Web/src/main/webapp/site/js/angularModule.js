@@ -106,7 +106,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "content": {
                     templateUrl: "views/mainspace.html",
                     controller: function ($scope, $http) {
-                        $scope.link = "conference.info({idconf:square.id})";
                         $scope.title = "Conferences";
                         $scope.buttons = false;
                         $scope.warName = "Web-1.0-SNAPSHOT";
@@ -120,7 +119,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 angular.forEach(data, function (elem) {
                                     tmp.list.push({
                                         header: elem.name,
-                                        id: elem.id,
+                                        link: "conference.info({idconf:"+elem.id+"})",
                                         text: elem.description,
                                         date: elem.startDate + " - " + elem.endDate
                                     });
@@ -131,6 +130,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             },
             css: ['css/style.css', 'css/all.css']
+        })
+        .state("conference.edit",{
+            url:'/edit/{idconf:[0-9]+}',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: 'conferenceEditCtrl'
+                }
+            },
+            css: 'css/style.css'
         })
         .state("conference.info", {
             url: '/{idconf:[0-9]+}',
@@ -357,7 +366,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
-                            id: elem.id,
+                            link: "conference.speech({idconf: " + $stateParams.idconf + ", idspeech: " + elem.id +"})",
                             text: elem.speaker.name,
                             date: elem.startDate
                         });
@@ -371,7 +380,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                         var button = new Object();
                         button.text = 'Edit';
                         button.action = function () {
-                            alert('clicked');
+                            $state.go("conference.edit",{idconf:$stateParams.idconf});
                         };
                         $scope.buttons.push(button);
                     }
@@ -422,7 +431,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
-                            id: elem.id,
+                            link: "conference.speech({idconf: " + $stateParams.idconf + ", idspeech: " + elem.id +"})",
                             text: elem.speaker.name,
                             date: elem.startDate
                         });
@@ -483,7 +492,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.text,
-                            id: elem.id,
+                            link: "conference.question({idquestion: " + elem.id + ", idspeech: " + $stateParams.idspeech +"})",
                             text: elem.answer
                         });
                     });
@@ -506,7 +515,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                 angular.forEach(data, function (elem) {
                     tmp.list.push({
                         header: elem.text,
-                        id: elem.id,
+                        link: "conference.question({idquestion: " + elem.id + ", idspeech: " + $stateParams.idspeech +"})",
                         text: elem.answer,
                     });
                 });
@@ -765,10 +774,11 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.name,
-                                        description: elem.description,
+                                        text: elem.description,
                                         link: "conference.info({idconf:" + elem.id + "})",
                                         date: elem.startDate + " - " + elem.endDate
                                     });
+                                    console.log(elem);
                                 });
                                 $scope.sections.push(section);
                             });
@@ -787,7 +797,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.name,
-                                        description: elem.description,
+                                        text: elem.description,
                                         link: "conference.info(" + elem.id + ")",
                                         date: elem.startDate + " - " + elem.endDate
                                     });
@@ -802,7 +812,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.topic,
-                                        description: elem.speaker.name,
+                                        text: elem.speaker.name,
                                         date: elem.startDate,
                                         link: "conference.speech({idspeech:elem.id})"
                                     });
@@ -820,7 +830,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.topic,
-                                        description: elem.speaker.name,
+                                        text: elem.speaker.name,
                                         date: elem.startDate,
                                         link: "conference.speech({idspeech:elem.id})"
                                     });
@@ -842,7 +852,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function(elem){
                                     section.list.push({
                                         header:elem.topic,
-                                        description:elem.speaker.name,
+                                        text:elem.speaker.name,
                                         date:elem.startDate,
                                         link:"conference.speech({idspeech:elem.id})"
                                     });
@@ -864,7 +874,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function(elem){
                                     section.list.push({
                                         header:elem.topic,
-                                        description:elem.speaker.name,
+                                        text:elem.speaker.name,
                                         date:elem.startDate,
                                         link:"conference.speech({idspeech:elem.id})"
                                     });
@@ -1118,3 +1128,51 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location,$fi
         $scope.apply();
     };
 });
+routerApp.controller('conferenceEditCtrl',function($scope,$http,$location,$filter,$stateParams){
+    $scope.texts = [];
+    $scope.dates = [];
+    $scope.texts.push({
+        placeholder: "Name",
+        value: ""
+    });
+    $scope.texts.push({
+        placeholder: "Description",
+        value: ""
+    });
+    $scope.dates.push({
+        id:"startdate",
+        placeholder:"Start date",
+        value: ""
+    });
+    $scope.dates.push({
+        id:"enddate",
+        placeholder:"End date",
+        value: ""
+    });
+    $http.get(remoteServer + "/" + warName + '/rest/whoami')
+        .success(function(data1){
+            $http.get(remoteServer + "/" + warName + '/rest/conference/show/'+$stateParams.idconf)
+                .success(function(data){
+                    if (data1.username != data.organizer.login){
+                        $location.path('/conference/'+$stateParams.idconf);
+                        $scope.apply();
+                        return;
+                    }
+                    $scope.texts[0].value = data.name;
+                    $scope.texts[1].value = data.description;
+                    $scope.dates[0].value = data.startDate;
+                    $scope.dates[1].value = data.endDate;
+                });
+        })
+
+    $scope.submit = function () {
+        $http({
+            url: remoteServer + '/' + warName + '/rest/conference/update/' + $stateParams.idconf,
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd") + "&end=" + $filter('date')($scope.dates[1].value,"yyyy-MM-dd")
+        });
+        $location.path("/conference/" + $stateParams.idconf);
+        $scope.apply();
+    };
+})
