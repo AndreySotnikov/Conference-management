@@ -162,15 +162,15 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
-        .state('translation', {
+        .state('conference.translation', {
             url: '/translation',
             views: {
-                '': {
+                'content': {
                     templateUrl: 'views/translation.html',
                     controller: 'translationCtrl'
                 }
             },
-
+            css: ['css/style.css', 'css/all.css']
         })
         .state('profile', {
             url: '/profile',
@@ -670,6 +670,25 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                         $scope.sections.push(section);
                     });
             }
+
+            if (data.role === "reporter") {
+                $http.get(remoteServer + '/' + warName + "/rest/repspeech/fasbr/" + $stateParams.username)
+                    .success(function (data) {
+                        var section = new Object();
+                        section.title = "My Speeches";
+                        section.list = [];
+                        angular.forEach(data, function (elem) {
+                            section.list.push({
+                                header: elem.topic,
+                                description: elem.speaker.name,
+                                date: elem.startDate,
+                                link: "conference.speech({idspeech:elem.id})"
+                            });
+                        });
+                        $scope.sections.push(section);
+                    });
+            }
+
             if (data.role === "speaker") {
                 $http.get(remoteServer + '/' + warName + "/rest/speaker/info?login" + $stateParams.login)
                     .success(function(data){
@@ -758,24 +777,8 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
         userLogin: "",
         speechId: $scope.speechId//$stateParams.idspeech
     };
-
-    if (data.role === "reporter") {
-        $http.get(remoteServer + '/' + warName + "/rest/repspeech/fasbr/" + $stateParams.username)
-            .success(function (data) {
-                var section = new Object();
-                section.title = "My Speeches";
-                section.list = [];
-                angular.forEach(data, function (elem) {
-                    section.list.push({
-                        header: elem.topic,
-                        description: elem.speaker.name,
-                        date: elem.startDate,
-                        link: "conference.speech({idspeech:elem.id})"
-                    });
-                });
-                $scope.sections.push(section);
-            });
-    }
+    /*
+    */
 
     $http.get($scope.server + $scope.warName + "/rest/whoami")
         .success(function (data) {
@@ -784,7 +787,7 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 
     $scope.addQuestion = function () {
         $scope.question.speechId = $scope.speechId;
-
+        alert("add clicked");
         $http({
             url: $scope.server + $scope.warName + '/rest/question/add',
             method: "POST",

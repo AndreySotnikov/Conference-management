@@ -21,7 +21,7 @@ public class Conference {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Visitor> visitors;
+    private transient List<Visitor> visitors;
 
     public List<Visitor> getVisitors() {
         return visitors;

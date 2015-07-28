@@ -26,8 +26,8 @@ public class QuestionController {
     @EJB
     QuestionService questionService;
 
-    @EJB
-    VisitorService visitorService;
+//    @EJB
+//    VisitorService visitorService;
 
     @Context
     private HttpServletRequest request;
@@ -85,7 +85,7 @@ public class QuestionController {
         try {
             System.err.println("text " + form.getFirst("text"));
             System.err.println("speechId " + form.getFirst("speechId"));
-            visitorService.addQuestion(form.getFirst("text"),
+            questionService.addQuestion(form.getFirst("text"),
                     request.getUserPrincipal().getName(),
                     Integer.valueOf(form.getFirst("speechId")));
             return "OK";

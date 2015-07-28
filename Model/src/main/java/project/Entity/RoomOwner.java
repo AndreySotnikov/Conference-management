@@ -15,7 +15,7 @@ public class RoomOwner {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "roomOwner", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "roomOwner", cascade = CascadeType.REMOVE)
     private transient List<Room> rooms;
 
     public RoomOwner(String login, String name, String email, String phone) {
