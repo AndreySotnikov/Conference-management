@@ -9,7 +9,7 @@ routerApp.config(function ($httpProvider) {
 });
 routerApp.config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/home/login');
 
     $stateProvider
         .state('home', {
