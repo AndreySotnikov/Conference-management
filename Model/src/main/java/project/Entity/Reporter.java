@@ -12,7 +12,7 @@ public class Reporter {
     private String email;
     private String phone;
     private boolean busy;
-    @OneToMany(mappedBy="reporter")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="reporter")
     private transient List<ReporterRequestsSpeech> speechReporter;
 
     public Reporter(String login, String name, String email, String phone) {

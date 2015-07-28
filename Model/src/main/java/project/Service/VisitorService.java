@@ -104,9 +104,15 @@ public class VisitorService extends CrudImplementation {
         return visitor.getConferences();
     }
 
+
     public List<Speech> getSpeechesSubscribedTo(String visitorLogin) {
         Visitor visitor = findOne(visitorLogin);
         return visitor.getSpeeches();
+    }
+
+    public boolean hasVisitorSubscribedToConference(String visitorLogin, Integer conferenceId) {
+        Visitor visitor = findOne(visitorLogin);
+        return visitor.getConferences().contains(findOne(Conference.class, conferenceId));
     }
 
 
