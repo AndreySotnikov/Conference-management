@@ -238,32 +238,42 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                     $http({
                         url: remoteServer + '/' + warName + "/checkspeech/" + $stateParams.idspeech,
                         method: "GET",
-
                     }).success(function (data){
                         if (data === true){
-                            $scope.buttons = [];
-                            var button = new Object();
-                            button.text = 'Approve';
-                            button.action = function(){
-                                $http({
-                                    url: remoteServer + '/' + warName + "/rest/question/moderate" + $stateParams.idquestion,
-                                    method: "GET",
-                                });
-                            };
-                            $scope.buttons.push(button);
-
-                            var button1 = new Object();
-                            button1.text = 'Delete';
-                            button1.action = function(){
-                                $http({
-                                    url: remoteServer + '/' + warName + "/rest/question/delete",
-                                    method: "POST",
-                                    data: "id="+ $stateParams.idquestion,
-                                });
-                            };
-                            $scope.buttons.push(button1);
+                            $http({
+                                url: remoteServer + '/' + warName + "/checkquestion/" + $stateParams.idquestion,
+                                method: "GET",
+                            }).success (function (data){
+                                if (data === true){
+                                    addButtons();
+                                }
+                            });
                         }
                     });
+
+                    function addButtons(){
+                        $scope.buttons = [];
+                        var button = new Object();
+                        button.text = 'Approve';
+                        button.action = function(){
+                            $http({
+                                url: remoteServer + '/' + warName + "/rest/question/moderate" + $stateParams.idquestion,
+                                method: "GET",
+                            });
+                        };
+                        $scope.buttons.push(button);
+
+                        var button1 = new Object();
+                        button1.text = 'Delete';
+                        button1.action = function(){
+                            $http({
+                                url: remoteServer + '/' + warName + "/rest/question/delete",
+                                method: "POST",
+                                data: "id="+ $stateParams.idquestion,
+                            });
+                        };
+                        $scope.buttons.push(button1);
+                    }
                 }
                 //addQuestionsAndButtons(role, login, data.username, approved);
             });
