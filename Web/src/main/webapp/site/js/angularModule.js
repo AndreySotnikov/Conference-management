@@ -587,7 +587,6 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                     $scope.buttons.push(button);
                 }
             });
-
         }
 
         var button = new Object();

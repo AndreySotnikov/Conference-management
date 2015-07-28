@@ -48,10 +48,16 @@
 
 
 
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Organizator Resource</web-resource-name>
-            <url-pattern>/rest/organizer/*</url-pattern>
+            <url-pattern>/rest/organizer/add</url-pattern>
+            <url-pattern>/rest/organizer/update</url-pattern>
+            <url-pattern>/rest/organizer/delete</url-pattern>
+            <url-pattern>/rest/conference/add</url-pattern>
+            <url-pattern>/rest/conference/update</url-pattern>
+            <url-pattern>/rest/conference/delete</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>organizer</role-name>
@@ -64,7 +70,8 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Moderator Resource</web-resource-name>
-            <url-pattern>/rest/moderator/*</url-pattern>
+            <url-pattern>/rest/moderator/moderate</url-pattern>
+            <url-pattern>/rest/modspeech/rmos</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>moderator</role-name>
@@ -77,7 +84,10 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Reporter Resource</web-resource-name>
-            <url-pattern>/rest/reporter/*</url-pattern>
+            <url-pattern>/rest/reporters/test</url-pattern>
+            <url-pattern>/rest/reporters/insert</url-pattern>
+            <url-pattern>/rest/reporters/update</url-pattern>
+            <url-pattern>/rest/reporters/delete</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>reporter</role-name>
@@ -90,7 +100,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Speaker Resource</web-resource-name>
-            <url-pattern>/rest/speaker/*</url-pattern>
+            <url-pattern>/rest/speaker/delete</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>speaker</role-name>
@@ -103,7 +113,10 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Room Owner Resource</web-resource-name>
-            <url-pattern>/rest/roomOwner/*</url-pattern>
+            <url-pattern>/rest/roomOwner/insert</url-pattern>
+            <url-pattern>/rest/roomOwner/update</url-pattern>
+            <url-pattern>/rest/roomOwner/delete</url-pattern>
+            <url-pattern>/rest/roomOwner/my</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>roomOwner</role-name>
@@ -116,7 +129,9 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Visitor Resource</web-resource-name>
-            <url-pattern>/rest/visitor/*</url-pattern>
+            <url-pattern>/rest/visitor/delete</url-pattern>
+            <url-pattern>/rest/question/add</url-pattern>
+            <url-pattern>/rest/question/upvote</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>visitor</role-name>
