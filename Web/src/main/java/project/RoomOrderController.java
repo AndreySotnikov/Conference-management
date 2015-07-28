@@ -61,6 +61,9 @@ public class RoomOrderController {
     @POST
     @Path("add")
     public String add(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer speechId = Integer.valueOf(form.getFirst("speechId"));
         Integer roomId = Integer.valueOf(form.getFirst("roomId"));
         Date dateFrom = Date.valueOf(form.getFirst("dateFrom"));
@@ -72,6 +75,9 @@ public class RoomOrderController {
     @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer roomOrderId = Integer.valueOf(form.getFirst("rorderId"));
         service.remove(roomOrderId);
         return "OK";
@@ -81,6 +87,9 @@ public class RoomOrderController {
     @POST
     @Path("update")
     public String update(MultivaluedMap<String, String> form) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer roomOrderId = Integer.valueOf(form.getFirst("roomOrderId"));
         Speech speech = service.findOne(Speech.class, Integer.valueOf(form.getFirst("speechId")));
         Room room = service.findOne(Room.class, Integer.valueOf(form.getFirst("roomId")));

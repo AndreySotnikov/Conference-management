@@ -57,6 +57,9 @@ public class ReporterController {
     @POST
     @Path("insert")
     public String insert(MultivaluedMap<String, String> form){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
@@ -69,6 +72,9 @@ public class ReporterController {
     @POST
     @Path("update")
     public String update(MultivaluedMap<String, String> form){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
@@ -82,6 +88,9 @@ public class ReporterController {
     @POST
     @Path("delete")
     public String delete(MultivaluedMap<String, String> form){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         String login = form.getFirst("login");
         service.remove(login);
         return "OK";
