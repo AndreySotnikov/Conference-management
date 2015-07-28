@@ -2,19 +2,24 @@
 
     <div id="reporter">
         <div class="page-header">
-            <h3>Отправка трансляции</h3>
+            <h1>Отправка трансляции</h1>
         </div>
 
         <form>
+            <div class="form-group">
+            <label>Сообщение</label>
             <input ng-model="text" class="form-control" type="text" required />
-            <input ng-model="time" class="form-control" type="text" required />
-            <br>
+            </div>
+            <div class="form-group">
+            <label>Время</label>
+            <input ng-model="time" class="form-control" type="text" placeholder="2015-04-04 10:10:10" required />
+             </div>
             <input type="button" ng-click='report()' class="btn-primary" value="Отправить в трансляцию">
         </form>
     </div>
 
     <div class="page-header">
-        <h3>Live трансляция с места событий</h3>
+        <h1>Live трансляция с места событий</h1>
     </div>
 
     <form name="myForm">
@@ -32,7 +37,7 @@
     </form>
 
     <div class="page-header">
-        <h3 ng-model="title">{{ title }}</h3>
+        <h1 ng-model="title">{{ title }}</h1>
     </div>
 
     <table class="table table-bordered table-hover" >
@@ -44,8 +49,8 @@
         </thead>
         <tbody>
         <tr ng-repeat="report in reports" >
-            <td class="col-xs-2">{{ report.time | date : 'mediumTime' }}</td>
-            <td class="col-xs-10">{{ report.text }}</td>
+            <td class="col-xs-3">{{ report.time | date : 'mediumTime' }}</td>
+            <td class="col-xs-9">{{ report.text }}</td>
         </tr>
         </tbody>
     </table>

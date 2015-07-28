@@ -26,6 +26,19 @@ public class RoomOwnerService extends CrudImplementation {
         }
     }
 
+    public RoomOwner update(String id, String name, String email, String phone){
+        try {
+            RoomOwner oldRoomOwner = findOne(RoomOwner.class, id);
+            oldRoomOwner.setEmail(email);
+            oldRoomOwner.setName(name);
+            oldRoomOwner.setPhone(phone);
+            return em.merge(oldRoomOwner);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<RoomOwner> findAll(){
         return super.findAll(RoomOwner.class);
     }

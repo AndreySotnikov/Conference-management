@@ -60,20 +60,21 @@ public class ReporterController {
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
+        String phone = form.getFirst("phone");
         boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.save(new Reporter(login, name, email, busy));
+        service.save(new Reporter(login, name, email, phone, busy));
         return "OK";
     }
 
     @POST
     @Path("update")
     public String update(MultivaluedMap<String, String> form){
-        String id = form.getFirst("id");
         String login = form.getFirst("login");
         String name = form.getFirst("name");
         String email = form.getFirst("email");
+        String phone = form.getFirst("phone");
         boolean busy = (form.getFirst("busy").equalsIgnoreCase("true")?true:false);
-        service.update(id, new Reporter(login, name, email, busy));
+        service.update(login, name, email, phone, busy);
         return "OK";
     }
 

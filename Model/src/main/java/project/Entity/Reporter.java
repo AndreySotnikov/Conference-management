@@ -29,6 +29,14 @@ public class Reporter {
         this.busy = busy;
     }
 
+    public Reporter(String login, String name, String email, String phone, boolean busy) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.busy = busy;
+    }
+
     public String getLogin() {
         return login;
     }

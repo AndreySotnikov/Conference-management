@@ -12,13 +12,13 @@ import java.util.List;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ReporterService extends CrudImplementation{
 
-    public Reporter update(String id, Reporter reporter) {
+    public Reporter update(String id, String name, String email, String phone, boolean busy) {
         try {
             Reporter oldReporter = findOne(Reporter.class, id);
-            oldReporter.setName(reporter.getName());
-            oldReporter.setEmail(reporter.getEmail());
-            oldReporter.setPhone(reporter.getPhone());
-            oldReporter.setBusy(reporter.isBusy());
+            oldReporter.setName(name);
+            oldReporter.setEmail(email);
+            oldReporter.setPhone(phone);
+            oldReporter.setBusy(busy);
             return em.merge(oldReporter);
         }catch (Exception e){
             e.printStackTrace();
