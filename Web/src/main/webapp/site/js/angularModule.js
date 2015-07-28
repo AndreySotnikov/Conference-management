@@ -162,15 +162,15 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
-        .state('translation', {
+        .state('conference.translation', {
             url: '/translation',
             views: {
-                '': {
+                'content': {
                     templateUrl: 'views/translation.html',
                     controller: 'translationCtrl'
                 }
             },
-
+            css: ['css/style.css', 'css/all.css']
         })
         .state('profile', {
             url: '/profile',
