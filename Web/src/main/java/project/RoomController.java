@@ -1,9 +1,11 @@
 package project;
 
+
 import org.jboss.resteasy.spi.HttpResponse;
 import project.Entity.Room;
 import project.Entity.RoomOwner;
 import project.Service.RoomOwnerService;
+
 import project.Service.RoomService;
 
 import javax.ejb.EJB;
@@ -13,10 +15,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
+import javax.ws.rs.Path;
 
 /**
  * Created by nikitayakuntsev on 17.07.15.
  */
+
 
 
 @Path("/room")
@@ -37,10 +41,10 @@ public class RoomController {
     @GET
     @Path("all")
     @Produces("application/json")
-    public List<Room> getAll(){
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+    public List<Room> getAll() {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return service.findAll();
     }
 
@@ -48,9 +52,9 @@ public class RoomController {
     @Path("{id}")
     @Produces("application/json")
     public Room getRoom(@PathParam("id") Integer id) {
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
         return service.findOne(id);
     }
 
@@ -104,6 +108,4 @@ public class RoomController {
             return "NOT OK";
         }
     }
-
-
 }
