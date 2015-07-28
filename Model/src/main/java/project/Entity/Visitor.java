@@ -15,8 +15,9 @@ public class Visitor {
     private String email;
     private String phone;
 
+
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "visitorsUpVoteQuestion", cascade = CascadeType.REMOVE)
-    private transient List<Question> questions;
+    private  List<Question> questions;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "visitors", cascade = CascadeType.REMOVE)
     private transient List<Conference> conferences;

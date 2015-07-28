@@ -289,6 +289,9 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                             $http({
                                 url: remoteServer + '/' + warName + "/rest/question/moderate/" + $stateParams.idquestion,
                                 method: "GET",
+                            }).success(function(data){
+                                if (data.result)
+                                    $scope.buttons.splice($scope.buttons.indexOf(button),1);
                             });
                         };
                         $scope.buttons.push(button);
@@ -301,6 +304,9 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                                 method: "POST",
                                 data: "id="+ $stateParams.idquestion,
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).success(function(data){
+                                if (data.result)
+                                    $scope.buttons.splice($scope.buttons.indexOf(button1),1);
                             });
                         };
                         $scope.buttons.push(button1);
@@ -474,27 +480,35 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
 
         if (role=='moderator'){
             $http({
-                url: $scope.server + $scope.warName + "/rest/question/unmoderated",
+                url: remoteServer + '/' + warName + "/rest/modspeech/checkspeech/" + $stateParams.idspeech,
                 method: "GET",
-                params: {id: $stateParams.idspeech}
-            })
-                .success(function (data) {
-                    var tmp = new Object();
-                    tmp.list = [];
-                    tmp.title = '';
-                    $log.log('unmoderated ' + data[0].text);
-                    angular.forEach(data, function (elem) {
-                        tmp.list.push({
-                            header: elem.text,
-                            id: elem.id,
-                            text: elem.answer
+            }).success(function (data) {
+                if (data === true) {
+                    $http({
+                        url: $scope.server + $scope.warName + "/rest/question/unmoderated",
+                        method: "GET",
+                        params: {id: $stateParams.idspeech}
+                    })
+                        .success(function (data) {
+                            var tmp = new Object();
+                            tmp.list = [];
+                            tmp.title = '';
+                            $log.log('unmoderated ' + data[0].text);
+                            angular.forEach(data, function (elem) {
+                                tmp.list.push({
+                                    header: elem.text,
+                                    id: elem.id,
+                                    text: elem.answer
+                                });
+                            });
+                            if (tmp.list.length != 0)
+                                tmp.title = 'Unmoderated questions';
+                            $scope.sections.push(tmp);
                         });
-                    });
-                    if (tmp.list.length !=0)
-                        tmp.title = 'Unmoderated questions';
-                    $scope.sections.push(tmp);
-                });
+                }
+            });
         }
+
 
         $http({
             url: $scope.server + $scope.warName + "/rest/question/moderated",
@@ -525,6 +539,9 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                     url: remoteServer + '/' + warName + "/rest/speech/approve",
                     method: "GET",
                     params: {id: $stateParams.idspeech}
+                }).success(function(data){
+                    if (data.result)
+                        $scope.buttons.splice($scope.buttons.indexOf(button),1);
                 });
             };
             $scope.buttons.push(button);
@@ -543,6 +560,9 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                             url: remoteServer + '/' + warName + "/rest/modspeech/rmos",
                             method: "GET",
                             params: {speechId: $stateParams.idspeech}
+                        }).success(function(data){
+                            if (data.result)
+                                $scope.buttons.splice($scope.buttons.indexOf(button),1);
                         });
                     };
                     $scope.buttons.push(button);
