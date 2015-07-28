@@ -42,6 +42,20 @@ public class RoomOrderService extends CrudImplementation {
         super.remove(RoomOrder.class, id);
     }
 
+    public boolean check(Integer speechId, Integer roomId, Date dateFrom, Date dateTo){
+        List<RoomOrder> roomOrders = em.createQuery("select e from RoomOrder e where e.speech.id = :speechId and e.room.number = :roomId")
+                .setParameter("speechId", speechId)
+                .setParameter("roomId", roomId)
+                .getResultList();
+        System.err.println("71");
+        for (RoomOrder elem : roomOrders) {
+            if (dateTo.compareTo(elem.getDateFrom()) >= 0 && dateFrom.compareTo(elem.getDateTo()) <= 0)
+                return false;
+        }
+        System.err.println("76");
+        return true;
+    }
+
     public boolean add(Integer speechId, Integer roomId, Date dateFrom, Date dateTo){
         try {
             List<RoomOrder> roomOrders = em.createQuery("select e from RoomOrder e where e.speech.id = :speechId and e.room.number = :roomId")
