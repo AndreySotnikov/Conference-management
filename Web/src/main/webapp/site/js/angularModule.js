@@ -311,14 +311,9 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
     }
 });
 
-<<<<<<< HEAD
 routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log, $state) {
-    $scope.link = "conference.speech({idspeech:square.id})";
-=======
-routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $log) {
     $scope.idconf = $stateParams.idconf;
     $scope.link = "conference.speech({idconf:idconf, idspeech:square.id})";
->>>>>>> de43fb6771b6ab072d6d75d00653c1b63073e2d5
     $scope.warName = "Web-1.0-SNAPSHOT";
     $scope.server = "http://localhost:8080/";
     $http.get($scope.server + $scope.warName + "/rest/conference/show/" + $stateParams.idconf)
@@ -388,7 +383,6 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
             var button = new Object();
             button.text = 'Add Speech';
             button.action = function(){
-                alert('clicked');           ///TODO
                 $state.go("conference.addspeech", {'idconf': $stateParams.idconf});
             };
             $scope.buttons.push(button);
@@ -1052,7 +1046,6 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
         $state.go("profile.info",{'login':$scope.login});
     }
 });
-<<<<<<< HEAD
 
 
 routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
@@ -1093,7 +1086,6 @@ routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
 
     }
 });
-=======
 routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
     $scope.texts = [];
     $scope.dates = [];
@@ -1125,4 +1117,3 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
     };
 });
 
->>>>>>> de43fb6771b6ab072d6d75d00653c1b63073e2d5
