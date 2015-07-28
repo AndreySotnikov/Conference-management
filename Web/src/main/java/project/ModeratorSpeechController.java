@@ -60,10 +60,8 @@ public class ModeratorSpeechController {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        String moderator = request.getUserPrincipal().getName();
         Question question = crudRepository.findOne(Question.class, questionId);
-        Integer speechId = question.getSpeech().getId();
-        return  service.checkModeratorQuestion(speechId, moderator);
+        return  question.getModerated();
     }
 
 
