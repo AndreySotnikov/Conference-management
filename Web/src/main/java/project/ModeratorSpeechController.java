@@ -43,6 +43,31 @@ public class ModeratorSpeechController {
     }
 
     @GET
+    @Path("checkspeech/{id}")
+    @Produces("application/json")
+    public boolean checkModSpch(@PathParam("id") Integer speechId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        String moderator = request.getUserPrincipal().getName();
+        return  service.checkModeratorQuestion(speechId, moderator);
+    }
+
+    @GET
+    @Path("checkquestion/{id}")
+    @Produces("application/json")
+    public boolean checkModQstn(@PathParam("id") Integer questionId){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        String moderator = request.getUserPrincipal().getName();
+        Question question = crudRepository.findOne(Question.class, questionId);
+        Integer speechId = question.getSpeech().getId();
+        return  service.checkModeratorQuestion(speechId, moderator);
+    }
+
+
+    @GET
     @Path("get/{id}")
     @Produces("application/json")
     public ModeratorRequestsSpeech get(@PathParam("id") Integer id){
