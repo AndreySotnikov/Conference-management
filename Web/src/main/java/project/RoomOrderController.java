@@ -15,7 +15,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nikitayakuntsev on 17.07.15.
@@ -81,6 +83,24 @@ public class RoomOrderController {
         Integer roomOrderId = Integer.valueOf(form.getFirst("rorderId"));
         service.remove(roomOrderId);
         return "OK";
+    }
+
+    @GET
+    @Path("check")
+    @Produces("application/json")
+    public Map<String, Boolean> check(@QueryParam("speechId")Integer speechId,
+                                      @QueryParam("roomId")Integer roomId,
+                                      @QueryParam("dateFrom")String dateF,
+                                      @QueryParam("dateTo")String dateT
+    ) {
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
+        Date dateFrom = Date.valueOf(dateF);
+        Date dateTo = Date.valueOf(dateT);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("result", service.check(speechId, roomId, dateFrom, dateTo));
+        return result;
     }
 
 
