@@ -1,5 +1,7 @@
 package project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -33,16 +35,19 @@ public class Speech {
     private boolean completed;
 
     @OneToMany(mappedBy="speech", cascade = CascadeType.REMOVE)
-    private transient List<ReporterRequestsSpeech> reporterRequests;
+    @JsonIgnore
+    private  List<ReporterRequestsSpeech> reporterRequests;
 
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
-    private transient List<Question> questions;
+    @JsonIgnore
+    private List<Question> questions;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Visitor> visitors;
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
-    private transient List<ModeratorRequestsSpeech> moderatorRequestsSpeech;
+    @JsonIgnore
+    private List<ModeratorRequestsSpeech> moderatorRequestsSpeech;
 
     public Speech() {
     }

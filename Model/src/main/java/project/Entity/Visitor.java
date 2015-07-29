@@ -86,7 +86,6 @@ public class Visitor {
         this.phone = phone;
     }
 
-    @Transient
     public List<Question> getQuestions() {
         return questions;
     }
