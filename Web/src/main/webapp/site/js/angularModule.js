@@ -1214,3 +1214,70 @@ routerApp.controller('conferenceEditCtrl',function($scope,$http,$location,$filte
         $scope.apply();
     };
 })
+
+routerApp.controller('roomOrderCtrl', function($scope, $http, $stateParams) {
+
+    var options = [];
+
+    $http.get(remoteServer + '/' + warName + '/rest/room/all/')
+        .success(function (data) {
+            angular.forEach(data, function (elem) {
+                options.push({value: elem.number, text: elem.number+" ("+elem.capacity+")"});
+            });
+        });
+
+    var select = new Object();
+    select.options=options;
+
+    $scope.selects = [];
+    $scope.selects.push(select);
+
+    //$scope.texts = [];
+    //var dto = new Object();
+    //dto.placeholder = "Topic";
+    //$scope.texts.push(dto);
+    //
+    //dto = new Object();
+    //dto.placeholder = "Text";
+    //$scope.texts.push(dto);
+
+
+    $scope.dates = [];
+
+    var dto = new Object();
+    dto.placeholder = "Date from";
+    $scope.dates.push(dto);
+
+    dto = new Object();
+    dto.placeholder = "Date to";
+    $scope.dates.push(dto);
+
+
+
+    $scope.submit = function () {
+        $http({
+            url: remoteServer + '/' + warName + '/rest/roomorder/check',
+            method: "GET",
+            params: {speechId: $stateParams.idspeech, roomId: $scope.selects[0].value,
+                dateFrom: $scope.dates[0].value, dateTo: $scope.dates[1].value}
+        }).success(function (response) {
+            if (!response.result){
+                alert("Выбор не доступен")
+            }else{
+                var post = "speechId=" + $stateParams.idspeech +
+                    "&roomId=" + $scope.selects[0].value +
+                    "&dateFrom=" + $scope.dates[0].value +
+                    "&dateTo=" + $scope.dates[1].value;
+                alert(post);
+                $http({
+                    url: remoteServer + '/' + warName + '/rest/roomorder/add',
+                    method: "POST",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: post
+                });
+            }
+
+        });
+
+    }
+});
