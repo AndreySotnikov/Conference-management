@@ -1109,6 +1109,7 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
 
 routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams,$filter) {
 
+    $scope.header = "Add speech";
     $scope.texts = [];
     var dto = new Object();
     dto.placeholder = "Topic";
@@ -1297,6 +1298,7 @@ routerApp.controller('roomOrderCtrl', function($scope, $http, $stateParams) {
 
 routerApp.controller('addRoomCtrl', function($scope, $http, $stateParams) {
 
+    $scope.header = "Add room";
     $scope.texts = [];
     var dto = new Object();
     dto.placeholder = "Number";
