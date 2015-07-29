@@ -3,7 +3,11 @@
  */
 package project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 public class Moderator {
     @Id
@@ -13,7 +17,8 @@ public class Moderator {
     private String phone;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "moderator",  cascade = CascadeType.REMOVE)
-    private transient ModeratorRequestsSpeech moderatorRequestsSpeech;
+    @JsonIgnore
+    private List<ModeratorRequestsSpeech> moderatorRequestsSpeech;
 
     public String getLogin() {
         return login;
@@ -47,11 +52,11 @@ public class Moderator {
         this.phone = phone;
     }
 
-    public ModeratorRequestsSpeech getModeratorRequestsSpeech() {
+    public List<ModeratorRequestsSpeech> getModeratorRequestsSpeech() {
         return moderatorRequestsSpeech;
     }
 
-    public void setModeratorRequestsSpeech(ModeratorRequestsSpeech moderatorRequestsSpeech) {
+    public void setModeratorRequestsSpeech(List<ModeratorRequestsSpeech> moderatorRequestsSpeech) {
         this.moderatorRequestsSpeech = moderatorRequestsSpeech;
     }
 

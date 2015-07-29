@@ -4,6 +4,8 @@ package project.Entity;
  * Created by andrey on 18.07.15.
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class Question {
     @ManyToOne
     private Speech speech;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Visitor> visitorsUpVoteQuestion;
 
     public Question() {

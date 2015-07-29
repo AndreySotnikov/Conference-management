@@ -1,5 +1,7 @@
 package project.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,7 +18,8 @@ public class RoomOwner {
     private String phone;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "roomOwner", cascade = CascadeType.REMOVE)
-    private transient List<Room> rooms;
+    @JsonIgnore
+    private List<Room> rooms;
 
     public RoomOwner(String login, String name, String email, String phone) {
         this.login = login;

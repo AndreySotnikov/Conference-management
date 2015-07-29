@@ -38,7 +38,7 @@ public class Speech {
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)
     private transient List<Question> questions;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Visitor> visitors;
 
     @OneToMany(mappedBy = "speech", cascade = CascadeType.REMOVE)

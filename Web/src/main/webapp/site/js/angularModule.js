@@ -1,4 +1,4 @@
-var routerApp = angular.module('app', ['ui.router', 'door3.css']);
+var routerApp = angular.module('app', ['ui.router', 'door3.css','ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 var remoteServer = 'http://localhost:8080';
 //var remoteServer = '';
 var warName = 'Web-1.0-SNAPSHOT';
@@ -106,7 +106,6 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 "content": {
                     templateUrl: "views/mainspace.html",
                     controller: function ($scope, $http) {
-                        $scope.link = "conference.info({idconf:square.id})";
                         $scope.title = "Conferences";
                         $scope.buttons = false;
                         $scope.warName = "Web-1.0-SNAPSHOT";
@@ -120,7 +119,7 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                                 angular.forEach(data, function (elem) {
                                     tmp.list.push({
                                         header: elem.name,
-                                        id: elem.id,
+                                        link: "conference.info({idconf:"+elem.id+"})",
                                         text: elem.description,
                                         date: elem.startDate + " - " + elem.endDate
                                     });
@@ -131,6 +130,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             },
             css: ['css/style.css', 'css/all.css']
+        })
+        .state("conference.edit",{
+            url:'/edit/{idconf:[0-9]+}',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: 'conferenceEditCtrl'
+                }
+            },
+            css: 'css/style.css'
         })
         .state("conference.info", {
             url: '/{idconf:[0-9]+}',
@@ -152,6 +161,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
+        .state("conference.room", {
+            url: '/:idconf/speech/{idspeech:[0-9]+}/order',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: 'roomOrderCtrl'
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
+    })
         /*
          .state('conference.speech.question', {
          url: '/speech/{idspeech:[0-9]+}/ask',
@@ -289,6 +308,9 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                             $http({
                                 url: remoteServer + '/' + warName + "/rest/question/moderate/" + $stateParams.idquestion,
                                 method: "GET",
+                            }).success(function(data){
+                                if (data.result)
+                                    $scope.buttons.splice($scope.buttons.indexOf(button),1);
                             });
                         };
                         $scope.buttons.push(button);
@@ -301,6 +323,9 @@ routerApp.controller('showquestionCtrl', function($scope, $http, $stateParams, $
                                 method: "POST",
                                 data: "id="+ $stateParams.idquestion,
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).success(function(data){
+                                if (data.result)
+                                    $scope.buttons.splice($scope.buttons.indexOf(button1),1);
                             });
                         };
                         $scope.buttons.push(button1);
@@ -357,7 +382,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
-                            id: elem.id,
+                            link: "conference.speech({idconf: " + $stateParams.idconf + ", idspeech: " + elem.id +"})",
                             text: elem.speaker.name,
                             date: elem.startDate
                         });
@@ -371,7 +396,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                         var button = new Object();
                         button.text = 'Edit';
                         button.action = function () {
-                            alert('clicked');
+                            $state.go("conference.edit",{idconf:$stateParams.idconf});
                         };
                         $scope.buttons.push(button);
                     }
@@ -404,6 +429,9 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                             method: "POST",
                             data: "confId=" + $stateParams.idconf,
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).success(function(data){
+                            if (data.result)
+                                $scope.buttons.splice($scope.buttons.indexOf(button),1);
                         });
                     };
                     $scope.buttons.push(button);
@@ -422,7 +450,7 @@ routerApp.controller('conferenceCtrl', function ($scope, $stateParams, $http, $l
                     angular.forEach(data, function (elem) {
                         tmp.list.push({
                             header: elem.topic,
-                            id: elem.id,
+                            link: "conference.speech({idconf: " + $stateParams.idconf + ", idspeech: " + elem.id +"})",
                             text: elem.speaker.name,
                             date: elem.startDate
                         });
@@ -471,27 +499,35 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
 
         if (role=='moderator'){
             $http({
-                url: $scope.server + $scope.warName + "/rest/question/unmoderated",
+                url: remoteServer + '/' + warName + "/rest/modspeech/checkspeech/" + $stateParams.idspeech,
                 method: "GET",
-                params: {id: $stateParams.idspeech}
-            })
-                .success(function (data) {
-                    var tmp = new Object();
-                    tmp.list = [];
-                    tmp.title = '';
-                    $log.log('unmoderated ' + data[0].text);
-                    angular.forEach(data, function (elem) {
-                        tmp.list.push({
-                            header: elem.text,
-                            id: elem.id,
-                            text: elem.answer
+            }).success(function (data) {
+                if (data === true) {
+                    $http({
+                        url: $scope.server + $scope.warName + "/rest/question/unmoderated",
+                        method: "GET",
+                        params: {id: $stateParams.idspeech}
+                    })
+                        .success(function (data) {
+                            var tmp = new Object();
+                            tmp.list = [];
+                            tmp.title = '';
+                            $log.log('unmoderated ' + data[0].text);
+                            angular.forEach(data, function (elem) {
+                                tmp.list.push({
+                                    header: elem.text,
+                                    id: elem.id,
+                                    text: elem.answer
+                                });
+                            });
+                            if (tmp.list.length != 0)
+                                tmp.title = 'Unmoderated questions';
+                            $scope.sections.push(tmp);
                         });
-                    });
-                    if (tmp.list.length !=0)
-                        tmp.title = 'Unmoderated questions';
-                    $scope.sections.push(tmp);
-                });
+                }
+            });
         }
+
 
         $http({
             url: $scope.server + $scope.warName + "/rest/question/moderated",
@@ -506,7 +542,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                 angular.forEach(data, function (elem) {
                     tmp.list.push({
                         header: elem.text,
-                        id: elem.id,
+                        link: "conference.question({idquestion: " + elem.id + ", idspeech: " + $stateParams.idspeech +"})",
                         text: elem.answer,
                     });
                 });
@@ -522,6 +558,9 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                     url: remoteServer + '/' + warName + "/rest/speech/approve",
                     method: "GET",
                     params: {id: $stateParams.idspeech}
+                }).success(function(data){
+                    if (data.result)
+                        $scope.buttons.splice($scope.buttons.indexOf(button),1);
                 });
             };
             $scope.buttons.push(button);
@@ -540,6 +579,9 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                             url: remoteServer + '/' + warName + "/rest/modspeech/rmos",
                             method: "GET",
                             params: {speechId: $stateParams.idspeech}
+                        }).success(function(data){
+                            if (data.result)
+                                $scope.buttons.splice($scope.buttons.indexOf(button),1);
                         });
                     };
                     $scope.buttons.push(button);
@@ -609,7 +651,10 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                                     method: "POST",
                                     data: "speechId=" + $stateParams.idspeech,
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                })
+                                }).success(function(data){
+                                    if (data.result)
+                                        $scope.buttons.splice($scope.buttons.indexOf(button),1);
+                                });
                             };
                             $scope.buttons.push(button);
                         }
@@ -757,7 +802,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 }
                             );
                         }
-                        $http.get(remoteServer + '/' + warName + "/conference/fcbo/" + $stateParams.login)
+                        $http.get(remoteServer + '/' + warName + "/rest/conference/fcbo/" + $stateParams.login)
                             .success(function (data) {
                                 var section = new Object();
                                 section.title = "My Conferences";
@@ -765,10 +810,11 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.name,
-                                        description: elem.description,
+                                        text: elem.description,
                                         link: "conference.info({idconf:" + elem.id + "})",
                                         date: elem.startDate + " - " + elem.endDate
                                     });
+                                    console.log(elem);
                                 });
                                 $scope.sections.push(section);
                             });
@@ -787,7 +833,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.name,
-                                        description: elem.description,
+                                        text: elem.description,
                                         link: "conference.info(" + elem.id + ")",
                                         date: elem.startDate + " - " + elem.endDate
                                     });
@@ -802,7 +848,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.topic,
-                                        description: elem.speaker.name,
+                                        text: elem.speaker.name,
                                         date: elem.startDate,
                                         link: "conference.speech({idspeech:elem.id})"
                                     });
@@ -820,7 +866,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function (elem) {
                                     section.list.push({
                                         header: elem.topic,
-                                        description: elem.speaker.name,
+                                        text: elem.speaker.name,
                                         date: elem.startDate,
                                         link: "conference.speech({idspeech:elem.id})"
                                     });
@@ -842,7 +888,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function(elem){
                                     section.list.push({
                                         header:elem.topic,
-                                        description:elem.speaker.name,
+                                        text:elem.speaker.name,
                                         date:elem.startDate,
                                         link:"conference.speech({idspeech:elem.id})"
                                     });
@@ -864,7 +910,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                 angular.forEach(data, function(elem){
                                     section.list.push({
                                         header:elem.topic,
-                                        description:elem.speaker.name,
+                                        text:elem.speaker.name,
                                         date:elem.startDate,
                                         link:"conference.speech({idspeech:elem.id})"
                                     });
@@ -1049,7 +1095,6 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
     }
 });
 
-
 routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
 
     $scope.texts = [];
@@ -1088,7 +1133,8 @@ routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
 
     }
 });
-routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
+
+routerApp.controller('createConferenceCtrl', function($scope,$http,$location,$filter) {
     $scope.texts = [];
     $scope.dates = [];
     $scope.texts.push({
@@ -1100,11 +1146,13 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
         value: ""
     });
     $scope.dates.push({
-        //placeholder:"Start date",
+        id:"startdate",
+        placeholder:"Start date",
         value: ""
     });
     $scope.dates.push({
-        //placeholder:"End date",
+        id:"enddate",
+        placeholder:"End date",
         value: ""
     });
     $scope.submit = function () {
@@ -1112,10 +1160,57 @@ routerApp.controller('createConferenceCtrl', function($scope,$http,$location) {
             url: remoteServer + '/' + warName + '/rest/conference/add',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $scope.dates[0].value + "&end=" + $scope.dates[1].value
+            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd") + "&end=" + $filter('date')($scope.dates[1].value,"yyyy-MM-dd")
         });
-        $location.path("profile");
+        $location.path("/conference/list");
         $scope.apply();
     };
 });
+routerApp.controller('conferenceEditCtrl',function($scope,$http,$location,$filter,$stateParams){
+    $scope.texts = [];
+    $scope.dates = [];
+    $scope.texts.push({
+        placeholder: "Name",
+        value: ""
+    });
+    $scope.texts.push({
+        placeholder: "Description",
+        value: ""
+    });
+    $scope.dates.push({
+        id:"startdate",
+        placeholder:"Start date",
+        value: ""
+    });
+    $scope.dates.push({
+        id:"enddate",
+        placeholder:"End date",
+        value: ""
+    });
+    $http.get(remoteServer + "/" + warName + '/rest/whoami')
+        .success(function(data1){
+            $http.get(remoteServer + "/" + warName + '/rest/conference/show/'+$stateParams.idconf)
+                .success(function(data){
+                    if (data1.username != data.organizer.login){
+                        $location.path('/conference/'+$stateParams.idconf);
+                        $scope.apply();
+                        return;
+                    }
+                    $scope.texts[0].value = data.name;
+                    $scope.texts[1].value = data.description;
+                    $scope.dates[0].value = data.startDate;
+                    $scope.dates[1].value = data.endDate;
+                });
+        })
 
+    $scope.submit = function () {
+        $http({
+            url: remoteServer + '/' + warName + '/rest/conference/update/' + $stateParams.idconf,
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: "name=" + $scope.texts[0].value + "&description=" + $scope.texts[1].value + "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd") + "&end=" + $filter('date')($scope.dates[1].value,"yyyy-MM-dd")
+        });
+        $location.path("/conference/" + $stateParams.idconf);
+        $scope.apply();
+    };
+})

@@ -33,34 +33,48 @@ public class VisitorSubscriptionController {
 
     @POST
     @Path("speech")
-    public String subscribeToSpeech(MultivaluedMap<String, String> form) {
+    @Produces("application/json")
+    public Map<String,Boolean> subscribeToSpeech(MultivaluedMap<String, String> form) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer speechId = Integer.valueOf(form.getFirst("speechId"));
         String visitorLogin = request.getUserPrincipal().getName();
+        Map<String, Boolean> result = new HashMap<>();
         try {
-            return service.registerToSpeech(visitorLogin, speechId) ? "OK" : "NOT OK";
+            if (service.registerToSpeech(visitorLogin, speechId))
+                result.put("result", true);
+            else
+                result.put("result", false);
         } catch (Exception e) {
+            result.put("result", false);
             e.printStackTrace();
-            return "NOT OK";
+        }finally {
+            return result;
         }
 
     }
 
     @POST
     @Path("conference")
-    public String subscribeToConference(MultivaluedMap<String, String> form) {
+    @Produces("application/json")
+    public Map<String,Boolean> subscribeToConference(MultivaluedMap<String, String> form) {
         response.getOutputHeaders().putSingle("Access-Control-Allow-Origin",request.getHeader("origin"));
         response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Integer confId = Integer.valueOf(form.getFirst("confId"));
         String visitorLogin = request.getUserPrincipal().getName();
+        Map<String, Boolean> result = new HashMap<>();
         try {
-            return service.registerToConference(visitorLogin, confId) ? "OK" : "NOT OK";
+            if (service.registerToConference(visitorLogin, confId))
+                result.put("result", true);
+            else
+                result.put("result", false);
         } catch (Exception e) {
+            result.put("result", false);
             e.printStackTrace();
-            return "NOT OK";
+        }finally {
+            return result;
         }
 
     }

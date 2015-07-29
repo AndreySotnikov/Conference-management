@@ -2,6 +2,8 @@
  * Created by nikitayakuntsev on 13.07.15.
  */
 package project.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,7 +18,8 @@ public class Room {
     private boolean busy;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "room",  cascade = CascadeType.REMOVE)
-    private transient List<RoomOrder> orders;
+    @JsonIgnore
+    private  List<RoomOrder> orders;
 
     @ManyToOne
     private RoomOwner roomOwner;

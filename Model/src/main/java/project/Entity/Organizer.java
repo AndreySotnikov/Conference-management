@@ -1,4 +1,6 @@
 package project.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,8 +19,9 @@ public class Organizer {
     private String email;
     private String phone;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "organizer",  cascade = CascadeType.REMOVE)
-    private transient List<Conference> conferences;
+    private List<Conference> conferences;
 
     public Organizer(String login, String name, String email, String phone) {
         this.login = login;
