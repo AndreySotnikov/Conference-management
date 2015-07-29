@@ -256,6 +256,17 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
                 }
             },
             css: ['css/style.css', 'css/all.css']
+        })
+
+        .state('profile.addroom', {
+            url: '/room/add',
+            views: {
+                "content": {
+                    templateUrl: "views/edit.html",
+                    controller: "addRoomCtrl"
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
         });
 });
 
@@ -766,7 +777,7 @@ routerApp.controller('translationCtrl', function ($scope, $http, $stateParams) {
         }
     }
 });
-routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $location,$http) {
+routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $location,$http,$state) {
     $scope.title = $stateParams.login;
     $scope.buttons = [];
     $scope.sections = [];
@@ -920,7 +931,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     }
 
                     if (data.role === "roomOwner") {
-                        $http.get(remoteServer + '/' + warName + "/rest/moderator/get?id=" + $stateParams.login)
+                        $http.get(remoteServer + '/' + warName + "/rest/rowner/get?id=" + $stateParams.login)
                             .success(function(data){
                                 $scope.description = "Room Owner, " + data.name + ", " + data.email + ", " + data.phone;
                             });
@@ -928,8 +939,9 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                             $scope.buttons.push({
                                 text: "Add Room",
                                 action: function () {
-                                    $location.path("/room/add");
-                                    $scope.apply();
+                                    //$location.path("/room/add");
+                                    //$scope.apply();/
+                                    $state.go("profile.addroom");
                                 }
                             });
                         }
@@ -942,7 +954,7 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                                     section.list.push({
                                         header:elem.number,
                                         //description:elem.speaker.name, //TODO:elem.address
-                                        link:"room.info({idroom:elem.number})"
+                                        link:"room.info({idroom:"+elem.number+"})"
                                     });
                                 });
                             });
@@ -1262,7 +1274,7 @@ routerApp.controller('roomOrderCtrl', function($scope, $http, $stateParams) {
                 dateFrom: $scope.dates[0].value, dateTo: $scope.dates[1].value}
         }).success(function (response) {
             if (!response.result){
-                alert("Выбор не доступен")
+                alert("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
             }else{
                 var post = "speechId=" + $stateParams.idspeech +
                     "&roomId=" + $scope.selects[0].value +
@@ -1278,6 +1290,38 @@ routerApp.controller('roomOrderCtrl', function($scope, $http, $stateParams) {
             }
 
         });
+
+    }
+});
+
+
+routerApp.controller('addRoomCtrl', function($scope, $http, $stateParams) {
+
+    $scope.texts = [];
+    var dto = new Object();
+    dto.placeholder = "Number";
+    $scope.texts.push(dto);
+
+    dto = new Object();
+    dto.placeholder = "Capacity";
+    $scope.texts.push(dto);
+
+
+
+    $scope.submit = function () {
+
+        var post = "number=" + $scope.texts[0].value +
+            "&capacity=" + $scope.texts[1].value;
+        alert(post);
+
+        $http({
+            url: remoteServer + '/' + warName + '/rest/room/add',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: post
+        });
+
+
 
     }
 });
