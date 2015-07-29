@@ -516,7 +516,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
                             angular.forEach(data, function (elem) {
                                 tmp.list.push({
                                     header: elem.text,
-                                    id: elem.id,
+                                    link: "conference.question({idquestion:"+elem.id+", idspeech: "+$stateParams.idspeech+"})",
                                     text: elem.answer
                                 });
                             });
@@ -1262,7 +1262,7 @@ routerApp.controller('roomOrderCtrl', function($scope, $http, $stateParams) {
                 dateFrom: $scope.dates[0].value, dateTo: $scope.dates[1].value}
         }).success(function (response) {
             if (!response.result){
-                alert("Выбор не доступен")
+                alert("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
             }else{
                 var post = "speechId=" + $stateParams.idspeech +
                     "&roomId=" + $scope.selects[0].value +

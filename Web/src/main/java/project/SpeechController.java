@@ -174,11 +174,11 @@ public class SpeechController {
     @Path("approve")
     @Produces("application/json")
     public Map<String, Boolean> setApproved(@QueryParam("id") Integer id){
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         Map<String, Boolean> result = new HashMap<>();
         try {
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "*");
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Credentials", "true");
-            response.getOutputHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
             speechService.setApproved(id, true);
             result.put("result", true);
         } catch (Exception e) {
