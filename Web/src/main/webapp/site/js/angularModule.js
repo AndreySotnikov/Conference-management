@@ -1095,7 +1095,7 @@ routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
     }
 });
 
-routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
+routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams,$filter) {
 
     $scope.texts = [];
     var dto = new Object();
@@ -1117,7 +1117,7 @@ routerApp.controller('addSpeechCtrl', function($scope, $http, $stateParams) {
 
         var post = "topic=" + $scope.texts[0].value +
             "&text=" + $scope.texts[1].value +
-            "&start=" + $scope.dates[0].value +
+            "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd HH:mm:ss") +
             "&conference=" + $stateParams.idconf;
 
         alert(post);
