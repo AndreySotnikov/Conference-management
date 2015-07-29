@@ -869,6 +869,10 @@ routerApp.controller('profileInfoCtrl', function ($scope, $stateParams, $locatio
                     }
 
                     if (data.role === "reporter") {
+                        $http.get(remoteServer + '/' + warName + "/rest/reporters/get/" + $stateParams.login)
+                            .success(function(data){
+                                $scope.description = "Reporter, " + data.name + ", " + data.email + ", " + data.phone;
+                            });
                         $http.get(remoteServer + '/' + warName + "/rest/repspeech/fasbr/" + $stateParams.username)
                             .success(function (data) {
                                 var section = new Object();
