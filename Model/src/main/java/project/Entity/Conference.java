@@ -36,7 +36,8 @@ public class Conference {
     }
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "conference", cascade = CascadeType.REMOVE)
-    private transient List<Speech> speeches;
+    @JsonIgnore
+    private  List<Speech> speeches;
 
     public Integer getId() {
         return id;
