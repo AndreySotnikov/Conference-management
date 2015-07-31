@@ -108,3 +108,14 @@ body { font-size: 1em;
 .announs {
     float: left;
 }
+
+.edit-padding {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-bottom: 25px;
+}
+
+.edit-padding input {
+    padding-top: 5px;
+}
+

@@ -1018,6 +1018,7 @@ routerApp.controller('questionCtrl', function($scope, $http, $stateParams) {
 });
 routerApp.controller('profileEditCtrl', function($scope,$http,$location,$state){
     $scope.texts = [];
+    $scope.header = "Edit Profile";
     var getInfo = function(data){
         $scope.texts.push({
             value:data.name,
@@ -1349,7 +1350,7 @@ routerApp.controller('editSpeechCtrl', function($scope, $http, $stateParams, $fi
 
     //get to rest, info about speech push to scope.text.values
 
-    alert("clicked edit +  " $stateParams.idconf + " " + $stateParams.idspeech);
+    alert("clicked edit +  " + $stateParams.idconf + " " + $stateParams.idspeech);
 
 
 

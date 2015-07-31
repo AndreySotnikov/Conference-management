@@ -1,15 +1,15 @@
-<div class="margin-settings main ng-scope">
+<div class="margin-settings main ng-scope edit-padding">
     <strong>{{header}}</strong>
     <form>
         <div ng-repeat="text in texts" class="input-group">
-            <input type="text" ng-model="text.value" class="form-control" placeholder="{{text.placeholder}}"/>
+            <input size="20" type="text" ng-model="text.value" class="form-control" placeholder="{{text.placeholder}}"/>
             <br/>
         </div>
         <div ng-repeat="date in dates" class="input-group">
             <div class="dropdown">
                 <a class="dropdown-toggle" id="{{date.id}}" role="button" data-toggle="dropdown" data-target="#" href="">
                     <div class="input-group">
-                        <input type="text" class="form-control" data-ng-model="date.value" placeholder="{{date.placeholder}}">
+                        <input size="20" type="text" class="form-control" data-ng-model="date.value" placeholder="{{date.placeholder}}">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                 </a>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div ng-repeat="number in numbers" class="input-group">
-            <input type="number" ng-model="number.value" class="form-control" placeholder="{{text.placeholder}}"/>
+            <input size="20" type="number" ng-model="number.value" class="form-control" placeholder="{{text.placeholder}}"/>
             <br/>
         </div>
         <div ng-repeat="select in selects" class="input-group">
@@ -33,7 +33,7 @@
             <br/>
         </div>
         <div ng-repeat="file in files" class="input-group">
-            <input type="file" id="{{file.id}}"/> <!--TODO:style-->
+            <input size="20" type="file" id="{{file.id}}"/> <!--TODO:style-->
             <br/>
         </div>
         <button class="btn btn-default" ng-click="submit()">Submit</button>
