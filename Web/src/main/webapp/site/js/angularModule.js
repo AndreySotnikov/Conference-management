@@ -201,6 +201,16 @@ routerApp.config(function ($stateProvider, $urlRouterProvider) {
             },
             css: ['css/style.css', 'css/all.css']
         })
+        .state('conference.editspeech', {
+            url: '/:idconf/speech/:idspeech/edit',
+            views: {
+                "content": {
+                    templateUrl: 'views/edit.html',
+                    controller: 'editSpeechCtrl'
+                }
+            },
+            css: ['css/style.css', 'css/all.css']
+        })
         .state('conference.translation', {
             url: '/speech/:idspeech/translation',
             views: {
@@ -627,8 +637,9 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
             var button = new Object();
             button.text = 'Edit';
             button.action = function () {
-                //TODO
+
                 alert('clicked');
+                $state.go('conference.editspeech', { 'idspeech':$stateParams.idspeech, 'idconf' : $stateParams.idconf } ); //TODO
             };
             $scope.buttons.push(button);
         }
@@ -678,7 +689,7 @@ routerApp.controller('speechCtrl', function ($scope, $stateParams, $http, $log, 
         var button = new Object();
         button.text = 'Translation';
         button.action = function(){
-            $state.go('conference.translation',{ 'idspeech':$stateParams.idspeech });
+            $state.go('conference.translation',{ 'idspeech':$stateParams.idspeech, 'idconf' : $stateParams.idconf });
         };
         $scope.buttons.push(button);
     }
@@ -1322,6 +1333,66 @@ routerApp.controller('addRoomCtrl', function($scope, $http, $stateParams) {
 
         $http({
             url: remoteServer + '/' + warName + '/rest/room/add',
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: post
+        });
+
+
+
+    }
+});
+
+
+
+routerApp.controller('editSpeechCtrl', function($scope, $http, $stateParams, $filter) {
+
+    //get to rest, info about speech push to scope.text.values
+
+    alert("clicked edit +  " $stateParams.idconf + " " + $stateParams.idspeech);
+
+
+
+    $http.get(remoteServer + '/' + warName + "/rest/speech/info?id=" + $stateParams.idspeech)
+        .success(function(data) {
+            alert(data.topic + " " + data.text + " " + data.startDate);
+
+            $scope.header = "Edit speech";
+            $scope.texts = [];
+            var dto = new Object();
+            dto.placeholder = "Topic";
+            dto.value = data.topic;
+            $scope.texts.push(dto);
+
+            dto = new Object();
+            dto.placeholder = "Text";
+            dto.value = data.text;
+            $scope.texts.push(dto);
+
+
+            $scope.dates = [];
+            dto = new Object();
+            dto.placeholder = "Starttime";
+            dto.value = $filter('date')(data.startDate,"yyyy-MM-dd HH:mm:ss");
+            $scope.dates.push(dto);
+
+
+
+        });
+
+
+    $scope.submit = function () {
+
+        var post = "topic=" + $scope.texts[0].value +
+            "&text=" + $scope.texts[1].value +
+            "&start=" + $filter('date')($scope.dates[0].value,"yyyy-MM-dd HH:mm:ss") +
+            "&conference=" + $stateParams.idconf +
+            "&id=" + $stateParams.idspeech;
+
+        alert(post);
+
+        $http({
+            url: remoteServer + '/' + warName + '/rest/speech/info',
             method: "POST",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: post
