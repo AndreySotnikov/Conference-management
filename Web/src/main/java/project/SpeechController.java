@@ -131,7 +131,7 @@ public class SpeechController {
     public String updateSpeech(MultivaluedMap<String, String> form){
         try {
             Speech speech  = speechService.findOne(Integer.valueOf(form.getFirst("id")));
-            speech.setConference(conferenceService.findOne(Integer.valueOf(form.getFirst("conference"))));
+            //speech.setConference(conferenceService.findOne(Integer.valueOf(form.getFirst("conference"))));
             speech.setTopic(form.getFirst("topic"));
             speech.setSpeaker(speakerService.findOne(form.getFirst("speaker")));
             speech.setStartDate(Timestamp.valueOf(form.getFirst("start")));
